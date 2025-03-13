@@ -1,4 +1,4 @@
-# Week 5
+# Week 4
 
 Objectives : Start working with the FPGA and create a simple IP core to light up some leds  
 
@@ -54,6 +54,10 @@ Objectives : Start working with the FPGA and create a simple IP core to light up
 
 As an example I create a very simple design that uses the swithes and the button to light a specific LED
 
+
+## Find a way to interact with the JTAGG interface 
+
+For now try to use the openocd to communicate
 
 
 ## Notes 
