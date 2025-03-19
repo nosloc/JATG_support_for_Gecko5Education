@@ -10,8 +10,8 @@ module ipcore(
     input wire JCE2,
     output wire JTD1,
     output wire JTD2,
-    output wire [8:0] LEDS,
-    output wire [3:0] LEDS_colums
+    output reg [8:0] LEDS,
+    output reg [3:0] LEDS_columns
 );
 
 chain1 instruction_chain1 (
@@ -26,6 +26,8 @@ chain1 instruction_chain1 (
     .LEDS(LEDS)
 );
 
+
+
 chain2 instruction_chain2 (
     .JTCK(JTCK),
     .JTDI(JTDI),
@@ -35,7 +37,7 @@ chain2 instruction_chain2 (
     .JRSTN(JRSTN),
     .JCE2(JCE2),
     .JTD2(JTD2),
-    .LEDS_colums(LEDS_colums)
+    .LEDS_columns(LEDS_columns)
 );
 
 endmodule

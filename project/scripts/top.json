@@ -22,7 +22,7 @@
         }
       },
       "cells": {
-        "$specify$604": {
+        "$specify$816": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -232,6 +232,98 @@
           "bits": [ 5 ],
           "attributes": {
             "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/abc9_model.v:23.52-23.54"
+          }
+        }
+      }
+    },
+    "$paramod$37e41664cab9052a9b41c89036e0524f666a0fee\\TRELLIS_FF": {
+      "attributes": {
+        "abc9_bypass": "00000000000000000000000000000001",
+        "hdlname": "TRELLIS_FF",
+        "abc9_flop": "0",
+        "blackbox": "00000000000000000000000000000001",
+        "cells_not_processed": "00000000000000000000000000000001",
+        "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.1-376.10"
+      },
+      "parameter_default_values": {
+        "CEMUX": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100001101000101",
+        "CLKMUX": "CLK",
+        "GSR": "DISABLED",
+        "LSRMODE": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010011000101001101010010",
+        "LSRMUX": "LSR",
+        "REGSET": "RESET",
+        "SRMODE": "ASYNC"
+      },
+      "ports": {
+        "CLK": {
+          "direction": "input",
+          "bits": [ 2 ]
+        },
+        "LSR": {
+          "direction": "input",
+          "bits": [ 3 ]
+        },
+        "CE": {
+          "direction": "input",
+          "bits": [ 4 ]
+        },
+        "DI": {
+          "direction": "input",
+          "bits": [ 5 ]
+        },
+        "M": {
+          "direction": "input",
+          "bits": [ 6 ]
+        },
+        "Q": {
+          "direction": "output",
+          "bits": [ 7 ]
+        }
+      },
+      "cells": {
+      },
+      "netnames": {
+        "CE": {
+          "hide_name": 0,
+          "bits": [ 4 ],
+          "attributes": {
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.35-311.37"
+          }
+        },
+        "CLK": {
+          "hide_name": 0,
+          "bits": [ 2 ],
+          "attributes": {
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.25-311.28"
+          }
+        },
+        "DI": {
+          "hide_name": 0,
+          "bits": [ 5 ],
+          "attributes": {
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.39-311.41"
+          }
+        },
+        "LSR": {
+          "hide_name": 0,
+          "bits": [ 3 ],
+          "attributes": {
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.30-311.33"
+          }
+        },
+        "M": {
+          "hide_name": 0,
+          "bits": [ 6 ],
+          "attributes": {
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.43-311.44"
+          }
+        },
+        "Q": {
+          "hide_name": 0,
+          "bits": [ 7 ],
+          "attributes": {
+            "init": "0",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.57-311.58"
           }
         }
       }
@@ -15098,9 +15190,8 @@
     },
     "LUT4": {
       "attributes": {
-        "blackbox": "00000000000000000000000000000001",
         "abc9_lut": "00000000000000000000000000000001",
-        "cells_not_processed": "00000000000000000000000000000001",
+        "blackbox": "00000000000000000000000000000001",
         "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:4.1-16.10"
       },
       "parameter_default_values": {
@@ -20817,10 +20908,9 @@
     },
     "TRELLIS_FF": {
       "attributes": {
-        "blackbox": "00000000000000000000000000000001",
         "abc9_flop": "1",
         "abc9_box": "0",
-        "cells_not_processed": "00000000000000000000000000000001",
+        "blackbox": "00000000000000000000000000000001",
         "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.1-376.10"
       },
       "parameter_default_values": {
@@ -21379,16 +21469,16 @@
     "top": {
       "attributes": {
         "top": "00000000000000000000000000000001",
-        "src": "../top.v:1.1-49.10"
+        "src": "../top.v:1.1-55.10"
       },
       "ports": {
         "LEDS": {
           "direction": "output",
-          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ]
+          "bits": [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
         },
         "LEDS_columns": {
           "direction": "output",
-          "bits": [ "x", "x", "x", "x" ]
+          "bits": [ 11, 12, 13, 14 ]
         }
       },
       "cells": {
@@ -21415,17 +21505,407 @@
             "JUPDATE": "output"
           },
           "connections": {
-            "JCE1": [ 2 ],
-            "JCE2": [ 3 ],
-            "JRSTN": [ 4 ],
-            "JRTI1": [ 5 ],
-            "JRTI2": [ 6 ],
-            "JSHIFT": [ 7 ],
-            "JTCK": [ 8 ],
-            "JTDI": [ 9 ],
-            "JTDO1": [ "0" ],
-            "JTDO2": [ "0" ],
-            "JUPDATE": [ 10 ]
+            "JCE1": [ 15 ],
+            "JCE2": [ 16 ],
+            "JRSTN": [ 17 ],
+            "JRTI1": [ 18 ],
+            "JRTI2": [ 19 ],
+            "JSHIFT": [ 20 ],
+            "JTCK": [ 21 ],
+            "JTDI": [ 22 ],
+            "JTDO1": [ 23 ],
+            "JTDO2": [ 24 ],
+            "JUPDATE": [ 25 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 26 ],
+            "LSR": [ 27 ],
+            "Q": [ 10 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_1": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 28 ],
+            "LSR": [ 27 ],
+            "Q": [ 9 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_2": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 29 ],
+            "LSR": [ 27 ],
+            "Q": [ 8 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_3": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 30 ],
+            "LSR": [ 27 ],
+            "Q": [ 7 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_4": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 31 ],
+            "LSR": [ 27 ],
+            "Q": [ 6 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_5": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 32 ],
+            "LSR": [ 27 ],
+            "Q": [ 5 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_6": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 33 ],
+            "LSR": [ 27 ],
+            "Q": [ 4 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_7": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 34 ],
+            "LSR": [ 27 ],
+            "Q": [ 3 ]
+          }
+        },
+        "LEDS_TRELLIS_FF_Q_8": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 35 ],
+            "LSR": [ 27 ],
+            "Q": [ 2 ]
+          }
+        },
+        "LEDS_columns_TRELLIS_FF_Q": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 36 ],
+            "LSR": [ 27 ],
+            "Q": [ 14 ]
+          }
+        },
+        "LEDS_columns_TRELLIS_FF_Q_1": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 37 ],
+            "LSR": [ 27 ],
+            "Q": [ 13 ]
+          }
+        },
+        "LEDS_columns_TRELLIS_FF_Q_2": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 38 ],
+            "LSR": [ 27 ],
+            "Q": [ 12 ]
+          }
+        },
+        "LEDS_columns_TRELLIS_FF_Q_3": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 25 ],
+            "CLK": [ 21 ],
+            "DI": [ 39 ],
+            "LSR": [ 27 ],
+            "Q": [ 11 ]
           }
         },
         "ipcore": {
@@ -21436,9 +21916,9 @@
           },
           "attributes": {
             "cell_module_not_derived": "00000000000000000000000000000001",
-            "cell_src": "../top.v:31.12-46.6",
+            "cell_src": "../top.v:37.12-52.6",
             "module": "ipcore",
-            "module_src": "../ipcore.v:1.1-41.10"
+            "module_src": "../ipcore.v:1.1-43.10"
           },
           "port_directions": {
           },
@@ -21456,11 +21936,711 @@
             "cell_src": "../ipcore.v:17.8-27.2",
             "hdlname": "ipcore instruction_chain1",
             "module": "chain1",
-            "module_src": "../chain1.v:1.1-42.10"
+            "module_src": "../chain1.v:1.1-50.10"
           },
           "port_directions": {
           },
           "connections": {
+          }
+        },
+        "ipcore.instruction_chain1.JRSTN_LUT4_B": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1100000000000000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 17 ],
+            "C": [ 20 ],
+            "D": [ 16 ],
+            "Z": [ 40 ]
+          }
+        },
+        "ipcore.instruction_chain1.JRSTN_LUT4_D": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "0000000011111111"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:114.33-115.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ "0" ],
+            "C": [ "0" ],
+            "D": [ 17 ],
+            "Z": [ 27 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTD1_TRELLIS_FF_Q": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 41 ],
+            "CLK": [ 21 ],
+            "DI": [ 35 ],
+            "LSR": [ 27 ],
+            "Q": [ 23 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTD1_TRELLIS_FF_Q_CE_LUT4_Z": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000000000000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:119.33-120.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ "0" ],
+            "C": [ 20 ],
+            "D": [ 15 ],
+            "Z": [ 41 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111110000001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 10 ],
+            "C": [ 20 ],
+            "D": [ 22 ],
+            "Z": [ 42 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_1": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111110000001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 14 ],
+            "C": [ 20 ],
+            "D": [ 22 ],
+            "Z": [ 43 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_1_Z_LUT4_Z": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1100110011110000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 38 ],
+            "C": [ 11 ],
+            "D": [ 20 ],
+            "Z": [ 44 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_1_Z_LUT4_Z_1": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000011001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 12 ],
+            "C": [ 37 ],
+            "D": [ 20 ],
+            "Z": [ 45 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_1_Z_LUT4_Z_2": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000011001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 13 ],
+            "C": [ 36 ],
+            "D": [ 20 ],
+            "Z": [ 46 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1100110011110000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 26 ],
+            "C": [ 9 ],
+            "D": [ 20 ],
+            "Z": [ 47 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z_1": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000011001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 2 ],
+            "C": [ 34 ],
+            "D": [ 20 ],
+            "Z": [ 48 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z_2": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000011001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 3 ],
+            "C": [ 33 ],
+            "D": [ 20 ],
+            "Z": [ 49 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z_3": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000011001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 4 ],
+            "C": [ 32 ],
+            "D": [ 20 ],
+            "Z": [ 50 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z_4": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1100110011110000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 31 ],
+            "C": [ 5 ],
+            "D": [ 20 ],
+            "Z": [ 51 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z_5": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000011001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 6 ],
+            "C": [ 30 ],
+            "D": [ 20 ],
+            "Z": [ 52 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z_6": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1100110011110000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 29 ],
+            "C": [ 7 ],
+            "D": [ 20 ],
+            "Z": [ 53 ]
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z_LUT4_Z_7": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000011001100"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 8 ],
+            "C": [ 28 ],
+            "D": [ 20 ],
+            "Z": [ 54 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 42 ],
+            "LSR": [ 27 ],
+            "Q": [ 26 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_1": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 47 ],
+            "LSR": [ 27 ],
+            "Q": [ 28 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_2": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 54 ],
+            "LSR": [ 27 ],
+            "Q": [ 29 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_3": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 53 ],
+            "LSR": [ 27 ],
+            "Q": [ 30 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_4": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 52 ],
+            "LSR": [ 27 ],
+            "Q": [ 31 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_5": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 51 ],
+            "LSR": [ 27 ],
+            "Q": [ 32 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_6": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 50 ],
+            "LSR": [ 27 ],
+            "Q": [ 33 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_7": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 49 ],
+            "LSR": [ 27 ],
+            "Q": [ 34 ]
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg_TRELLIS_FF_Q_8": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain1.v:21.1-44.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 15 ],
+            "CLK": [ 21 ],
+            "DI": [ 48 ],
+            "LSR": [ 27 ],
+            "Q": [ 35 ]
           }
         },
         "ipcore.instruction_chain2": {
@@ -21471,69 +22651,208 @@
           },
           "attributes": {
             "cell_module_not_derived": "00000000000000000000000000000001",
-            "cell_src": "../ipcore.v:29.8-39.2",
+            "cell_src": "../ipcore.v:31.8-41.2",
             "hdlname": "ipcore instruction_chain2",
             "module": "chain2",
-            "module_src": "../chain2.v:2.1-43.10"
+            "module_src": "../chain2.v:2.1-45.10"
           },
           "port_directions": {
           },
           "connections": {
+          }
+        },
+        "ipcore.instruction_chain2.JTD2_TRELLIS_FF_Q": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:56.101-56.163"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 40 ],
+            "CLK": [ 21 ],
+            "DI": [ 39 ],
+            "LSR": [ "0" ],
+            "Q": [ 24 ]
+          }
+        },
+        "ipcore.instruction_chain2.shift_reg_TRELLIS_FF_Q": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 16 ],
+            "CLK": [ 21 ],
+            "DI": [ 43 ],
+            "LSR": [ 27 ],
+            "Q": [ 36 ]
+          }
+        },
+        "ipcore.instruction_chain2.shift_reg_TRELLIS_FF_Q_1": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 16 ],
+            "CLK": [ 21 ],
+            "DI": [ 46 ],
+            "LSR": [ 27 ],
+            "Q": [ 37 ]
+          }
+        },
+        "ipcore.instruction_chain2.shift_reg_TRELLIS_FF_Q_2": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 16 ],
+            "CLK": [ 21 ],
+            "DI": [ 45 ],
+            "LSR": [ 27 ],
+            "Q": [ 38 ]
+          }
+        },
+        "ipcore.instruction_chain2.shift_reg_TRELLIS_FF_Q_3": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../chain2.v:17.1-40.4|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 16 ],
+            "CLK": [ 21 ],
+            "DI": [ 44 ],
+            "LSR": [ 27 ],
+            "Q": [ 39 ]
           }
         }
       },
       "netnames": {
         "LEDS": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "bits": [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
           "attributes": {
             "src": "../top.v:6.23-6.27"
           }
         },
         "LEDS_columns": {
           "hide_name": 0,
-          "bits": [ "x", "x", "x", "x" ],
+          "bits": [ 11, 12, 13, 14 ],
           "attributes": {
             "src": "../top.v:7.23-7.35"
           }
         },
-        "LEDS_colums": {
-          "hide_name": 0,
-          "bits": [ "0" ],
-          "attributes": {
-            "src": "../top.v:44.22-44.33"
-          }
-        },
         "ipcore.JCE1": {
           "hide_name": 0,
-          "bits": [ 2 ],
+          "bits": [ 15 ],
           "attributes": {
             "hdlname": "ipcore JCE1",
-            "src": "../ipcore.v:9.16-9.20",
-            "unused_bits": "0 "
+            "src": "../ipcore.v:9.16-9.20"
           }
         },
         "ipcore.JCE2": {
           "hide_name": 0,
-          "bits": [ 3 ],
+          "bits": [ 16 ],
           "attributes": {
             "hdlname": "ipcore JCE2",
-            "src": "../ipcore.v:10.16-10.20",
-            "unused_bits": "0 "
+            "src": "../ipcore.v:10.16-10.20"
           }
         },
         "ipcore.JRSTN": {
           "hide_name": 0,
-          "bits": [ 4 ],
+          "bits": [ 17 ],
           "attributes": {
             "hdlname": "ipcore JRSTN",
-            "src": "../ipcore.v:8.16-8.21",
-            "unused_bits": "0 "
+            "src": "../ipcore.v:8.16-8.21"
           }
         },
         "ipcore.JRTI1": {
           "hide_name": 0,
-          "bits": [ 5 ],
+          "bits": [ 18 ],
           "attributes": {
             "hdlname": "ipcore JRTI1",
             "src": "../ipcore.v:4.16-4.21",
@@ -21542,7 +22861,7 @@
         },
         "ipcore.JRTI2": {
           "hide_name": 0,
-          "bits": [ 6 ],
+          "bits": [ 19 ],
           "attributes": {
             "hdlname": "ipcore JRTI2",
             "src": "../ipcore.v:5.16-5.21",
@@ -21551,25 +22870,23 @@
         },
         "ipcore.JSHIFT": {
           "hide_name": 0,
-          "bits": [ 7 ],
+          "bits": [ 20 ],
           "attributes": {
             "hdlname": "ipcore JSHIFT",
-            "src": "../ipcore.v:6.16-6.22",
-            "unused_bits": "0 "
+            "src": "../ipcore.v:6.16-6.22"
           }
         },
         "ipcore.JTCK": {
           "hide_name": 0,
-          "bits": [ 8 ],
+          "bits": [ 21 ],
           "attributes": {
             "hdlname": "ipcore JTCK",
-            "src": "../ipcore.v:2.16-2.20",
-            "unused_bits": "0 "
+            "src": "../ipcore.v:2.16-2.20"
           }
         },
         "ipcore.JTD1": {
           "hide_name": 0,
-          "bits": [ "0" ],
+          "bits": [ 23 ],
           "attributes": {
             "hdlname": "ipcore JTD1",
             "src": "../ipcore.v:11.17-11.21"
@@ -21577,7 +22894,7 @@
         },
         "ipcore.JTD2": {
           "hide_name": 0,
-          "bits": [ "0" ],
+          "bits": [ 24 ],
           "attributes": {
             "hdlname": "ipcore JTD2",
             "src": "../ipcore.v:12.17-12.21"
@@ -21585,59 +22902,61 @@
         },
         "ipcore.JTDI": {
           "hide_name": 0,
-          "bits": [ 9 ],
+          "bits": [ 22 ],
           "attributes": {
             "hdlname": "ipcore JTDI",
-            "src": "../ipcore.v:3.16-3.20",
-            "unused_bits": "0 "
+            "src": "../ipcore.v:3.16-3.20"
           }
         },
         "ipcore.JUPDATE": {
           "hide_name": 0,
-          "bits": [ 10 ],
+          "bits": [ 25 ],
           "attributes": {
             "hdlname": "ipcore JUPDATE",
-            "src": "../ipcore.v:7.16-7.23",
-            "unused_bits": "0 "
+            "src": "../ipcore.v:7.16-7.23"
           }
         },
         "ipcore.LEDS": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "bits": [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
           "attributes": {
             "hdlname": "ipcore LEDS",
-            "src": "../ipcore.v:13.23-13.27"
+            "src": "../ipcore.v:13.22-13.26"
           }
         },
-        "ipcore.LEDS_colums": {
+        "ipcore.LEDS_columns": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0" ],
+          "bits": [ 11, 12, 13, 14 ],
           "attributes": {
-            "hdlname": "ipcore LEDS_colums",
-            "src": "../ipcore.v:14.23-14.34"
+            "hdlname": "ipcore LEDS_columns",
+            "src": "../ipcore.v:14.22-14.34"
           }
         },
         "ipcore.instruction_chain1.JCE1": {
           "hide_name": 0,
-          "bits": [ 2 ],
+          "bits": [ 15 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JCE1",
-            "src": "../chain1.v:8.16-8.20",
-            "unused_bits": "0 "
+            "src": "../chain1.v:8.16-8.20"
           }
         },
         "ipcore.instruction_chain1.JRSTN": {
           "hide_name": 0,
-          "bits": [ 4 ],
+          "bits": [ 17 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JRSTN",
-            "src": "../chain1.v:7.16-7.21",
-            "unused_bits": "0 "
+            "src": "../chain1.v:7.16-7.21"
+          }
+        },
+        "ipcore.instruction_chain1.JRSTN_LUT4_D_Z": {
+          "hide_name": 0,
+          "bits": [ 27 ],
+          "attributes": {
           }
         },
         "ipcore.instruction_chain1.JRTI1": {
           "hide_name": 0,
-          "bits": [ 5 ],
+          "bits": [ 18 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JRTI1",
             "src": "../chain1.v:4.16-4.21",
@@ -21646,51 +22965,65 @@
         },
         "ipcore.instruction_chain1.JSHIFT": {
           "hide_name": 0,
-          "bits": [ 7 ],
+          "bits": [ 20 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JSHIFT",
-            "src": "../chain1.v:5.16-5.22",
-            "unused_bits": "0 "
+            "src": "../chain1.v:5.16-5.22"
           }
         },
         "ipcore.instruction_chain1.JTCK": {
           "hide_name": 0,
-          "bits": [ 8 ],
+          "bits": [ 21 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JTCK",
-            "src": "../chain1.v:2.16-2.20",
-            "unused_bits": "0 "
+            "src": "../chain1.v:2.16-2.20"
           }
         },
         "ipcore.instruction_chain1.JTD1": {
           "hide_name": 0,
-          "bits": [ "0" ],
+          "bits": [ 23 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JTD1",
             "src": "../chain1.v:9.16-9.20"
           }
         },
+        "ipcore.instruction_chain1.JTD1_TRELLIS_FF_Q_CE": {
+          "hide_name": 0,
+          "bits": [ 41 ],
+          "attributes": {
+          }
+        },
         "ipcore.instruction_chain1.JTDI": {
           "hide_name": 0,
-          "bits": [ 9 ],
+          "bits": [ 22 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JTDI",
-            "src": "../chain1.v:3.16-3.20",
-            "unused_bits": "0 "
+            "src": "../chain1.v:3.16-3.20"
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_1_Z": {
+          "hide_name": 0,
+          "bits": [ 44, 45, 46, 43 ],
+          "attributes": {
+          }
+        },
+        "ipcore.instruction_chain1.JTDI_LUT4_D_Z": {
+          "hide_name": 0,
+          "bits": [ 48, 49, 50, 51, 52, 53, 54, 47, 42 ],
+          "attributes": {
           }
         },
         "ipcore.instruction_chain1.JUPDATE": {
           "hide_name": 0,
-          "bits": [ 10 ],
+          "bits": [ 25 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 JUPDATE",
-            "src": "../chain1.v:6.16-6.23",
-            "unused_bits": "0 "
+            "src": "../chain1.v:6.16-6.23"
           }
         },
         "ipcore.instruction_chain1.LEDS": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "bits": [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 LEDS",
             "src": "../chain1.v:10.22-10.26"
@@ -21698,41 +23031,39 @@
         },
         "ipcore.instruction_chain1.data_reg": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "bits": [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 data_reg",
-            "src": "../chain1.v:14.11-14.19"
+            "src": "../chain1.v:20.11-20.19"
           }
         },
         "ipcore.instruction_chain1.shift_reg": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "bits": [ 35, 34, 33, 32, 31, 30, 29, 28, 26 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain1 shift_reg",
-            "src": "../chain1.v:13.11-13.20"
+            "src": "../chain1.v:19.11-19.20"
           }
         },
         "ipcore.instruction_chain2.JCE2": {
           "hide_name": 0,
-          "bits": [ 3 ],
+          "bits": [ 16 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JCE2",
-            "src": "../chain2.v:9.16-9.20",
-            "unused_bits": "0 "
+            "src": "../chain2.v:9.16-9.20"
           }
         },
         "ipcore.instruction_chain2.JRSTN": {
           "hide_name": 0,
-          "bits": [ 4 ],
+          "bits": [ 17 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JRSTN",
-            "src": "../chain2.v:8.16-8.21",
-            "unused_bits": "0 "
+            "src": "../chain2.v:8.16-8.21"
           }
         },
         "ipcore.instruction_chain2.JRTI2": {
           "hide_name": 0,
-          "bits": [ 6 ],
+          "bits": [ 19 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JRTI2",
             "src": "../chain2.v:5.16-5.21",
@@ -21741,59 +23072,61 @@
         },
         "ipcore.instruction_chain2.JSHIFT": {
           "hide_name": 0,
-          "bits": [ 7 ],
+          "bits": [ 20 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JSHIFT",
-            "src": "../chain2.v:6.16-6.22",
-            "unused_bits": "0 "
+            "src": "../chain2.v:6.16-6.22"
           }
         },
         "ipcore.instruction_chain2.JTCK": {
           "hide_name": 0,
-          "bits": [ 8 ],
+          "bits": [ 21 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JTCK",
-            "src": "../chain2.v:3.16-3.20",
-            "unused_bits": "0 "
+            "src": "../chain2.v:3.16-3.20"
           }
         },
         "ipcore.instruction_chain2.JTD2": {
           "hide_name": 0,
-          "bits": [ "0" ],
+          "bits": [ 24 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JTD2",
             "src": "../chain2.v:10.16-10.20"
           }
         },
+        "ipcore.instruction_chain2.JTD2_TRELLIS_FF_Q_CE": {
+          "hide_name": 0,
+          "bits": [ 40 ],
+          "attributes": {
+          }
+        },
         "ipcore.instruction_chain2.JTDI": {
           "hide_name": 0,
-          "bits": [ 9 ],
+          "bits": [ 22 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JTDI",
-            "src": "../chain2.v:4.16-4.20",
-            "unused_bits": "0 "
+            "src": "../chain2.v:4.16-4.20"
           }
         },
         "ipcore.instruction_chain2.JUPDATE": {
           "hide_name": 0,
-          "bits": [ 10 ],
+          "bits": [ 25 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 JUPDATE",
-            "src": "../chain2.v:7.16-7.23",
-            "unused_bits": "0 "
+            "src": "../chain2.v:7.16-7.23"
           }
         },
-        "ipcore.instruction_chain2.LEDS_colums": {
+        "ipcore.instruction_chain2.LEDS_columns": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0" ],
+          "bits": [ 11, 12, 13, 14 ],
           "attributes": {
-            "hdlname": "ipcore instruction_chain2 LEDS_colums",
-            "src": "../chain2.v:11.22-11.33"
+            "hdlname": "ipcore instruction_chain2 LEDS_columns",
+            "src": "../chain2.v:11.22-11.34"
           }
         },
         "ipcore.instruction_chain2.data_reg": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0" ],
+          "bits": [ 11, 12, 13, 14 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 data_reg",
             "src": "../chain2.v:15.11-15.19"
@@ -21801,7 +23134,7 @@
         },
         "ipcore.instruction_chain2.shift_reg": {
           "hide_name": 0,
-          "bits": [ "0", "0", "0", "0" ],
+          "bits": [ 39, 38, 37, 36 ],
           "attributes": {
             "hdlname": "ipcore instruction_chain2 shift_reg",
             "src": "../chain2.v:14.11-14.20"
@@ -21809,31 +23142,28 @@
         },
         "s_JCE1": {
           "hide_name": 0,
-          "bits": [ 2 ],
+          "bits": [ 15 ],
           "attributes": {
-            "src": "../top.v:10.89-10.95",
-            "unused_bits": "0 "
+            "src": "../top.v:10.89-10.95"
           }
         },
         "s_JCE2": {
           "hide_name": 0,
-          "bits": [ 3 ],
+          "bits": [ 16 ],
           "attributes": {
-            "src": "../top.v:10.81-10.87",
-            "unused_bits": "0 "
+            "src": "../top.v:10.81-10.87"
           }
         },
         "s_JRSTN": {
           "hide_name": 0,
-          "bits": [ 4 ],
+          "bits": [ 17 ],
           "attributes": {
-            "src": "../top.v:10.72-10.79",
-            "unused_bits": "0 "
+            "src": "../top.v:10.72-10.79"
           }
         },
         "s_JRTI1": {
           "hide_name": 0,
-          "bits": [ 5 ],
+          "bits": [ 18 ],
           "attributes": {
             "src": "../top.v:10.42-10.49",
             "unused_bits": "0 "
@@ -21841,7 +23171,7 @@
         },
         "s_JRTI2": {
           "hide_name": 0,
-          "bits": [ 6 ],
+          "bits": [ 19 ],
           "attributes": {
             "src": "../top.v:10.33-10.40",
             "unused_bits": "0 "
@@ -21849,48 +23179,58 @@
         },
         "s_JSHIFT": {
           "hide_name": 0,
-          "bits": [ 7 ],
+          "bits": [ 20 ],
           "attributes": {
-            "src": "../top.v:10.51-10.59",
-            "unused_bits": "0 "
+            "src": "../top.v:10.51-10.59"
           }
         },
         "s_JTCK": {
           "hide_name": 0,
-          "bits": [ 8 ],
+          "bits": [ 21 ],
           "attributes": {
-            "src": "../top.v:10.25-10.31",
-            "unused_bits": "0 "
+            "src": "../top.v:10.25-10.31"
           }
         },
         "s_JTDI": {
           "hide_name": 0,
-          "bits": [ 9 ],
+          "bits": [ 22 ],
           "attributes": {
-            "src": "../top.v:10.17-10.23",
-            "unused_bits": "0 "
+            "src": "../top.v:10.17-10.23"
           }
         },
         "s_JTDO1": {
           "hide_name": 0,
-          "bits": [ "0" ],
+          "bits": [ 23 ],
           "attributes": {
             "src": "../top.v:11.10-11.17"
           }
         },
         "s_JTDO2": {
           "hide_name": 0,
-          "bits": [ "0" ],
+          "bits": [ 24 ],
           "attributes": {
             "src": "../top.v:11.19-11.26"
           }
         },
         "s_JUPDATE": {
           "hide_name": 0,
-          "bits": [ 10 ],
+          "bits": [ 25 ],
           "attributes": {
-            "src": "../top.v:10.61-10.70",
-            "unused_bits": "0 "
+            "src": "../top.v:10.61-10.70"
+          }
+        },
+        "s_LEDS": {
+          "hide_name": 0,
+          "bits": [ 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+          "attributes": {
+            "src": "../top.v:31.15-31.21"
+          }
+        },
+        "s_LEDS_columns": {
+          "hide_name": 0,
+          "bits": [ 11, 12, 13, 14 ],
+          "attributes": {
+            "src": "../top.v:32.15-32.29"
           }
         }
       }

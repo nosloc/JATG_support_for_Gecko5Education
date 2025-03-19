@@ -28,6 +28,12 @@ module top(
         .JCE1(s_JCE1)
     );
 
+    reg [8:0] s_LEDS;
+    reg [3:0] s_LEDS_columns;
+    assign LEDS = s_LEDS;
+    assign LEDS_columns = s_LEDS_columns;
+
+
     ipcore ipcore(
         .JTCK(s_JTCK),
         .JTDI(s_JTDI),
@@ -40,8 +46,8 @@ module top(
         .JCE2(s_JCE2),
         .JTD1(s_JTDO1),
         .JTD2(s_JTDO2),
-        .LEDS(LEDS),
-        .LEDS_colums(LEDS_colums)
+        .LEDS(s_LEDS),
+        .LEDS_columns(s_LEDS_columns)
 
     );
 
