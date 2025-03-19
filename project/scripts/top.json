@@ -22,7 +22,7 @@
         }
       },
       "cells": {
-        "$specify$618": {
+        "$specify$604": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -236,98 +236,6 @@
         }
       }
     },
-    "$paramod$b50ed6cf3f2b5c0e07657602cb4455d90f2562f9\\TRELLIS_FF": {
-      "attributes": {
-        "abc9_bypass": "00000000000000000000000000000001",
-        "hdlname": "TRELLIS_FF",
-        "abc9_flop": "0",
-        "blackbox": "00000000000000000000000000000001",
-        "cells_not_processed": "00000000000000000000000000000001",
-        "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.1-376.10"
-      },
-      "parameter_default_values": {
-        "CEMUX": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100001101000101",
-        "CLKMUX": "CLK",
-        "GSR": "DISABLED",
-        "LSRMODE": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010011000101001101010010",
-        "LSRMUX": "LSR",
-        "REGSET": "SET",
-        "SRMODE": "ASYNC"
-      },
-      "ports": {
-        "CLK": {
-          "direction": "input",
-          "bits": [ 2 ]
-        },
-        "LSR": {
-          "direction": "input",
-          "bits": [ 3 ]
-        },
-        "CE": {
-          "direction": "input",
-          "bits": [ 4 ]
-        },
-        "DI": {
-          "direction": "input",
-          "bits": [ 5 ]
-        },
-        "M": {
-          "direction": "input",
-          "bits": [ 6 ]
-        },
-        "Q": {
-          "direction": "output",
-          "bits": [ 7 ]
-        }
-      },
-      "cells": {
-      },
-      "netnames": {
-        "CE": {
-          "hide_name": 0,
-          "bits": [ 4 ],
-          "attributes": {
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.35-311.37"
-          }
-        },
-        "CLK": {
-          "hide_name": 0,
-          "bits": [ 2 ],
-          "attributes": {
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.25-311.28"
-          }
-        },
-        "DI": {
-          "hide_name": 0,
-          "bits": [ 5 ],
-          "attributes": {
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.39-311.41"
-          }
-        },
-        "LSR": {
-          "hide_name": 0,
-          "bits": [ 3 ],
-          "attributes": {
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.30-311.33"
-          }
-        },
-        "M": {
-          "hide_name": 0,
-          "bits": [ 6 ],
-          "attributes": {
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.43-311.44"
-          }
-        },
-        "Q": {
-          "hide_name": 0,
-          "bits": [ 7 ],
-          "attributes": {
-            "init": "1",
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.57-311.58"
-          }
-        }
-      }
-    },
     "\\$__ABC9_LUT5": {
       "attributes": {
         "blackbox": "00000000000000000000000000000001",
@@ -362,69 +270,7 @@
         }
       },
       "cells": {
-        "$specify$10": {
-          "hide_name": 1,
-          "type": "$specify2",
-          "parameters": {
-            "DST_WIDTH": "00000000000000000000000000000001",
-            "FULL": "0",
-            "SRC_DST_PEN": "0",
-            "SRC_DST_POL": "0",
-            "SRC_WIDTH": "00000000000000000000000000000001",
-            "T_FALL_MAX": "00000000000000000000000111011101",
-            "T_FALL_MIN": "00000000000000000000000111011101",
-            "T_FALL_TYP": "00000000000000000000000111011101",
-            "T_RISE_MAX": "00000000000000000000000111011101",
-            "T_RISE_MIN": "00000000000000000000000111011101",
-            "T_RISE_TYP": "00000000000000000000000111011101"
-          },
-          "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:27.9-27.24"
-          },
-          "port_directions": {
-            "DST": "input",
-            "EN": "input",
-            "SRC": "input"
-          },
-          "connections": {
-            "DST": [ 7 ],
-            "EN": [ "1" ],
-            "SRC": [ 5 ]
-          }
-        },
         "$specify$11": {
-          "hide_name": 1,
-          "type": "$specify2",
-          "parameters": {
-            "DST_WIDTH": "00000000000000000000000000000001",
-            "FULL": "0",
-            "SRC_DST_PEN": "0",
-            "SRC_DST_POL": "0",
-            "SRC_WIDTH": "00000000000000000000000000000001",
-            "T_FALL_MAX": "00000000000000000000000111011101",
-            "T_FALL_MIN": "00000000000000000000000111011101",
-            "T_FALL_TYP": "00000000000000000000000111011101",
-            "T_RISE_MAX": "00000000000000000000000111011101",
-            "T_RISE_MIN": "00000000000000000000000111011101",
-            "T_RISE_TYP": "00000000000000000000000111011101"
-          },
-          "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:28.9-28.24"
-          },
-          "port_directions": {
-            "DST": "input",
-            "EN": "input",
-            "SRC": "input"
-          },
-          "connections": {
-            "DST": [ 7 ],
-            "EN": [ "1" ],
-            "SRC": [ 6 ]
-          }
-        },
-        "$specify$7": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -455,7 +301,7 @@
             "SRC": [ 2 ]
           }
         },
-        "$specify$8": {
+        "$specify$12": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -486,7 +332,7 @@
             "SRC": [ 3 ]
           }
         },
-        "$specify$9": {
+        "$specify$13": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -515,6 +361,68 @@
             "DST": [ 7 ],
             "EN": [ "1" ],
             "SRC": [ 4 ]
+          }
+        },
+        "$specify$14": {
+          "hide_name": 1,
+          "type": "$specify2",
+          "parameters": {
+            "DST_WIDTH": "00000000000000000000000000000001",
+            "FULL": "0",
+            "SRC_DST_PEN": "0",
+            "SRC_DST_POL": "0",
+            "SRC_WIDTH": "00000000000000000000000000000001",
+            "T_FALL_MAX": "00000000000000000000000111011101",
+            "T_FALL_MIN": "00000000000000000000000111011101",
+            "T_FALL_TYP": "00000000000000000000000111011101",
+            "T_RISE_MAX": "00000000000000000000000111011101",
+            "T_RISE_MIN": "00000000000000000000000111011101",
+            "T_RISE_TYP": "00000000000000000000000111011101"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:27.9-27.24"
+          },
+          "port_directions": {
+            "DST": "input",
+            "EN": "input",
+            "SRC": "input"
+          },
+          "connections": {
+            "DST": [ 7 ],
+            "EN": [ "1" ],
+            "SRC": [ 5 ]
+          }
+        },
+        "$specify$15": {
+          "hide_name": 1,
+          "type": "$specify2",
+          "parameters": {
+            "DST_WIDTH": "00000000000000000000000000000001",
+            "FULL": "0",
+            "SRC_DST_PEN": "0",
+            "SRC_DST_POL": "0",
+            "SRC_WIDTH": "00000000000000000000000000000001",
+            "T_FALL_MAX": "00000000000000000000000111011101",
+            "T_FALL_MIN": "00000000000000000000000111011101",
+            "T_FALL_TYP": "00000000000000000000000111011101",
+            "T_RISE_MAX": "00000000000000000000000111011101",
+            "T_RISE_MIN": "00000000000000000000000111011101",
+            "T_RISE_TYP": "00000000000000000000000111011101"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:28.9-28.24"
+          },
+          "port_directions": {
+            "DST": "input",
+            "EN": "input",
+            "SRC": "input"
+          },
+          "connections": {
+            "DST": [ 7 ],
+            "EN": [ "1" ],
+            "SRC": [ 6 ]
           }
         }
       },
@@ -601,7 +509,7 @@
         }
       },
       "cells": {
-        "$specify$12": {
+        "$specify$16": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -632,7 +540,7 @@
             "SRC": [ 2 ]
           }
         },
-        "$specify$13": {
+        "$specify$17": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -663,7 +571,7 @@
             "SRC": [ 3 ]
           }
         },
-        "$specify$14": {
+        "$specify$18": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -694,7 +602,7 @@
             "SRC": [ 4 ]
           }
         },
-        "$specify$15": {
+        "$specify$19": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -725,7 +633,7 @@
             "SRC": [ 5 ]
           }
         },
-        "$specify$16": {
+        "$specify$20": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -756,7 +664,7 @@
             "SRC": [ 6 ]
           }
         },
-        "$specify$17": {
+        "$specify$21": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -882,7 +790,7 @@
         }
       },
       "cells": {
-        "$specify$18": {
+        "$specify$22": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -913,7 +821,7 @@
             "SRC": [ 2 ]
           }
         },
-        "$specify$19": {
+        "$specify$23": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -944,7 +852,7 @@
             "SRC": [ 3 ]
           }
         },
-        "$specify$20": {
+        "$specify$24": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -975,7 +883,7 @@
             "SRC": [ 4 ]
           }
         },
-        "$specify$21": {
+        "$specify$25": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -1006,7 +914,7 @@
             "SRC": [ 5 ]
           }
         },
-        "$specify$22": {
+        "$specify$26": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -1037,7 +945,7 @@
             "SRC": [ 6 ]
           }
         },
-        "$specify$23": {
+        "$specify$27": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -1068,7 +976,7 @@
             "SRC": [ 7 ]
           }
         },
-        "$specify$24": {
+        "$specify$28": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -15190,8 +15098,9 @@
     },
     "LUT4": {
       "attributes": {
-        "abc9_lut": "00000000000000000000000000000001",
         "blackbox": "00000000000000000000000000000001",
+        "abc9_lut": "00000000000000000000000000000001",
+        "cells_not_processed": "00000000000000000000000000000001",
         "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:4.1-16.10"
       },
       "parameter_default_values": {
@@ -20908,9 +20817,10 @@
     },
     "TRELLIS_FF": {
       "attributes": {
+        "blackbox": "00000000000000000000000000000001",
         "abc9_flop": "1",
         "abc9_box": "0",
-        "blackbox": "00000000000000000000000000000001",
+        "cells_not_processed": "00000000000000000000000000000001",
         "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.1-376.10"
       },
       "parameter_default_values": {
@@ -21466,63 +21376,30 @@
         }
       }
     },
-    "test_module": {
+    "top": {
       "attributes": {
         "top": "00000000000000000000000000000001",
-        "src": "../test_module.v:1.1-44.10"
+        "src": "../top.v:1.1-49.10"
       },
       "ports": {
-        "RGB_Column": {
+        "LEDS": {
           "direction": "output",
-          "bits": [ 2, 3, "0", "0" ]
+          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ]
         },
-        "row1": {
+        "LEDS_columns": {
           "direction": "output",
-          "bits": [ 4, 4, 4 ]
-        },
-        "row2": {
-          "direction": "output",
-          "bits": [ 5, 5, 5 ]
-        },
-        "row3": {
-          "direction": "output",
-          "bits": [ 6, 6, 6 ]
+          "bits": [ "x", "x", "x", "x" ]
         }
       },
       "cells": {
-        "jrstn_LUT4_D": {
-          "hide_name": 0,
-          "type": "LUT4",
-          "parameters": {
-            "INIT": "0000000011111111"
-          },
-          "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:114.33-115.56"
-          },
-          "port_directions": {
-            "A": "input",
-            "B": "input",
-            "C": "input",
-            "D": "input",
-            "Z": "output"
-          },
-          "connections": {
-            "A": [ "0" ],
-            "B": [ "0" ],
-            "C": [ "0" ],
-            "D": [ 7 ],
-            "Z": [ 8 ]
-          }
-        },
-        "jtag": {
+        "JTAGG": {
           "hide_name": 0,
           "type": "JTAGG",
           "parameters": {
           },
           "attributes": {
             "module_not_derived": "00000000000000000000000000000001",
-            "src": "../test_module.v:8.8-20.3"
+            "src": "../top.v:13.11-29.6"
           },
           "port_directions": {
             "JCE1": "output",
@@ -21538,222 +21415,482 @@
             "JUPDATE": "output"
           },
           "connections": {
-            "JCE1": [ 9 ],
-            "JCE2": [ 10 ],
-            "JRSTN": [ 7 ],
-            "JRTI1": [ 2 ],
-            "JRTI2": [ 3 ],
-            "JSHIFT": [ 11 ],
-            "JTCK": [ 12 ],
-            "JTDI": [ 13 ],
-            "JTDO1": [ "1" ],
+            "JCE1": [ 2 ],
+            "JCE2": [ 3 ],
+            "JRSTN": [ 4 ],
+            "JRTI1": [ 5 ],
+            "JRTI2": [ 6 ],
+            "JSHIFT": [ 7 ],
+            "JTCK": [ 8 ],
+            "JTDI": [ 9 ],
+            "JTDO1": [ "0" ],
             "JTDO2": [ "0" ],
-            "JUPDATE": [ 14 ]
+            "JUPDATE": [ 10 ]
           }
         },
-        "row1_TRELLIS_FF_Q": {
+        "ipcore": {
           "hide_name": 0,
-          "type": "TRELLIS_FF",
+          "type": "$scopeinfo",
           "parameters": {
-            "CEMUX": "CE",
-            "CLKMUX": "CLK",
-            "GSR": "DISABLED",
-            "LSRMUX": "LSR",
-            "REGSET": "SET",
-            "SRMODE": "ASYNC"
+            "TYPE": "module"
           },
           "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "../test_module.v:23.2-37.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:74.161-74.220"
+            "cell_module_not_derived": "00000000000000000000000000000001",
+            "cell_src": "../top.v:31.12-46.6",
+            "module": "ipcore",
+            "module_src": "../ipcore.v:1.1-41.10"
           },
           "port_directions": {
-            "CE": "input",
-            "CLK": "input",
-            "DI": "input",
-            "LSR": "input",
-            "Q": "output"
           },
           "connections": {
-            "CE": [ 11 ],
-            "CLK": [ 12 ],
-            "DI": [ "0" ],
-            "LSR": [ 8 ],
-            "Q": [ 4 ]
           }
         },
-        "row2_TRELLIS_FF_Q": {
+        "ipcore.instruction_chain1": {
           "hide_name": 0,
-          "type": "TRELLIS_FF",
+          "type": "$scopeinfo",
           "parameters": {
-            "CEMUX": "CE",
-            "CLKMUX": "CLK",
-            "GSR": "DISABLED",
-            "LSRMUX": "LSR",
-            "REGSET": "SET",
-            "SRMODE": "ASYNC"
+            "TYPE": "module"
           },
           "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "../test_module.v:23.2-37.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:74.161-74.220"
+            "cell_module_not_derived": "00000000000000000000000000000001",
+            "cell_src": "../ipcore.v:17.8-27.2",
+            "hdlname": "ipcore instruction_chain1",
+            "module": "chain1",
+            "module_src": "../chain1.v:1.1-42.10"
           },
           "port_directions": {
-            "CE": "input",
-            "CLK": "input",
-            "DI": "input",
-            "LSR": "input",
-            "Q": "output"
           },
           "connections": {
-            "CE": [ 9 ],
-            "CLK": [ 12 ],
-            "DI": [ "0" ],
-            "LSR": [ 8 ],
-            "Q": [ 5 ]
           }
         },
-        "row3_TRELLIS_FF_Q": {
+        "ipcore.instruction_chain2": {
           "hide_name": 0,
-          "type": "TRELLIS_FF",
+          "type": "$scopeinfo",
           "parameters": {
-            "CEMUX": "CE",
-            "CLKMUX": "CLK",
-            "GSR": "DISABLED",
-            "LSRMUX": "LSR",
-            "REGSET": "SET",
-            "SRMODE": "ASYNC"
+            "TYPE": "module"
           },
           "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "../test_module.v:23.2-37.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:74.161-74.220"
+            "cell_module_not_derived": "00000000000000000000000000000001",
+            "cell_src": "../ipcore.v:29.8-39.2",
+            "hdlname": "ipcore instruction_chain2",
+            "module": "chain2",
+            "module_src": "../chain2.v:2.1-43.10"
           },
           "port_directions": {
-            "CE": "input",
-            "CLK": "input",
-            "DI": "input",
-            "LSR": "input",
-            "Q": "output"
           },
           "connections": {
-            "CE": [ 10 ],
-            "CLK": [ 12 ],
-            "DI": [ "0" ],
-            "LSR": [ 8 ],
-            "Q": [ 6 ]
           }
         }
       },
       "netnames": {
-        "RGB_Column": {
+        "LEDS": {
           "hide_name": 0,
-          "bits": [ 2, 3, "0", "0" ],
+          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
           "attributes": {
-            "src": "../test_module.v:2.23-2.33"
+            "src": "../top.v:6.23-6.27"
           }
         },
-        "jce1": {
+        "LEDS_columns": {
           "hide_name": 0,
-          "bits": [ 9 ],
+          "bits": [ "x", "x", "x", "x" ],
           "attributes": {
-            "src": "../test_module.v:7.39-7.43"
+            "src": "../top.v:7.23-7.35"
           }
         },
-        "jce2": {
+        "LEDS_colums": {
           "hide_name": 0,
-          "bits": [ 10 ],
+          "bits": [ "0" ],
           "attributes": {
-            "src": "../test_module.v:7.45-7.49"
+            "src": "../top.v:44.22-44.33"
           }
         },
-        "jrstn": {
-          "hide_name": 0,
-          "bits": [ 7 ],
-          "attributes": {
-            "src": "../test_module.v:7.51-7.56"
-          }
-        },
-        "jrti1": {
-          "hide_name": 0,
-          "bits": [ 3 ],
-          "attributes": {
-            "src": "../test_module.v:7.58-7.63"
-          }
-        },
-        "jrti2": {
+        "ipcore.JCE1": {
           "hide_name": 0,
           "bits": [ 2 ],
           "attributes": {
-            "src": "../test_module.v:7.65-7.70"
-          }
-        },
-        "jshift": {
-          "hide_name": 0,
-          "bits": [ 11 ],
-          "attributes": {
-            "src": "../test_module.v:7.22-7.28"
-          }
-        },
-        "jtck": {
-          "hide_name": 0,
-          "bits": [ 12 ],
-          "attributes": {
-            "src": "../test_module.v:7.16-7.20"
-          }
-        },
-        "jtdi": {
-          "hide_name": 0,
-          "bits": [ 13 ],
-          "attributes": {
-            "src": "../test_module.v:7.10-7.14",
+            "hdlname": "ipcore JCE1",
+            "src": "../ipcore.v:9.16-9.20",
             "unused_bits": "0 "
           }
         },
-        "jupdate": {
+        "ipcore.JCE2": {
           "hide_name": 0,
-          "bits": [ 14 ],
+          "bits": [ 3 ],
           "attributes": {
-            "src": "../test_module.v:7.30-7.37",
+            "hdlname": "ipcore JCE2",
+            "src": "../ipcore.v:10.16-10.20",
             "unused_bits": "0 "
           }
         },
-        "row1": {
+        "ipcore.JRSTN": {
           "hide_name": 0,
-          "bits": [ 4, 4, 4 ],
+          "bits": [ 4 ],
           "attributes": {
-            "src": "../test_module.v:3.22-3.26"
+            "hdlname": "ipcore JRSTN",
+            "src": "../ipcore.v:8.16-8.21",
+            "unused_bits": "0 "
           }
         },
-        "row1_TRELLIS_FF_Q_LSR": {
+        "ipcore.JRTI1": {
+          "hide_name": 0,
+          "bits": [ 5 ],
+          "attributes": {
+            "hdlname": "ipcore JRTI1",
+            "src": "../ipcore.v:4.16-4.21",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.JRTI2": {
+          "hide_name": 0,
+          "bits": [ 6 ],
+          "attributes": {
+            "hdlname": "ipcore JRTI2",
+            "src": "../ipcore.v:5.16-5.21",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.JSHIFT": {
+          "hide_name": 0,
+          "bits": [ 7 ],
+          "attributes": {
+            "hdlname": "ipcore JSHIFT",
+            "src": "../ipcore.v:6.16-6.22",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.JTCK": {
           "hide_name": 0,
           "bits": [ 8 ],
           "attributes": {
+            "hdlname": "ipcore JTCK",
+            "src": "../ipcore.v:2.16-2.20",
+            "unused_bits": "0 "
           }
         },
-        "row2": {
+        "ipcore.JTD1": {
           "hide_name": 0,
-          "bits": [ 5, 5, 5 ],
+          "bits": [ "0" ],
           "attributes": {
-            "src": "../test_module.v:4.22-4.26"
+            "hdlname": "ipcore JTD1",
+            "src": "../ipcore.v:11.17-11.21"
           }
         },
-        "row3": {
+        "ipcore.JTD2": {
           "hide_name": 0,
-          "bits": [ 6, 6, 6 ],
+          "bits": [ "0" ],
           "attributes": {
-            "src": "../test_module.v:5.22-5.26"
+            "hdlname": "ipcore JTD2",
+            "src": "../ipcore.v:12.17-12.21"
+          }
+        },
+        "ipcore.JTDI": {
+          "hide_name": 0,
+          "bits": [ 9 ],
+          "attributes": {
+            "hdlname": "ipcore JTDI",
+            "src": "../ipcore.v:3.16-3.20",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.JUPDATE": {
+          "hide_name": 0,
+          "bits": [ 10 ],
+          "attributes": {
+            "hdlname": "ipcore JUPDATE",
+            "src": "../ipcore.v:7.16-7.23",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.LEDS": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore LEDS",
+            "src": "../ipcore.v:13.23-13.27"
+          }
+        },
+        "ipcore.LEDS_colums": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore LEDS_colums",
+            "src": "../ipcore.v:14.23-14.34"
+          }
+        },
+        "ipcore.instruction_chain1.JCE1": {
+          "hide_name": 0,
+          "bits": [ 2 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JCE1",
+            "src": "../chain1.v:8.16-8.20",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain1.JRSTN": {
+          "hide_name": 0,
+          "bits": [ 4 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JRSTN",
+            "src": "../chain1.v:7.16-7.21",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain1.JRTI1": {
+          "hide_name": 0,
+          "bits": [ 5 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JRTI1",
+            "src": "../chain1.v:4.16-4.21",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain1.JSHIFT": {
+          "hide_name": 0,
+          "bits": [ 7 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JSHIFT",
+            "src": "../chain1.v:5.16-5.22",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain1.JTCK": {
+          "hide_name": 0,
+          "bits": [ 8 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JTCK",
+            "src": "../chain1.v:2.16-2.20",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain1.JTD1": {
+          "hide_name": 0,
+          "bits": [ "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JTD1",
+            "src": "../chain1.v:9.16-9.20"
+          }
+        },
+        "ipcore.instruction_chain1.JTDI": {
+          "hide_name": 0,
+          "bits": [ 9 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JTDI",
+            "src": "../chain1.v:3.16-3.20",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain1.JUPDATE": {
+          "hide_name": 0,
+          "bits": [ 10 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 JUPDATE",
+            "src": "../chain1.v:6.16-6.23",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain1.LEDS": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 LEDS",
+            "src": "../chain1.v:10.22-10.26"
+          }
+        },
+        "ipcore.instruction_chain1.data_reg": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 data_reg",
+            "src": "../chain1.v:14.11-14.19"
+          }
+        },
+        "ipcore.instruction_chain1.shift_reg": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0", "0", "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain1 shift_reg",
+            "src": "../chain1.v:13.11-13.20"
+          }
+        },
+        "ipcore.instruction_chain2.JCE2": {
+          "hide_name": 0,
+          "bits": [ 3 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JCE2",
+            "src": "../chain2.v:9.16-9.20",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain2.JRSTN": {
+          "hide_name": 0,
+          "bits": [ 4 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JRSTN",
+            "src": "../chain2.v:8.16-8.21",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain2.JRTI2": {
+          "hide_name": 0,
+          "bits": [ 6 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JRTI2",
+            "src": "../chain2.v:5.16-5.21",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain2.JSHIFT": {
+          "hide_name": 0,
+          "bits": [ 7 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JSHIFT",
+            "src": "../chain2.v:6.16-6.22",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain2.JTCK": {
+          "hide_name": 0,
+          "bits": [ 8 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JTCK",
+            "src": "../chain2.v:3.16-3.20",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain2.JTD2": {
+          "hide_name": 0,
+          "bits": [ "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JTD2",
+            "src": "../chain2.v:10.16-10.20"
+          }
+        },
+        "ipcore.instruction_chain2.JTDI": {
+          "hide_name": 0,
+          "bits": [ 9 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JTDI",
+            "src": "../chain2.v:4.16-4.20",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain2.JUPDATE": {
+          "hide_name": 0,
+          "bits": [ 10 ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 JUPDATE",
+            "src": "../chain2.v:7.16-7.23",
+            "unused_bits": "0 "
+          }
+        },
+        "ipcore.instruction_chain2.LEDS_colums": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 LEDS_colums",
+            "src": "../chain2.v:11.22-11.33"
+          }
+        },
+        "ipcore.instruction_chain2.data_reg": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 data_reg",
+            "src": "../chain2.v:15.11-15.19"
+          }
+        },
+        "ipcore.instruction_chain2.shift_reg": {
+          "hide_name": 0,
+          "bits": [ "0", "0", "0", "0" ],
+          "attributes": {
+            "hdlname": "ipcore instruction_chain2 shift_reg",
+            "src": "../chain2.v:14.11-14.20"
+          }
+        },
+        "s_JCE1": {
+          "hide_name": 0,
+          "bits": [ 2 ],
+          "attributes": {
+            "src": "../top.v:10.89-10.95",
+            "unused_bits": "0 "
+          }
+        },
+        "s_JCE2": {
+          "hide_name": 0,
+          "bits": [ 3 ],
+          "attributes": {
+            "src": "../top.v:10.81-10.87",
+            "unused_bits": "0 "
+          }
+        },
+        "s_JRSTN": {
+          "hide_name": 0,
+          "bits": [ 4 ],
+          "attributes": {
+            "src": "../top.v:10.72-10.79",
+            "unused_bits": "0 "
+          }
+        },
+        "s_JRTI1": {
+          "hide_name": 0,
+          "bits": [ 5 ],
+          "attributes": {
+            "src": "../top.v:10.42-10.49",
+            "unused_bits": "0 "
+          }
+        },
+        "s_JRTI2": {
+          "hide_name": 0,
+          "bits": [ 6 ],
+          "attributes": {
+            "src": "../top.v:10.33-10.40",
+            "unused_bits": "0 "
+          }
+        },
+        "s_JSHIFT": {
+          "hide_name": 0,
+          "bits": [ 7 ],
+          "attributes": {
+            "src": "../top.v:10.51-10.59",
+            "unused_bits": "0 "
+          }
+        },
+        "s_JTCK": {
+          "hide_name": 0,
+          "bits": [ 8 ],
+          "attributes": {
+            "src": "../top.v:10.25-10.31",
+            "unused_bits": "0 "
+          }
+        },
+        "s_JTDI": {
+          "hide_name": 0,
+          "bits": [ 9 ],
+          "attributes": {
+            "src": "../top.v:10.17-10.23",
+            "unused_bits": "0 "
           }
         },
         "s_JTDO1": {
           "hide_name": 0,
-          "bits": [ "1" ],
+          "bits": [ "0" ],
           "attributes": {
-            "src": "../test_module.v:13.16-13.23"
+            "src": "../top.v:11.10-11.17"
           }
         },
         "s_JTDO2": {
           "hide_name": 0,
           "bits": [ "0" ],
           "attributes": {
-            "src": "../test_module.v:12.10-12.17"
+            "src": "../top.v:11.19-11.26"
+          }
+        },
+        "s_JUPDATE": {
+          "hide_name": 0,
+          "bits": [ 10 ],
+          "attributes": {
+            "src": "../top.v:10.61-10.70",
+            "unused_bits": "0 "
           }
         }
       }

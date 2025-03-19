@@ -1,0 +1,5 @@
+read_verilog -sv ../top.v
+read_verilog -sv ../ipcore.v
+read_verilog -sv ../chain1.v
+read_verilog -sv ../chain2.v
+synth_ecp5 -top top -json top.json
