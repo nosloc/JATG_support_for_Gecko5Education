@@ -1,0 +1,914 @@
+$date
+	Thu Mar 13 17:16:56 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_top $end
+$var wire 1 ! TDO $end
+$var wire 4 " LEDS_colums [3:0] $end
+$var wire 9 # LEDS [8:0] $end
+$var reg 1 $ TCK $end
+$var reg 1 % TDI $end
+$var reg 1 & TMS $end
+$scope module top $end
+$var wire 1 $ TCK $end
+$var wire 1 % TDI $end
+$var wire 1 ! TDO $end
+$var wire 1 & TMS $end
+$var wire 1 ' s_TDO $end
+$var wire 1 ( s_JUPDATE $end
+$var wire 1 ) s_JTDO2 $end
+$var wire 1 * s_JTDO1 $end
+$var wire 1 + s_JTDI $end
+$var wire 1 , s_JTCK $end
+$var wire 1 - s_JSHIFT $end
+$var wire 1 . s_JRTI2 $end
+$var wire 1 / s_JRTI1 $end
+$var wire 1 0 s_JRSTN $end
+$var wire 1 1 s_JCE2 $end
+$var wire 1 2 s_JCE1 $end
+$var wire 4 3 LEDS_colums [3:0] $end
+$var wire 9 4 LEDS [8:0] $end
+$scope module JTAGG $end
+$var wire 1 2 JCE1 $end
+$var wire 1 1 JCE2 $end
+$var wire 1 / JRTI1 $end
+$var wire 1 . JRTI2 $end
+$var wire 1 - JSHIFT $end
+$var wire 1 , JTCK $end
+$var wire 1 ( JUPDATE $end
+$var wire 1 $ TCK $end
+$var wire 1 % TDI $end
+$var wire 1 & TMS $end
+$var wire 1 5 update_ir $end
+$var wire 1 6 update_dr $end
+$var wire 1 7 test_logic_reset $end
+$var wire 1 8 shift_ir $end
+$var wire 1 9 shift_dr $end
+$var wire 1 : run_test_idle $end
+$var wire 1 ; capture_ir $end
+$var wire 1 < capture_dr $end
+$var wire 1 ' TDO $end
+$var wire 1 ) JTDO2 $end
+$var wire 1 * JTDO1 $end
+$var parameter 56 = ER1 $end
+$var parameter 56 > ER2 $end
+$var reg 1 0 JRSTN $end
+$var reg 1 + JTDI $end
+$var reg 1 ? drive_tdo $end
+$var reg 8 @ ir_shadow_reg [7:0] $end
+$var reg 8 A ir_shift_reg [7:0] $end
+$var reg 1 B tdo_reg $end
+$scope module u_jtag_tap $end
+$var wire 1 $ tck $end
+$var wire 1 % tdi $end
+$var wire 1 & tms $end
+$var wire 1 5 update_ir $end
+$var wire 1 6 update_dr $end
+$var wire 1 7 test_logic_reset $end
+$var wire 1 8 shift_ir $end
+$var wire 1 9 shift_dr $end
+$var wire 1 : run_test_idle $end
+$var wire 1 ; capture_ir $end
+$var wire 1 < capture_dr $end
+$var parameter 32 C fsm_capture_dr $end
+$var parameter 32 D fsm_capture_ir $end
+$var parameter 32 E fsm_exit1_dr $end
+$var parameter 32 F fsm_exit1_ir $end
+$var parameter 32 G fsm_exit2_dr $end
+$var parameter 32 H fsm_exit2_ir $end
+$var parameter 32 I fsm_pause_dr $end
+$var parameter 32 J fsm_pause_ir $end
+$var parameter 32 K fsm_run_test_idle $end
+$var parameter 32 L fsm_select_dr_scan $end
+$var parameter 32 M fsm_select_ir_scan $end
+$var parameter 32 N fsm_shift_dr $end
+$var parameter 32 O fsm_shift_ir $end
+$var parameter 32 P fsm_test_logic_reset $end
+$var parameter 32 Q fsm_update_dr $end
+$var parameter 32 R fsm_update_ir $end
+$var reg 4 S cur_jtag_state [3:0] $end
+$var reg 160 T cur_jtag_state_text [159:0] $end
+$var reg 4 U nxt_jtag_state [3:0] $end
+$upscope $end
+$upscope $end
+$scope module ipcore $end
+$var wire 1 2 JCE1 $end
+$var wire 1 1 JCE2 $end
+$var wire 1 0 JRSTN $end
+$var wire 1 / JRTI1 $end
+$var wire 1 . JRTI2 $end
+$var wire 1 - JSHIFT $end
+$var wire 1 , JTCK $end
+$var wire 1 + JTDI $end
+$var wire 1 ( JUPDATE $end
+$var wire 4 V LEDS_colums [3:0] $end
+$var wire 9 W LEDS [8:0] $end
+$var wire 1 ) JTD2 $end
+$var wire 1 * JTD1 $end
+$scope module instruction_chain1 $end
+$var wire 1 2 JCE1 $end
+$var wire 1 0 JRSTN $end
+$var wire 1 / JRTI1 $end
+$var wire 1 - JSHIFT $end
+$var wire 1 , JTCK $end
+$var wire 1 + JTDI $end
+$var wire 1 ( JUPDATE $end
+$var reg 1 * JTD1 $end
+$var reg 9 X LEDS [8:0] $end
+$var reg 9 Y data_reg [8:0] $end
+$var reg 9 Z shift_reg [8:0] $end
+$upscope $end
+$scope module instruction_chain2 $end
+$var wire 1 1 JCE2 $end
+$var wire 1 0 JRSTN $end
+$var wire 1 . JRTI2 $end
+$var wire 1 - JSHIFT $end
+$var wire 1 , JTCK $end
+$var wire 1 + JTDI $end
+$var wire 1 ( JUPDATE $end
+$var reg 1 ) JTD2 $end
+$var reg 4 [ LEDS_colums [3:0] $end
+$var reg 4 \ data_reg [3:0] $end
+$var reg 4 ] shift_reg [3:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope task write_DR $end
+$var reg 9 ^ dr [8:0] $end
+$var integer 32 _ i [31:0] $end
+$upscope $end
+$scope task write_IR $end
+$var reg 8 ` ir [7:0] $end
+$var integer 32 a i [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1111 R
+b1000 Q
+b0 P
+b1011 O
+b100 N
+b1001 M
+b10 L
+b1 K
+b1101 J
+b110 I
+b1110 H
+b111 G
+b1100 F
+b101 E
+b1010 D
+b11 C
+b1000101010011100100000101000010010011000100010101000100 >
+b1000101010011100100000101000010010011000100010101000100 =
+$end
+#0
+$dumpvars
+bx a
+bx `
+bx _
+bx ^
+b0 ]
+b0 \
+b0 [
+b0 Z
+b0 Y
+b0 X
+b0 W
+b0 V
+b0 U
+b1110100011001010111001101110100010111110110110001101111011001110110100101100011010111110111001001100101011100110110010101110100 T
+b0 S
+xB
+b0 A
+b0 @
+0?
+0<
+0;
+0:
+09
+08
+17
+06
+05
+b0 4
+b0 3
+02
+01
+00
+0/
+0.
+0-
+0,
+x+
+x*
+x)
+0(
+z'
+1&
+0%
+0$
+b0 #
+b0 "
+z!
+$end
+#2
+0+
+1,
+1$
+#4
+0,
+0$
+#6
+1,
+1$
+#8
+0,
+0$
+#10
+1,
+1$
+#12
+0,
+0$
+#14
+1,
+1$
+#16
+0,
+0$
+#18
+1,
+1$
+#20
+b1 U
+0,
+0$
+0&
+#22
+b1110010011101010110111001011111011101000110010101110011011101000101111101101001011001000110110001100101 T
+07
+1:
+b1 S
+1,
+1$
+#24
+10
+0,
+0$
+#26
+1,
+1$
+#28
+b10 U
+0,
+0$
+1&
+b110010 `
+#30
+b111001101100101011011000110010101100011011101000101111101100100011100100101111101110011011000110110000101101110 T
+b1001 U
+0:
+b10 S
+1,
+1$
+#32
+0,
+0$
+#34
+b111001101100101011011000110010101100011011101000101111101101001011100100101111101110011011000110110000101101110 T
+b0 U
+b1001 S
+1,
+1$
+#36
+b1010 U
+0,
+0$
+0&
+#38
+b1100011011000010111000001110100011101010111001001100101010111110110100101110010 T
+b1011 U
+1;
+b1010 S
+1,
+1$
+#40
+0,
+0$
+b0 a
+#42
+b111001101101000011010010110011001110100010111110110100101110010 T
+0;
+18
+b1011 S
+1,
+1$
+#44
+0!
+0'
+0B
+1?
+0,
+0$
+1%
+b1 a
+#46
+1+
+b10000000 A
+1,
+1$
+#48
+0,
+0$
+0%
+b10 a
+#50
+0+
+b1000000 A
+1,
+1$
+#52
+0,
+0$
+b11 a
+#54
+b100000 A
+1,
+1$
+#56
+0,
+0$
+1%
+b100 a
+#58
+1+
+b10010000 A
+1,
+1$
+#60
+0,
+0$
+b101 a
+#62
+b11001000 A
+1,
+1$
+#64
+0,
+0$
+0%
+b110 a
+#66
+0+
+b1100100 A
+1,
+1$
+#68
+b1100 U
+0,
+0$
+1&
+b1000 a
+#70
+b110010101111000011010010111010000110001010111110110100101110010 T
+b1111 U
+08
+b1100 S
+b110010 A
+1,
+1$
+#72
+z!
+z'
+0?
+0,
+0$
+#74
+b11101010111000001100100011000010111010001100101010111110110100101110010 T
+b10 U
+15
+b1111 S
+1,
+1$
+#76
+b1 U
+0,
+0$
+0&
+#78
+1/
+b1110010011101010110111001011111011101000110010101110011011101000101111101101001011001000110110001100101 T
+1:
+05
+b1 S
+b110010 @
+1,
+1$
+#80
+b10 U
+0,
+0$
+1&
+b11001101 ^
+#82
+0/
+b111001101100101011011000110010101100011011101000101111101100100011100100101111101110011011000110110000101101110 T
+b1001 U
+0:
+b10 S
+1,
+1$
+#84
+b11 U
+0,
+0$
+0&
+#86
+12
+b1100011011000010111000001110100011101010111001001100101010111110110010001110010 T
+b100 U
+1<
+b11 S
+1,
+1$
+#88
+0,
+0$
+1%
+b0 _
+#90
+1-
+b111001101101000011010010110011001110100010111110110010001110010 T
+0<
+19
+b100 S
+1+
+1,
+1$
+#92
+x!
+x'
+xB
+1?
+0,
+0$
+0%
+b1 _
+#94
+b100000000 Z
+0*
+0+
+1,
+1$
+#96
+0!
+0'
+0B
+0,
+0$
+1%
+b10 _
+#98
+b10000000 Z
+1+
+1,
+1$
+#100
+0,
+0$
+b11 _
+#102
+b101000000 Z
+1,
+1$
+#104
+0,
+0$
+0%
+b100 _
+#106
+b110100000 Z
+0+
+1,
+1$
+#108
+0,
+0$
+b101 _
+#110
+b11010000 Z
+1,
+1$
+#112
+0,
+0$
+1%
+b110 _
+#114
+b1101000 Z
+1+
+1,
+1$
+#116
+0,
+0$
+b111 _
+#118
+b100110100 Z
+1,
+1$
+#120
+0,
+0$
+0%
+b1000 _
+#122
+b110011010 Z
+0+
+1,
+1$
+#124
+b101 U
+0,
+0$
+1&
+b1001 _
+#126
+02
+0-
+b110010101111000011010010111010000110001010111110110010001110010 T
+b1000 U
+09
+b11001101 Z
+b101 S
+1,
+1$
+#128
+z!
+z'
+0?
+0,
+0$
+#130
+1(
+b11101010111000001100100011000010111010001100101010111110110010001110010 T
+b10 U
+16
+b1000 S
+1,
+1$
+#132
+b1 U
+0,
+0$
+0&
+#134
+1/
+0(
+b11001101 #
+b11001101 4
+b11001101 W
+b11001101 X
+b1110010011101010110111001011111011101000110010101110011011101000101111101101001011001000110110001100101 T
+1:
+06
+b11001101 Y
+b1 S
+1,
+1$
+#136
+0,
+0$
+#138
+1,
+1$
+#140
+0,
+0$
+#142
+1,
+1$
+#144
+0,
+0$
+#146
+0/
+b111001101100101011011000110010101100011011101000101111101100100011100100101111101110011011000110110000101101110 T
+0:
+b10 S
+b1001 U
+1,
+1$
+1&
+b111000 `
+#148
+0,
+0$
+#150
+b111001101100101011011000110010101100011011101000101111101101001011100100101111101110011011000110110000101101110 T
+b0 U
+b1001 S
+1,
+1$
+#152
+0,
+0$
+#154
+b1100011011000010111000001110100011101010111001001100101010111110110100101110010 T
+1;
+b1010 S
+b1011 U
+1,
+1$
+0&
+#156
+0,
+0$
+#158
+b111001101101000011010010110011001110100010111110110100101110010 T
+0;
+18
+b1011 S
+1,
+1$
+b0 a
+#160
+0!
+0'
+1?
+0,
+0$
+#162
+b11001 A
+1,
+1$
+b1 a
+#164
+0,
+0$
+#166
+b1100 A
+1,
+1$
+b10 a
+#168
+0,
+0$
+#170
+1+
+b10000110 A
+1,
+1$
+1%
+b11 a
+#172
+0,
+0$
+#174
+b11000011 A
+1,
+1$
+b100 a
+#176
+0,
+0$
+#178
+b11100001 A
+1,
+1$
+b101 a
+#180
+0,
+0$
+#182
+0+
+b1110000 A
+1,
+1$
+0%
+b110 a
+#184
+0,
+0$
+#186
+b110010101111000011010010111010000110001010111110110100101110010 T
+08
+b1100 S
+b111000 A
+b1111 U
+1,
+1$
+1&
+b1000 a
+#188
+z!
+z'
+0?
+0,
+0$
+#190
+b11101010111000001100100011000010111010001100101010111110110100101110010 T
+b10 U
+15
+b1111 S
+1,
+1$
+#192
+0,
+0$
+#194
+1.
+b1110010011101010110111001011111011101000110010101110011011101000101111101101001011001000110110001100101 T
+1:
+05
+b1 S
+b111000 @
+b1 U
+1,
+1$
+0&
+#196
+0,
+0$
+#198
+0.
+b111001101100101011011000110010101100011011101000101111101100100011100100101111101110011011000110110000101101110 T
+0:
+b10 S
+b1001 U
+1,
+1$
+1&
+b1100000 ^
+#200
+0,
+0$
+#202
+11
+b1100011011000010111000001110100011101010111001001100101010111110110010001110010 T
+1<
+b11 S
+b100 U
+1,
+1$
+0&
+#204
+0,
+0$
+#206
+1-
+b111001101101000011010010110011001110100010111110110010001110010 T
+0<
+19
+b100 S
+1,
+1$
+b0 _
+#208
+x!
+x'
+xB
+1?
+0,
+0$
+#210
+0)
+1,
+1$
+b1 _
+#212
+0!
+0'
+0B
+0,
+0$
+#214
+1,
+1$
+b10 _
+#216
+0,
+0$
+#218
+1,
+1$
+b11 _
+#220
+0,
+0$
+#222
+1,
+1$
+b100 _
+#224
+0,
+0$
+#226
+1+
+1,
+1$
+1%
+b101 _
+#228
+0,
+0$
+#230
+b1000 ]
+1,
+1$
+b110 _
+#232
+0,
+0$
+#234
+b1100 ]
+0+
+1,
+1$
+0%
+b111 _
+#236
+0,
+0$
+#238
+b110 ]
+1,
+1$
+b1000 _
+#240
+0,
+0$
+#242
+01
+0-
+b110010101111000011010010111010000110001010111110110010001110010 T
+09
+b11 ]
+b101 S
+b1000 U
+1,
+1$
+1&
+b1001 _
+#244
+z!
+z'
+0?
+0,
+0$
+#246
+1(
+b11101010111000001100100011000010111010001100101010111110110010001110010 T
+b10 U
+16
+b1000 S
+1,
+1$
+#248
+0,
+0$
+#250
+1.
+0(
+b11 "
+b11 3
+b11 V
+b11 [
+b1110010011101010110111001011111011101000110010101110011011101000101111101101001011001000110110001100101 T
+1:
+06
+b11 \
+b1 S
+b1 U
+1,
+1$
+0&
+#252
+0,
+0$
+#254
+1,
+1$
+#256
+0,
+0$
+#258
+1,
+1$
+#260
+0,
+0$
+#262
+1,
+1$
+#264
+0,
+0$
