@@ -1,4 +1,3 @@
-
 module chain2(
     input wire JTCK,
     input wire JTDI,
@@ -11,36 +10,37 @@ module chain2(
     output reg [3:0] LEDS_columns
 );
 
-reg [3:0] shift_reg;
-reg [3:0] data_reg;
-assign JTD2 = shift_reg[0];
+
+reg [8:0] shift_reg_2;
+reg [8:0] data_reg_2;
+assign JTD2 = shift_reg_2[0];
 
 always @(posedge JTCK or negedge JRSTN) begin
     if (JRSTN == 0) begin
-        shift_reg <= 4'b0;
-        data_reg <= 4'b0;
-        LEDS_colums = 4'b0;
+        shift_reg_2 <= 9'b0;
+        data_reg_2 <= 9'b0;
     end
-    else begin
+    else  begin
         if (JCE2) begin
-            // Shifting data in
+        // Shifting data in
             if (JSHIFT) begin
-                shift_reg <= {JTDI, shift_reg[3:1]};
+                shift_reg_2 <= {JTDI, shift_reg_2[8:1]};
             end
             // Capture mode
             else begin
-                shift_reg <= data_reg;
+                shift_reg_2 <= data_reg_2;
             end 
         end
         // Update data register
         if (JUPDATE) begin
-            data_reg <= shift_reg;
+            data_reg_2 <= shift_reg_2;
+
         end
     end
 end
 
-always @(data_reg) begin
-    LEDS_columns = data_reg;
+always @(data_reg_2) begin
+    LEDS_columns = data_reg_2[3:0];
 end
 
 endmodule

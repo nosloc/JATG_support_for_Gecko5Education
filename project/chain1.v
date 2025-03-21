@@ -6,45 +6,41 @@ module chain1(
     input wire JUPDATE,
     input wire JRSTN,
     input wire JCE1,
-    output reg JTD1,
+    output wire JTD1,
     output reg [8:0] LEDS
 );
 
-// always @(posedge JTCK) begin
-//     if (JRTI1) begin
-//         LEDS <= LEDS + 1;
-//     end
-// end
 
-reg [8:0] shift_reg;
-reg [8:0] data_reg;
+reg [8:0] shift_reg_1;
+reg [8:0] data_reg_1;
+assign JTD1 = shift_reg_1[0];
+
 always @(posedge JTCK or negedge JRSTN) begin
     if (JRSTN == 0) begin
-        shift_reg <= 9'b0;
-        data_reg <= 9'b0;
-        JTD1 <= 1'b0;
+        shift_reg_1 <= 9'b0;
+        data_reg_1 <= 9'b0;
     end
     else  begin
-            if (JCE1) begin
-            // Shifting data in
+        if (JCE1) begin
+        // Shifting data in
             if (JSHIFT) begin
-                shift_reg <= {JTDI, shift_reg[8:1]};
-                JTD1 <= shift_reg[0];
+                shift_reg_1 <= {JTDI, shift_reg_1[8:1]};
             end
             // Capture mode
             else begin
-                shift_reg <= data_reg;
+                shift_reg_1 <= data_reg_1;
             end 
         end
         // Update data register
         if (JUPDATE) begin
-            data_reg <= shift_reg;
+            data_reg_1 <= shift_reg_1;
+
         end
     end
 end
 
-always @(data_reg) begin
-     LEDS <= data_reg;
+always @(data_reg_1) begin
+    LEDS = data_reg_1;
 end
 
 endmodule

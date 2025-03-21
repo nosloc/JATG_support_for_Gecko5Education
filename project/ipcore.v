@@ -10,13 +10,16 @@ module ipcore(
     input wire JCE2,
     output wire JTD1,
     output wire JTD2,
-    output reg [8:0] LEDS,
-    output reg [3:0] LEDS_columns
+    output wire [8:0] LEDS,
+    output wire [3:0] LEDS_columns
 );
 
+wire s_JTDI_1, s_JTDI_2;
+assign s_JTDI_1 = (JCE1) ? JTDI : 1'bz;
+assign s_JTDI_2 = (JCE2) ? JTDI : 1'bz;
 chain1 instruction_chain1 (
     .JTCK(JTCK),
-    .JTDI(JTDI),
+    .JTDI(s_JTDI_1),
     .JRTI1(JRTI1),
     .JSHIFT(JSHIFT),
     .JUPDATE(JUPDATE),
@@ -30,7 +33,7 @@ chain1 instruction_chain1 (
 
 chain2 instruction_chain2 (
     .JTCK(JTCK),
-    .JTDI(JTDI),
+    .JTDI(s_JTDI_2),
     .JRTI2(JRTI2),
     .JSHIFT(JSHIFT),
     .JUPDATE(JUPDATE),
