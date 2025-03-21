@@ -22,7 +22,7 @@
         }
       },
       "cells": {
-        "$specify$618": {
+        "$specify$636": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -236,7 +236,7 @@
         }
       }
     },
-    "$paramod$b50ed6cf3f2b5c0e07657602cb4455d90f2562f9\\TRELLIS_FF": {
+    "$paramod$37e41664cab9052a9b41c89036e0524f666a0fee\\TRELLIS_FF": {
       "attributes": {
         "abc9_bypass": "00000000000000000000000000000001",
         "hdlname": "TRELLIS_FF",
@@ -251,7 +251,7 @@
         "GSR": "DISABLED",
         "LSRMODE": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010011000101001101010010",
         "LSRMUX": "LSR",
-        "REGSET": "SET",
+        "REGSET": "RESET",
         "SRMODE": "ASYNC"
       },
       "ports": {
@@ -322,7 +322,7 @@
           "hide_name": 0,
           "bits": [ 7 ],
           "attributes": {
-            "init": "1",
+            "init": "0",
             "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:311.57-311.58"
           }
         }
@@ -371,6 +371,68 @@
             "SRC_DST_PEN": "0",
             "SRC_DST_POL": "0",
             "SRC_WIDTH": "00000000000000000000000000000001",
+            "T_FALL_MAX": "00000000000000000000000011101111",
+            "T_FALL_MIN": "00000000000000000000000011101111",
+            "T_FALL_TYP": "00000000000000000000000011101111",
+            "T_RISE_MAX": "00000000000000000000000011101111",
+            "T_RISE_MIN": "00000000000000000000000011101111",
+            "T_RISE_TYP": "00000000000000000000000011101111"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:25.9-25.24"
+          },
+          "port_directions": {
+            "DST": "input",
+            "EN": "input",
+            "SRC": "input"
+          },
+          "connections": {
+            "DST": [ 7 ],
+            "EN": [ "1" ],
+            "SRC": [ 3 ]
+          }
+        },
+        "$specify$11": {
+          "hide_name": 1,
+          "type": "$specify2",
+          "parameters": {
+            "DST_WIDTH": "00000000000000000000000000000001",
+            "FULL": "0",
+            "SRC_DST_PEN": "0",
+            "SRC_DST_POL": "0",
+            "SRC_WIDTH": "00000000000000000000000000000001",
+            "T_FALL_MAX": "00000000000000000000000101110101",
+            "T_FALL_MIN": "00000000000000000000000101110101",
+            "T_FALL_TYP": "00000000000000000000000101110101",
+            "T_RISE_MAX": "00000000000000000000000101110101",
+            "T_RISE_MIN": "00000000000000000000000101110101",
+            "T_RISE_TYP": "00000000000000000000000101110101"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:26.9-26.24"
+          },
+          "port_directions": {
+            "DST": "input",
+            "EN": "input",
+            "SRC": "input"
+          },
+          "connections": {
+            "DST": [ 7 ],
+            "EN": [ "1" ],
+            "SRC": [ 4 ]
+          }
+        },
+        "$specify$12": {
+          "hide_name": 1,
+          "type": "$specify2",
+          "parameters": {
+            "DST_WIDTH": "00000000000000000000000000000001",
+            "FULL": "0",
+            "SRC_DST_PEN": "0",
+            "SRC_DST_POL": "0",
+            "SRC_WIDTH": "00000000000000000000000000000001",
             "T_FALL_MAX": "00000000000000000000000111011101",
             "T_FALL_MIN": "00000000000000000000000111011101",
             "T_FALL_TYP": "00000000000000000000000111011101",
@@ -393,7 +455,7 @@
             "SRC": [ 5 ]
           }
         },
-        "$specify$11": {
+        "$specify$13": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -424,7 +486,7 @@
             "SRC": [ 6 ]
           }
         },
-        "$specify$7": {
+        "$specify$9": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -453,68 +515,6 @@
             "DST": [ 7 ],
             "EN": [ "1" ],
             "SRC": [ 2 ]
-          }
-        },
-        "$specify$8": {
-          "hide_name": 1,
-          "type": "$specify2",
-          "parameters": {
-            "DST_WIDTH": "00000000000000000000000000000001",
-            "FULL": "0",
-            "SRC_DST_PEN": "0",
-            "SRC_DST_POL": "0",
-            "SRC_WIDTH": "00000000000000000000000000000001",
-            "T_FALL_MAX": "00000000000000000000000011101111",
-            "T_FALL_MIN": "00000000000000000000000011101111",
-            "T_FALL_TYP": "00000000000000000000000011101111",
-            "T_RISE_MAX": "00000000000000000000000011101111",
-            "T_RISE_MIN": "00000000000000000000000011101111",
-            "T_RISE_TYP": "00000000000000000000000011101111"
-          },
-          "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:25.9-25.24"
-          },
-          "port_directions": {
-            "DST": "input",
-            "EN": "input",
-            "SRC": "input"
-          },
-          "connections": {
-            "DST": [ 7 ],
-            "EN": [ "1" ],
-            "SRC": [ 3 ]
-          }
-        },
-        "$specify$9": {
-          "hide_name": 1,
-          "type": "$specify2",
-          "parameters": {
-            "DST_WIDTH": "00000000000000000000000000000001",
-            "FULL": "0",
-            "SRC_DST_PEN": "0",
-            "SRC_DST_POL": "0",
-            "SRC_WIDTH": "00000000000000000000000000000001",
-            "T_FALL_MAX": "00000000000000000000000101110101",
-            "T_FALL_MIN": "00000000000000000000000101110101",
-            "T_FALL_TYP": "00000000000000000000000101110101",
-            "T_RISE_MAX": "00000000000000000000000101110101",
-            "T_RISE_MIN": "00000000000000000000000101110101",
-            "T_RISE_TYP": "00000000000000000000000101110101"
-          },
-          "attributes": {
-            "module_not_derived": "00000000000000000000000000000001",
-            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_sim.v:26.9-26.24"
-          },
-          "port_directions": {
-            "DST": "input",
-            "EN": "input",
-            "SRC": "input"
-          },
-          "connections": {
-            "DST": [ 7 ],
-            "EN": [ "1" ],
-            "SRC": [ 4 ]
           }
         }
       },
@@ -601,7 +601,7 @@
         }
       },
       "cells": {
-        "$specify$12": {
+        "$specify$14": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -632,7 +632,7 @@
             "SRC": [ 2 ]
           }
         },
-        "$specify$13": {
+        "$specify$15": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -663,7 +663,7 @@
             "SRC": [ 3 ]
           }
         },
-        "$specify$14": {
+        "$specify$16": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -694,7 +694,7 @@
             "SRC": [ 4 ]
           }
         },
-        "$specify$15": {
+        "$specify$17": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -725,7 +725,7 @@
             "SRC": [ 5 ]
           }
         },
-        "$specify$16": {
+        "$specify$18": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -756,7 +756,7 @@
             "SRC": [ 6 ]
           }
         },
-        "$specify$17": {
+        "$specify$19": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -882,7 +882,7 @@
         }
       },
       "cells": {
-        "$specify$18": {
+        "$specify$20": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -913,7 +913,7 @@
             "SRC": [ 2 ]
           }
         },
-        "$specify$19": {
+        "$specify$21": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -944,7 +944,7 @@
             "SRC": [ 3 ]
           }
         },
-        "$specify$20": {
+        "$specify$22": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -975,7 +975,7 @@
             "SRC": [ 4 ]
           }
         },
-        "$specify$21": {
+        "$specify$23": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -1006,7 +1006,7 @@
             "SRC": [ 5 ]
           }
         },
-        "$specify$22": {
+        "$specify$24": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -1037,7 +1037,7 @@
             "SRC": [ 6 ]
           }
         },
-        "$specify$23": {
+        "$specify$25": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -1068,7 +1068,7 @@
             "SRC": [ 7 ]
           }
         },
-        "$specify$24": {
+        "$specify$26": {
           "hide_name": 1,
           "type": "$specify2",
           "parameters": {
@@ -21469,28 +21469,173 @@
     "test_module": {
       "attributes": {
         "top": "00000000000000000000000000000001",
-        "src": "../test_module.v:1.1-44.10"
+        "src": "../test_module.v:1.1-36.10"
       },
       "ports": {
         "RGB_Column": {
           "direction": "output",
-          "bits": [ 2, 3, "0", "0" ]
+          "bits": [ 2, 3, 4, 5 ]
         },
         "row1": {
           "direction": "output",
-          "bits": [ 4, 4, 4 ]
+          "bits": [ 6, 6, 6 ]
         },
         "row2": {
           "direction": "output",
-          "bits": [ 5, 5, 5 ]
+          "bits": [ "x", "x", "x" ]
         },
         "row3": {
           "direction": "output",
-          "bits": [ 6, 6, 6 ]
+          "bits": [ "x", "x", "x" ]
         }
       },
       "cells": {
+        "RGB_Column_TRELLIS_FF_Q": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 7 ],
+            "CLK": [ 8 ],
+            "DI": [ 9 ],
+            "LSR": [ 10 ],
+            "Q": [ 5 ]
+          }
+        },
+        "RGB_Column_TRELLIS_FF_Q_1": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 7 ],
+            "CLK": [ 8 ],
+            "DI": [ 11 ],
+            "LSR": [ 10 ],
+            "Q": [ 4 ]
+          }
+        },
+        "RGB_Column_TRELLIS_FF_Q_2": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 7 ],
+            "CLK": [ 8 ],
+            "DI": [ 12 ],
+            "LSR": [ 10 ],
+            "Q": [ 3 ]
+          }
+        },
+        "RGB_Column_TRELLIS_FF_Q_3": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET",
+            "SRMODE": "ASYNC"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:73.163-73.222"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 7 ],
+            "CLK": [ 8 ],
+            "DI": [ 13 ],
+            "LSR": [ 10 ],
+            "Q": [ 2 ]
+          }
+        },
         "jrstn_LUT4_D": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1111000000000000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:119.33-120.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ "0" ],
+            "C": [ 14 ],
+            "D": [ 15 ],
+            "Z": [ 16 ]
+          }
+        },
+        "jrstn_LUT4_D_1": {
           "hide_name": 0,
           "type": "LUT4",
           "parameters": {
@@ -21511,8 +21656,8 @@
             "A": [ "0" ],
             "B": [ "0" ],
             "C": [ "0" ],
-            "D": [ 7 ],
-            "Z": [ 8 ]
+            "D": [ 15 ],
+            "Z": [ 10 ]
           }
         },
         "jtag": {
@@ -21538,20 +21683,20 @@
             "JUPDATE": "output"
           },
           "connections": {
-            "JCE1": [ 9 ],
-            "JCE2": [ 10 ],
-            "JRSTN": [ 7 ],
-            "JRTI1": [ 2 ],
-            "JRTI2": [ 3 ],
-            "JSHIFT": [ 11 ],
-            "JTCK": [ 12 ],
-            "JTDI": [ 13 ],
-            "JTDO1": [ "1" ],
-            "JTDO2": [ "0" ],
-            "JUPDATE": [ 14 ]
+            "JCE1": [ 17 ],
+            "JCE2": [ 18 ],
+            "JRSTN": [ 15 ],
+            "JRTI1": [ 19 ],
+            "JRTI2": [ 20 ],
+            "JSHIFT": [ 14 ],
+            "JTCK": [ 8 ],
+            "JTDI": [ 21 ],
+            "JTDO1": [ "x" ],
+            "JTDO2": [ "x" ],
+            "JUPDATE": [ 7 ]
           }
         },
-        "row1_TRELLIS_FF_Q": {
+        "r_RGB_Column_TRELLIS_FF_Q": {
           "hide_name": 0,
           "type": "TRELLIS_FF",
           "parameters": {
@@ -21559,12 +21704,11 @@
             "CLKMUX": "CLK",
             "GSR": "DISABLED",
             "LSRMUX": "LSR",
-            "REGSET": "SET",
-            "SRMODE": "ASYNC"
+            "REGSET": "RESET"
           },
           "attributes": {
             "module_not_derived": "00000000000000000000000000000001",
-            "src": "../test_module.v:23.2-37.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:74.161-74.220"
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:56.101-56.163"
           },
           "port_directions": {
             "CE": "input",
@@ -21574,14 +21718,14 @@
             "Q": "output"
           },
           "connections": {
-            "CE": [ 11 ],
-            "CLK": [ 12 ],
-            "DI": [ "0" ],
-            "LSR": [ 8 ],
-            "Q": [ 4 ]
+            "CE": [ 16 ],
+            "CLK": [ 8 ],
+            "DI": [ 11 ],
+            "LSR": [ "0" ],
+            "Q": [ 9 ]
           }
         },
-        "row2_TRELLIS_FF_Q": {
+        "r_RGB_Column_TRELLIS_FF_Q_1": {
           "hide_name": 0,
           "type": "TRELLIS_FF",
           "parameters": {
@@ -21589,12 +21733,11 @@
             "CLKMUX": "CLK",
             "GSR": "DISABLED",
             "LSRMUX": "LSR",
-            "REGSET": "SET",
-            "SRMODE": "ASYNC"
+            "REGSET": "RESET"
           },
           "attributes": {
             "module_not_derived": "00000000000000000000000000000001",
-            "src": "../test_module.v:23.2-37.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:74.161-74.220"
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:56.101-56.163"
           },
           "port_directions": {
             "CE": "input",
@@ -21604,14 +21747,14 @@
             "Q": "output"
           },
           "connections": {
-            "CE": [ 9 ],
-            "CLK": [ 12 ],
-            "DI": [ "0" ],
-            "LSR": [ 8 ],
-            "Q": [ 5 ]
+            "CE": [ 16 ],
+            "CLK": [ 8 ],
+            "DI": [ 12 ],
+            "LSR": [ "0" ],
+            "Q": [ 11 ]
           }
         },
-        "row3_TRELLIS_FF_Q": {
+        "r_RGB_Column_TRELLIS_FF_Q_2": {
           "hide_name": 0,
           "type": "TRELLIS_FF",
           "parameters": {
@@ -21619,12 +21762,11 @@
             "CLKMUX": "CLK",
             "GSR": "DISABLED",
             "LSRMUX": "LSR",
-            "REGSET": "SET",
-            "SRMODE": "ASYNC"
+            "REGSET": "RESET"
           },
           "attributes": {
             "module_not_derived": "00000000000000000000000000000001",
-            "src": "../test_module.v:23.2-37.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:74.161-74.220"
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:56.101-56.163"
           },
           "port_directions": {
             "CE": "input",
@@ -21634,124 +21776,192 @@
             "Q": "output"
           },
           "connections": {
-            "CE": [ 10 ],
-            "CLK": [ 12 ],
-            "DI": [ "0" ],
-            "LSR": [ 8 ],
-            "Q": [ 6 ]
+            "CE": [ 16 ],
+            "CLK": [ 8 ],
+            "DI": [ 13 ],
+            "LSR": [ "0" ],
+            "Q": [ 12 ]
+          }
+        },
+        "r_RGB_Column_TRELLIS_FF_Q_3": {
+          "hide_name": 0,
+          "type": "TRELLIS_FF",
+          "parameters": {
+            "CEMUX": "CE",
+            "CLKMUX": "CLK",
+            "GSR": "DISABLED",
+            "LSRMUX": "LSR",
+            "REGSET": "RESET"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "../test_module.v:24.2-35.5|/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:56.101-56.163"
+          },
+          "port_directions": {
+            "CE": "input",
+            "CLK": "input",
+            "DI": "input",
+            "LSR": "input",
+            "Q": "output"
+          },
+          "connections": {
+            "CE": [ 16 ],
+            "CLK": [ 8 ],
+            "DI": [ 21 ],
+            "LSR": [ "0" ],
+            "Q": [ 13 ]
+          }
+        },
+        "row1_LUT4_Z": {
+          "hide_name": 0,
+          "type": "LUT4",
+          "parameters": {
+            "INIT": "1100000000000000"
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/Users/antoinecolson/cours/EPFL/MA2/Project/oss-cad-suite/libexec/../share/yosys/ecp5/cells_map.v:124.33-125.56"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "C": "input",
+            "D": "input",
+            "Z": "output"
+          },
+          "connections": {
+            "A": [ "0" ],
+            "B": [ 14 ],
+            "C": [ 21 ],
+            "D": [ 17 ],
+            "Z": [ 6 ]
           }
         }
       },
       "netnames": {
         "RGB_Column": {
           "hide_name": 0,
-          "bits": [ 2, 3, "0", "0" ],
+          "bits": [ 2, 3, 4, 5 ],
           "attributes": {
             "src": "../test_module.v:2.23-2.33"
           }
         },
+        "RGB_Column_TRELLIS_FF_Q_LSR": {
+          "hide_name": 0,
+          "bits": [ 10 ],
+          "attributes": {
+          }
+        },
         "jce1": {
           "hide_name": 0,
-          "bits": [ 9 ],
+          "bits": [ 17 ],
           "attributes": {
             "src": "../test_module.v:7.39-7.43"
           }
         },
         "jce2": {
           "hide_name": 0,
-          "bits": [ 10 ],
+          "bits": [ 18 ],
           "attributes": {
-            "src": "../test_module.v:7.45-7.49"
+            "src": "../test_module.v:7.45-7.49",
+            "unused_bits": "0 "
           }
         },
         "jrstn": {
           "hide_name": 0,
-          "bits": [ 7 ],
+          "bits": [ 15 ],
           "attributes": {
             "src": "../test_module.v:7.51-7.56"
           }
         },
         "jrti1": {
           "hide_name": 0,
-          "bits": [ 3 ],
+          "bits": [ 20 ],
           "attributes": {
-            "src": "../test_module.v:7.58-7.63"
+            "src": "../test_module.v:7.58-7.63",
+            "unused_bits": "0 "
           }
         },
         "jrti2": {
           "hide_name": 0,
-          "bits": [ 2 ],
+          "bits": [ 19 ],
           "attributes": {
-            "src": "../test_module.v:7.65-7.70"
+            "src": "../test_module.v:7.65-7.70",
+            "unused_bits": "0 "
           }
         },
         "jshift": {
           "hide_name": 0,
-          "bits": [ 11 ],
+          "bits": [ 14 ],
           "attributes": {
             "src": "../test_module.v:7.22-7.28"
           }
         },
         "jtck": {
           "hide_name": 0,
-          "bits": [ 12 ],
+          "bits": [ 8 ],
           "attributes": {
             "src": "../test_module.v:7.16-7.20"
           }
         },
         "jtdi": {
           "hide_name": 0,
-          "bits": [ 13 ],
+          "bits": [ 21 ],
           "attributes": {
-            "src": "../test_module.v:7.10-7.14",
-            "unused_bits": "0 "
+            "src": "../test_module.v:7.10-7.14"
           }
         },
         "jupdate": {
           "hide_name": 0,
-          "bits": [ 14 ],
+          "bits": [ 7 ],
           "attributes": {
-            "src": "../test_module.v:7.30-7.37",
-            "unused_bits": "0 "
+            "src": "../test_module.v:7.30-7.37"
+          }
+        },
+        "r_RGB_Column": {
+          "hide_name": 0,
+          "bits": [ 13, 12, 11, 9 ],
+          "attributes": {
+            "src": "../test_module.v:23.12-23.24"
+          }
+        },
+        "r_RGB_Column_TRELLIS_FF_Q_CE": {
+          "hide_name": 0,
+          "bits": [ 16 ],
+          "attributes": {
           }
         },
         "row1": {
           "hide_name": 0,
-          "bits": [ 4, 4, 4 ],
+          "bits": [ 6, 6, 6 ],
           "attributes": {
             "src": "../test_module.v:3.22-3.26"
           }
         },
-        "row1_TRELLIS_FF_Q_LSR": {
-          "hide_name": 0,
-          "bits": [ 8 ],
-          "attributes": {
-          }
-        },
         "row2": {
           "hide_name": 0,
-          "bits": [ 5, 5, 5 ],
+          "bits": [ "x", "x", "x" ],
           "attributes": {
             "src": "../test_module.v:4.22-4.26"
           }
         },
         "row3": {
           "hide_name": 0,
-          "bits": [ 6, 6, 6 ],
+          "bits": [ "x", "x", "x" ],
           "attributes": {
             "src": "../test_module.v:5.22-5.26"
           }
         },
         "s_JTDO1": {
           "hide_name": 0,
-          "bits": [ "1" ],
+          "bits": [ "x" ],
           "attributes": {
             "src": "../test_module.v:13.16-13.23"
           }
         },
         "s_JTDO2": {
           "hide_name": 0,
-          "bits": [ "0" ],
+          "bits": [ "x" ],
           "attributes": {
             "src": "../test_module.v:12.10-12.17"
           }

@@ -19,26 +19,18 @@ module test_module(
 		.JCE1(jce1)
 	);
 
-
+	assign row1 = (jce1 && jshift) ? {jtdi, jtdi, jtdi} : 3'b000;
+	reg [3:0] r_RGB_Column;
 	always @(posedge jtck or negedge jrstn) begin
 		if (!jrstn) begin
-			row1 <= 3'b111;
-			row2 <= 3'b111;
-			row3 <= 3'b111;
-		end
-		else begin
-			if (jshift)
-				row1 <= 3'b000;
-			if (jce1)
-				row2 <= 3'b000;
-			if (jce2)
-				row3 <= 3'b000;
+			RGB_Column <= 4'b0000;
+		end else begin
+			if (jshift) begin 
+				r_RGB_Column <= {r_RGB_Column[2:0], jtdi};
+			end
+			if (jupdate) begin
+				RGB_Column <= r_RGB_Column;
+			end
 		end
 	end
-    assign RGB_Column = {0, 0, jrti1, jrti2};
-	// Read from the 0x38 instrction should return 0xff
-	assign s_JTDO1 = 1;
-	// Read from the 0x38 instrction should return 0x00
-	assign s_JTDO2 = 0;
-
 endmodule

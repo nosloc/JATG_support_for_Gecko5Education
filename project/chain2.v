@@ -11,20 +11,20 @@ module chain2(
 );
 
 
-reg [8:0] shift_reg_2;
-reg [8:0] data_reg_2;
+reg [3:0] shift_reg_2;
+reg [3:0] data_reg_2;
 assign JTD2 = shift_reg_2[0];
 
 always @(posedge JTCK or negedge JRSTN) begin
     if (JRSTN == 0) begin
-        shift_reg_2 <= 9'b0;
-        data_reg_2 <= 9'b0;
+        shift_reg_2 <= 4'b0;
+        data_reg_2 <= 4'b0;
     end
     else  begin
         if (JCE2) begin
         // Shifting data in
             if (JSHIFT) begin
-                shift_reg_2 <= {JTDI, shift_reg_2[8:1]};
+                shift_reg_2 <= {JTDI, shift_reg_2[3:1]};
             end
             // Capture mode
             else begin
@@ -40,7 +40,7 @@ always @(posedge JTCK or negedge JRSTN) begin
 end
 
 always @(data_reg_2) begin
-    LEDS_columns = data_reg_2[3:0];
+    LEDS_columns = data_reg_2;
 end
 
 endmodule
