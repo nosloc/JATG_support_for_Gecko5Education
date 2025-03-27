@@ -21,8 +21,8 @@ wire [29:0] LEDS;
 assign s_JTDI_1 = (JCE1) ? JTDI : 1'bz;
 assign s_JTDI_2 = (JCE2) ? JTDI : 1'bz;
 assign red = LEDS[9:0];
-assign blue = LEDS[19:10];
-assign green = LEDS[29:20];
+assign green = LEDS[19:10];
+assign blue = LEDS[29:20];
 
 chain1 instruction_chain1 (
     .JTCK(JTCK),
