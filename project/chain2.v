@@ -7,7 +7,7 @@ module chain2(
     input wire JRSTN,
     input wire JCE2,
     output wire JTD2,
-    output reg [3:0] LEDS_columns
+    output reg [3:0] rgbRow
 );
 
 
@@ -40,7 +40,7 @@ always @(posedge JTCK or negedge JRSTN) begin
 end
 
 always @(data_reg_2) begin
-    LEDS_columns = data_reg_2;
+    rgbRow = data_reg_2;
 end
 
 endmodule

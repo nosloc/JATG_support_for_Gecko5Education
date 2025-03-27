@@ -10,13 +10,20 @@ module ipcore(
     input wire JCE2,
     output wire JTD1,
     output wire JTD2,
-    output wire [8:0] LEDS,
-    output wire [3:0] LEDS_columns
+    output wire [9:0] red,
+    output wire [9:0] blue,
+    output wire [9:0] green,
+    output wire [3:0] rgbRow
 );
 
 wire s_JTDI_1, s_JTDI_2;
+wire [29:0] LEDS;
 assign s_JTDI_1 = (JCE1) ? JTDI : 1'bz;
 assign s_JTDI_2 = (JCE2) ? JTDI : 1'bz;
+assign red = LEDS[9:0];
+assign blue = LEDS[19:10];
+assign green = LEDS[29:20];
+
 chain1 instruction_chain1 (
     .JTCK(JTCK),
     .JTDI(s_JTDI_1),
@@ -40,7 +47,7 @@ chain2 instruction_chain2 (
     .JRSTN(JRSTN),
     .JCE2(JCE2),
     .JTD2(JTD2),
-    .LEDS_columns(LEDS_columns)
+    .rgbRow(rgbRow)
 );
 
 endmodule

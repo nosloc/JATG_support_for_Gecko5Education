@@ -3,8 +3,10 @@ module top(
     // input wire TMS,
     // input wire TDI,
     // output wire TDO,
-    output wire [8:0] LEDS,
-    output wire [3:0] LEDS_columns
+    output wire [9:0] red,
+    output wire [9:0] blue,
+    output wire [9:0] green,
+    output wire [3:0] rgbRow
 );
 
     wire s_TDO, s_JTDI, s_JTCK, s_JRTI2, s_JRTI1, s_JSHIFT, s_JUPDATE, s_JRSTN, s_JCE2, s_JCE1;
@@ -41,8 +43,10 @@ module top(
         .JCE2(s_JCE2),
         .JTD1(s_JTDO1),
         .JTD2(s_JTDO2),
-        .LEDS(LEDS),
-        .LEDS_columns(LEDS_columns)
+        .red(red),
+        .blue(blue),
+        .green(green),
+        .rgbRow(rgbRow)
 
     );
 
