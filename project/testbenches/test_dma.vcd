@@ -1,0 +1,237 @@
+$date
+	Mon Apr  7 12:00:08 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_DMA $end
+$var wire 1 ! push $end
+$var wire 32 " pushAddress [31:0] $end
+$var wire 32 # pushData [31:0] $end
+$var wire 1 $ switch $end
+$var wire 1 % request $end
+$var wire 1 & read_n_writeOUT $end
+$var wire 32 ' popAddress [31:0] $end
+$var wire 1 ( end_transactionOUT $end
+$var wire 1 ) data_validOUT $end
+$var wire 4 * byte_enableOUT [3:0] $end
+$var wire 1 + busyOUT $end
+$var wire 8 , busrt_sizeOUT [7:0] $end
+$var wire 1 - begin_transactionOUT $end
+$var wire 32 . address_dataOUT [31:0] $end
+$var reg 32 / address_dataIN [31:0] $end
+$var reg 1 0 busyIN $end
+$var reg 1 1 clock $end
+$var reg 1 2 dataReady $end
+$var reg 1 3 data_validIN $end
+$var reg 1 4 end_transactionIN $end
+$var reg 1 5 errorIN $end
+$var reg 1 6 granted $end
+$var reg 32 7 popData [31:0] $end
+$var reg 1 8 reset $end
+$scope module dut $end
+$var wire 32 9 address_dataIN [31:0] $end
+$var wire 1 0 busyIN $end
+$var wire 1 1 clock $end
+$var wire 1 2 dataReady $end
+$var wire 1 3 data_validIN $end
+$var wire 1 4 end_transactionIN $end
+$var wire 1 5 errorIN $end
+$var wire 1 6 granted $end
+$var wire 32 : popData [31:0] $end
+$var wire 1 ! push $end
+$var wire 32 ; pushAddress [31:0] $end
+$var wire 32 < pushData [31:0] $end
+$var wire 1 8 reset $end
+$var wire 1 = s_reading_from_buffer_done $end
+$var wire 1 $ switch $end
+$var wire 1 % request $end
+$var wire 1 & read_n_writeOUT $end
+$var wire 32 > popAddress [31:0] $end
+$var wire 1 ( end_transactionOUT $end
+$var wire 1 ) data_validOUT $end
+$var wire 4 ? byte_enableOUT [3:0] $end
+$var wire 1 + busyOUT $end
+$var wire 8 @ busrt_sizeOUT [7:0] $end
+$var wire 32 A buffer_data [31:0] $end
+$var wire 1 - begin_transactionOUT $end
+$var wire 32 B address_dataOUT [31:0] $end
+$var parameter 32 C Base $end
+$var parameter 32 D fsm_asking_for_buffer $end
+$var parameter 32 E fsm_end_transaction $end
+$var parameter 32 F fsm_idle $end
+$var parameter 32 G fsm_reading_from_buffer $end
+$var parameter 32 H fsm_sending_data $end
+$var parameter 32 I fsm_sending_handshake $end
+$var parameter 32 J fsm_write_request $end
+$var reg 3 K cur_state [2:0] $end
+$var reg 3 L nxt_state [2:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1 J
+b10 I
+b11 H
+b101 G
+b0 F
+b100 E
+b110 D
+b1000000000000000000000000000000 C
+$end
+#0
+$dumpvars
+b0 L
+b0 K
+b0 B
+b0 A
+b0 @
+b0 ?
+b0 >
+1=
+b0 <
+b0 ;
+b0 :
+b0 9
+18
+b0 7
+06
+05
+04
+03
+02
+01
+00
+b0 /
+b0 .
+0-
+b0 ,
+0+
+b0 *
+0)
+0(
+b0 '
+0&
+0%
+0$
+b0 #
+b0 "
+0!
+$end
+#2
+11
+#4
+01
+08
+#6
+11
+#8
+b110 L
+01
+12
+#10
+b101 L
+b110 K
+11
+#12
+01
+b10100101101001011010010110100101 7
+b10100101101001011010010110100101 :
+#14
+b10100101101001011010010110100101 A
+b1 L
+b101 K
+11
+#16
+01
+02
+#18
+1%
+b1 K
+11
+#20
+01
+#22
+11
+#24
+b10 L
+01
+16
+#26
+b1 .
+b1 B
+b1111 *
+b1111 ?
+1-
+0%
+b11 L
+b10 K
+11
+#28
+01
+b0 7
+b0 :
+10
+06
+#30
+b10100101101001011010010110100101 .
+b10100101101001011010010110100101 B
+b0 *
+b0 ?
+0-
+1)
+b11 K
+11
+#32
+01
+#34
+11
+#36
+01
+#38
+11
+#40
+01
+#42
+11
+#44
+01
+#46
+11
+#48
+1(
+b100 L
+01
+00
+#50
+b0 A
+0(
+b0 .
+b0 B
+0)
+b0 L
+b100 K
+11
+#52
+01
+#54
+b0 K
+11
+#56
+01
+#58
+11
+#60
+01
+#62
+11
+#64
+01
+#66
+11
+#68
+01
