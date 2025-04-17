@@ -7,11 +7,13 @@ module tb_DMA;
     reg [31:0] address_dataIN;
     reg end_transactionIN, data_validIN, busyIN, errorIN;
     reg granted;
-    wire [31:0] address_dataOUT, pushAddress, popAddress, pushData;
+    reg [31:0] dataOut;
+    wire [31:0] address_dataOUT;
+    wire [8:0] addressBuffer;
     wire [3:0] byte_enableOUT;
     wire [7:0] busrt_sizeOUT;
-    wire read_n_writeOUT, begin_transactionOUT, end_transactionOUT, data_validOUT, busyOUT, push, switch, request;
-    reg [31:0] popData;
+    wire read_n_writeOUT, begin_transactionOUT, end_transactionOUT, data_validOUT, busyOUT, writeEnable, request;
+    wire [31:0] dataIn;
     reg readReady;
     reg [31:0] address_to_read;
 
@@ -22,12 +24,10 @@ module tb_DMA;
         .dataReady(dataReady),
         .readReady(readReady),
         .address_to_read(address_to_read),
-        .pushAddress(pushAddress),
-        .popAddress(popAddress),
-        .pushData(pushData),
-        .push(push),
-        .switch(switch),
-        .popData(popData), // Not used in this testbench
+        .bufferAddress(addressBuffer),
+        .writeEnable(writeEnable),
+        .dataIn(dataIn),
+        .dataOut(dataOut),
         .address_dataIN(address_dataIN),
         .end_transactionIN(end_transactionIN),
         .data_validIN(data_validIN),
@@ -59,7 +59,7 @@ module tb_DMA;
         busyIN = 0;
         errorIN = 0;
         granted = 0;
-        popData = 32'h0;
+        dataOut = 32'h0;
         readReady = 0;
         address_to_read = 32'h0;
 
@@ -69,13 +69,13 @@ module tb_DMA;
 
         // Test case: Write operation
         #4 dataReady = 1; // Indicate data is ready
-        #4 popData = 32'hA5A5A5A5; 
+        #4 dataOut = 32'hA5A5A5A5; 
         #4 dataReady = 0; 
         #4;
         #4 granted = 1;
         #4 granted = 0;
         busyIN = 1;
-        popData = 32'h0;
+        dataOut = 32'h0;
         #20 busyIN = 0;
 
         //Try to read from address 0x0A0A0A0A

@@ -1,5 +1,5 @@
 $date
-	Mon Apr  7 15:35:29 2025
+	Thu Apr 17 14:01:23 2025
 $end
 $version
 	Icarus Verilog
@@ -8,330 +8,325 @@ $timescale
 	1ps
 $end
 $scope module tb_DMA $end
-$var wire 32 ! pushAddress [31:0] $end
-$var wire 1 " switch $end
+$var wire 9 ! addressBuffer [8:0] $end
+$var wire 1 " writeEnable $end
 $var wire 1 # request $end
 $var wire 1 $ read_n_writeOUT $end
-$var wire 32 % pushData [31:0] $end
-$var wire 1 & push $end
-$var wire 32 ' popAddress [31:0] $end
-$var wire 1 ( end_transactionOUT $end
-$var wire 1 ) data_validOUT $end
-$var wire 4 * byte_enableOUT [3:0] $end
-$var wire 1 + busyOUT $end
-$var wire 8 , busrt_sizeOUT [7:0] $end
-$var wire 1 - begin_transactionOUT $end
-$var wire 32 . address_dataOUT [31:0] $end
-$var reg 32 / address_dataIN [31:0] $end
-$var reg 32 0 address_to_read [31:0] $end
-$var reg 1 1 busyIN $end
-$var reg 1 2 clock $end
-$var reg 1 3 dataReady $end
-$var reg 1 4 data_validIN $end
-$var reg 1 5 end_transactionIN $end
-$var reg 1 6 errorIN $end
-$var reg 1 7 granted $end
-$var reg 32 8 popData [31:0] $end
-$var reg 1 9 readReady $end
-$var reg 1 : reset $end
+$var wire 1 % end_transactionOUT $end
+$var wire 1 & data_validOUT $end
+$var wire 32 ' dataIn [31:0] $end
+$var wire 4 ( byte_enableOUT [3:0] $end
+$var wire 1 ) busyOUT $end
+$var wire 8 * busrt_sizeOUT [7:0] $end
+$var wire 1 + begin_transactionOUT $end
+$var wire 32 , address_dataOUT [31:0] $end
+$var reg 32 - address_dataIN [31:0] $end
+$var reg 32 . address_to_read [31:0] $end
+$var reg 1 / busyIN $end
+$var reg 1 0 clock $end
+$var reg 32 1 dataOut [31:0] $end
+$var reg 1 2 dataReady $end
+$var reg 1 3 data_validIN $end
+$var reg 1 4 end_transactionIN $end
+$var reg 1 5 errorIN $end
+$var reg 1 6 granted $end
+$var reg 1 7 readReady $end
+$var reg 1 8 reset $end
 $scope module dut $end
-$var wire 32 ; address_dataIN [31:0] $end
-$var wire 32 < address_to_read [31:0] $end
-$var wire 1 1 busyIN $end
-$var wire 1 2 clock $end
-$var wire 1 3 dataReady $end
-$var wire 1 4 data_validIN $end
-$var wire 1 5 end_transactionIN $end
-$var wire 1 6 errorIN $end
-$var wire 1 7 granted $end
-$var wire 32 = popData [31:0] $end
-$var wire 32 > pushAddress [31:0] $end
-$var wire 1 9 readReady $end
-$var wire 1 : reset $end
-$var wire 1 ? s_reading_from_buffer_done $end
-$var wire 1 " switch $end
-$var wire 32 @ s_address_to_read [31:0] $end
+$var wire 1 9 addressBuffer $end
+$var wire 32 : address_dataIN [31:0] $end
+$var wire 32 ; address_to_read [31:0] $end
+$var wire 9 < bufferAddress [8:0] $end
+$var wire 1 / busyIN $end
+$var wire 1 0 clock $end
+$var wire 32 = dataOut [31:0] $end
+$var wire 1 2 dataReady $end
+$var wire 1 3 data_validIN $end
+$var wire 1 4 end_transactionIN $end
+$var wire 1 5 errorIN $end
+$var wire 1 6 granted $end
+$var wire 1 7 readReady $end
+$var wire 1 8 reset $end
+$var wire 1 > s_reading_from_buffer_done $end
+$var wire 1 " writeEnable $end
+$var wire 32 ? s_address_to_read [31:0] $end
 $var wire 1 # request $end
 $var wire 1 $ read_n_writeOUT $end
-$var wire 32 A pushData [31:0] $end
-$var wire 1 & push $end
-$var wire 32 B popAddress [31:0] $end
-$var wire 1 ( end_transactionOUT $end
-$var wire 1 ) data_validOUT $end
-$var wire 4 C byte_enableOUT [3:0] $end
-$var wire 1 + busyOUT $end
-$var wire 8 D busrt_sizeOUT [7:0] $end
-$var wire 32 E buffer_data [31:0] $end
-$var wire 1 - begin_transactionOUT $end
-$var wire 32 F address_dataOUT [31:0] $end
-$var parameter 32 G Base $end
-$var parameter 32 H fsm_asking_for_buffer $end
-$var parameter 32 I fsm_end_transaction $end
-$var parameter 32 J fsm_idle $end
-$var parameter 32 K fsm_read_request $end
-$var parameter 32 L fsm_read_sending_handshake $end
-$var parameter 32 M fsm_reading_data $end
-$var parameter 32 N fsm_reading_from_buffer $end
-$var parameter 32 O fsm_sending_data $end
-$var parameter 32 P fsm_write_request $end
-$var parameter 32 Q fsm_write_sending_handshake $end
-$var parameter 32 R fsm_writting_buffer $end
-$var reg 4 S cur_state [3:0] $end
-$var reg 4 T nxt_state [3:0] $end
+$var wire 1 % end_transactionOUT $end
+$var wire 1 & data_validOUT $end
+$var wire 32 @ dataIn [31:0] $end
+$var wire 4 A byte_enableOUT [3:0] $end
+$var wire 1 ) busyOUT $end
+$var wire 8 B busrt_sizeOUT [7:0] $end
+$var wire 32 C buffer_data [31:0] $end
+$var wire 1 + begin_transactionOUT $end
+$var wire 32 D address_dataOUT [31:0] $end
+$var parameter 32 E Base $end
+$var parameter 32 F fsm_asking_for_buffer $end
+$var parameter 32 G fsm_end_transaction $end
+$var parameter 32 H fsm_idle $end
+$var parameter 32 I fsm_read_request $end
+$var parameter 32 J fsm_read_sending_handshake $end
+$var parameter 32 K fsm_reading_data $end
+$var parameter 32 L fsm_reading_from_buffer $end
+$var parameter 32 M fsm_sending_data $end
+$var parameter 32 N fsm_write_request $end
+$var parameter 32 O fsm_write_sending_handshake $end
+$var parameter 32 P fsm_writting_buffer $end
+$var reg 4 Q cur_state [3:0] $end
+$var reg 4 R nxt_state [3:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 $comment Show the parameter values. $end
 $dumpall
-b1010 R
-b10 Q
-b1 P
-b11 O
-b101 N
-b1001 M
-b1000 L
-b111 K
-b0 J
-b100 I
-b110 H
-b1000000000000000000000000000000 G
+b1010 P
+b10 O
+b1 N
+b11 M
+b101 L
+b1001 K
+b1000 J
+b111 I
+b0 H
+b100 G
+b110 F
+b1000000000000000000000000000000 E
 $end
 #0
 $dumpvars
-b0 T
-b0 S
-b0 F
-b0 E
+b0 R
+b0 Q
 b0 D
 b0 C
 b0 B
 b0 A
 b0 @
-1?
-b0 >
+b0 ?
+1>
 b0 =
-b0 <
+bz <
 b0 ;
-1:
+b0 :
 09
-b0 8
+18
 07
 06
 05
 04
 03
 02
-01
-b0 0
-b0 /
+b0 1
+00
+0/
 b0 .
-0-
+b0 -
 b0 ,
 0+
 b0 *
 0)
-0(
+b0 (
 b0 '
 0&
-b0 %
+0%
 0$
 0#
 0"
-b0 !
+bz !
 $end
 #2
-12
+10
 #4
-02
-0:
+00
+08
 #6
-12
+10
 #8
-b110 T
-02
-13
-#10
-b101 T
-b110 S
+b110 R
+00
 12
+#10
+b101 R
+b110 Q
+10
 #12
-02
-b10100101101001011010010110100101 8
+00
+b10100101101001011010010110100101 1
 b10100101101001011010010110100101 =
 #14
-b10100101101001011010010110100101 E
-b1 T
-b101 S
-12
+b10100101101001011010010110100101 C
+b1 R
+b101 Q
+10
 #16
+00
 02
-03
 #18
 1#
-b1 S
-12
+b1 Q
+10
 #20
-02
+00
 #22
-12
+10
 #24
-b10 T
-02
-17
+b10 R
+00
+16
 #26
-b1111 *
-b1111 C
-1-
+b1111 (
+b1111 A
+1+
 0#
-b1 .
-b1 F
-b11 T
-b10 S
-12
+b1 ,
+b1 D
+b11 R
+b10 Q
+10
 #28
-02
-b0 8
+00
+b0 1
 b0 =
-11
-07
+1/
+06
 #30
-b0 *
-b0 C
-0-
-b10100101101001011010010110100101 .
-b10100101101001011010010110100101 F
-1)
-b11 S
-12
+b0 (
+b0 A
+0+
+b10100101101001011010010110100101 ,
+b10100101101001011010010110100101 D
+1&
+b11 Q
+10
 #32
-02
+00
 #34
-12
+10
 #36
-02
+00
 #38
-12
+10
 #40
-02
+00
 #42
-12
+10
 #44
-02
+00
 #46
-12
+10
 #48
-1(
-b100 T
-02
-01
+1%
+b100 R
+00
+0/
 #50
-b0 E
-b0 .
-b0 F
-0(
-0)
-b0 T
-b100 S
-12
+b0 C
+b0 ,
+b0 D
+0%
+0&
+b0 R
+b100 Q
+10
 #52
-02
+00
 #54
-b0 S
-12
+b0 Q
+10
 #56
-02
+00
 #58
-12
+10
 #60
-02
+00
 #62
-12
+10
 #64
-b1010000010100000101000001010 @
-b111 T
-02
-19
-b1010000010100000101000001010 0
-b1010000010100000101000001010 <
+b1010000010100000101000001010 ?
+b111 R
+00
+17
+b1010000010100000101000001010 .
+b1010000010100000101000001010 ;
 #66
 1#
-b111 S
-12
+b111 Q
+10
 #68
-02
-09
-b0 0
-b0 <
+00
+07
+b0 .
+b0 ;
 #70
-12
+10
 #72
-b1000 T
-02
-17
+b1000 R
+00
+16
 #74
-b1010000010100000101000001010 .
-b1010000010100000101000001010 F
-b1111 *
-b1111 C
-1-
+b1010000010100000101000001010 ,
+b1010000010100000101000001010 D
+b1111 (
+b1111 A
+1+
 0#
 1$
-b1001 T
-b1000 S
-12
+b1001 R
+b1000 Q
+10
 #76
-02
+00
 #78
-b10010001101000101011001111000 E
-b0 .
-b0 F
-b0 *
-b0 C
-0-
-0$
-b1001 S
-12
-15
-14
-07
-b10010001101000101011001111000 /
-b10010001101000101011001111000 ;
-#80
-02
-#82
-b10010001101000101011001111000 %
-b10010001101000101011001111000 A
-1&
-b1010 S
-b100 T
-12
-05
-04
-#84
-02
-#86
-b0 E
-b0 @
-b0 %
+b10010001101000101011001111000 C
+b0 ,
+b0 D
+b0 (
 b0 A
-0&
-b0 T
-b100 S
-12
+0+
+0$
+b1001 Q
+10
+14
+13
+06
+b10010001101000101011001111000 -
+b10010001101000101011001111000 :
+#80
+00
+#82
+b10010001101000101011001111000 '
+b10010001101000101011001111000 @
+1"
+b1010 Q
+b100 R
+10
+04
+03
+#84
+00
+#86
+b0 C
+b0 ?
+b0 '
+b0 @
+0"
+b0 R
+b100 Q
+10
 #88
-02
+00
 #90
-b0 S
-12
+b0 Q
+10
 #92
-02
+00
 #94
-12
+10
 #96
-02
+00
 #98
-12
+10
 #100
-02
+00
 #102
-12
+10

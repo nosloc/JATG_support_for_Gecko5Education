@@ -8,12 +8,10 @@ module DMA #(
 
 
     // Buffer interface
-    output wire [31:0]            pushAddress,
-    output wire [31:0]            popAddress,
-    output wire [31:0]            pushData,
-    output wire                   push,
-    output wire                   switch,
-    input wire [31:0]          popData,
+    output wire [8:0]             bufferAddress,
+    output wire [31:0]            dataIn,
+    output wire                   writeEnable,
+    input wire [31:0]             dataOut,
 
     // here the bus interface is defined
     input wire [31:0] address_dataIN,
@@ -88,17 +86,15 @@ module DMA #(
         end
     end
 
-    assign buffer_data = (cur_state == fsm_reading_from_buffer) ? popData : 
+    assign buffer_data = (cur_state == fsm_reading_from_buffer) ? dataOut : 
                          (cur_state == fsm_reading_data && data_validIN == 1'b1) ? address_dataIN :
                          (cur_state == fsm_end_transaction || errorIN == 1'b1 || reset == 1'b1) ? 32'h0 : buffer_data;
 
 
     // Buffer interface set to read at the same location
-    assign pushAddress = 32'h0;
-    assign popAddress = (cur_state == fsm_asking_for_buffer) ? 32'h0 : 32'h0; 
-    assign pushData = (cur_state == fsm_writting_buffer) ? buffer_data : 32'h0;
-    assign push = (cur_state == fsm_writting_buffer) ? 1'b1 : 1'b0;
-    assign switch = 1'b0;
+    assign addressBuffer = 32'h0;
+    assign dataIn = (cur_state == fsm_writting_buffer) ? buffer_data : 32'h0;
+    assign writeEnable = (cur_state == fsm_writting_buffer) ? 1'b1 : 1'b0;
     assign s_reading_from_buffer_done = 1'b1;
     assign s_address_to_read = (cur_state == fsm_idle && readReady) ? address_to_read : 
                                (reset == 1'b1 || cur_state == fsm_end_transaction) ? 32'h0 : s_address_to_read;
