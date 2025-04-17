@@ -65,6 +65,7 @@ module tb_DMA;
 
         // Reset sequence
         #4 reset = 0;
+        
 
         // Test case: Write operation
         #4 dataReady = 1; // Indicate data is ready
@@ -91,7 +92,9 @@ module tb_DMA;
         data_validIN = 1;
         end_transactionIN = 1;
         #4 data_validIN = 0;
+        // address_dataIN = 32'h0;
         end_transactionIN = 0;
+
 
         
         #20$finish;

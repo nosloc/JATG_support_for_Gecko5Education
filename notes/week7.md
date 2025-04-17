@@ -129,3 +129,51 @@ Here is the corresponding wave for a normal execution :
 Her is the corresponding wave for an excution with the slave being busy :  
 ![Write with busy](image/writeWaveWithBusy.png)
 
+### Reading part of the DMA 
+
+Now that the writing DMA part is done we should also be a able to read a word at any address:  
+To do that we update the DMA's FSM :  
+![DMA FSM](image/ImageFSMDMA.drawio.png)  
+
+
+The idea here is : 
+
+1. When the readReady is rised : the DMA enters the part of the FSM where it will read at address ```address_to_read```
+2. Then it asked for the to have access to the bus by requesting the bus architecture
+3. Once the access is granted it initiate the transaction at the address above
+4. Once the transaction is ended on the slave side it will write the result in the buffer 
+5. Then free the buss access
+
+Here is an execution of a read followed by a write :  
+![DMA Waves](image/DMAWaves.png)
+
+as we can see at the end the data read is pushed to the buffer.
+In case of error the finite state machine goes in the idle mode and stop doing what it was doing
+
+## Constructing the pingpong buffer
+
+we have two possible solution to design this : 
+
+1. Use a semidual ported ssram of 2kB
+2. use two single ported ssrams of 1kB each
+
+If we want to stay with the 2KB buffer and storing words in their entirity we need a buffer of $128*32$ bits dual port ssram
+
+I'm a bit confused with the timing : 
+
+## Objectives for the two following weeks 
+
+1. Do the presentation
+2. Make the smaller version work being able to read and write to the ram using JTAG
+3. Update this smaller version to a bigger one with the ability to write any size of data
+
+## Questions
+
+1. For this design I'm using a single ssram of 2kB that is semi dual ported should i prefere the option wher i use two single ported ssram?
+The idea would be to use a dual ported ssram and give a port to the ip core and to the DMA and the most significant bit just change depending on the switch reg
+2. I choose to have 32 bits bandwidth to access a word per cycle and 64 entries to make it 2kB but it is not in the permissible SSRAM of the FPGA is it concerning?
+wrong it is a byte is 8 bits not 4
+3. Ask for the clock cycles
+Here there is an issue : There should be a one clock cycle delay
+
+

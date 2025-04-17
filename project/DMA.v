@@ -89,7 +89,7 @@ module DMA #(
     end
 
     assign buffer_data = (cur_state == fsm_reading_from_buffer) ? popData : 
-                         (cur_state == fsm_reading_data) ? address_dataIN :
+                         (cur_state == fsm_reading_data && data_validIN == 1'b1) ? address_dataIN :
                          (cur_state == fsm_end_transaction || errorIN == 1'b1 || reset == 1'b1) ? 32'h0 : buffer_data;
 
 
@@ -108,7 +108,7 @@ module DMA #(
                              (cur_state == fsm_sending_data) ? buffer_data : 32'h0; //for now only 1 byte
     assign byte_enableOUT = (cur_state == fsm_write_sending_handshake || cur_state == fsm_read_sending_handshake) ? 4'hF : 4'h0; 
     assign busrt_sizeOUT = (cur_state == fsm_write_sending_handshake) ? 8'h0 : 8'h0; //for now only 1 word
-    assign read_n_writeOUT = (cur_state == fsm_write_sending_handshake) ? 1'b0 : 1'b1; 
+    assign read_n_writeOUT = (cur_state == fsm_read_sending_handshake) ? 1'b1 : 1'b0; 
     assign begin_transactionOUT = (cur_state == fsm_write_sending_handshake || cur_state == fsm_read_sending_handshake) ? 1'b1 : 1'b0;
 
     assign end_transactionOUT = ((cur_state == fsm_sending_data && busyIN == 1'b0) || errorIN == 1'b1) ? 1'b1 : 1'b0;
