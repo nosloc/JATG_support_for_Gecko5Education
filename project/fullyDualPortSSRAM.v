@@ -10,12 +10,12 @@ module fullyDualPortSSRAM ( input wire [8:0]  addressA,
   
   always @(posedge clockA)
   begin
-    if (writeEnableA == 1'b1) memoryContent[addressA] = dataInA;
-    dataOutA = memoryContent[addressA];
+    dataOutA <= memoryContent[addressA];
+    if (writeEnableA == 1'b1) memoryContent[addressA] <= dataInA;
   end
   always @(posedge clockB)
     begin
-      if (writeEnableB == 1'b1) memoryContent[addressB] = dataInB;
-      dataOutB = memoryContent[addressB];
+      dataOutB <= memoryContent[addressB];
+      if (writeEnableB == 1'b1) memoryContent[addressB] <= dataInB;
     end
 endmodule
