@@ -31,5 +31,25 @@ What is needed to start reading and writting to a memory address in terms of use
 4. A command to send data
 5. A command to start receiving
 6. A command to receive data: need to write in order to read data 
+7. Say how many bytes we want to receive or send 
 
-Instruction size : 32 bits of data and few bits of command : for now 4 bits
+Instruction size : 32 bits of data and few bits of command : for now 4 bits so 36 bits in total
+
+The idea here will be to put everything in a single chain (arbitrarly 0x32) and communicate with it through multiple commands
+
+Change the functionality of the chain1  to handle this : 
+For the moment we don't care about the transaction size
+
+Instructions : 
+
+| Data section (32 bits) | instruction code (4 bits) | Signification |
+| ---------------------- | ------------------------- | ------------- |
+| empty | 0000 | Read the status reg of the ipcore |
+| address (32 bits) | 0001 | set the address reg to the value in the data section |
+| byte_enable (4 bits) | 0010 | set the byte enable reg |
+| Size (32 bits) | 0011 | set the size of the transaction in number of words |
+| | 0100 |
+| | 0101 |
+| | 0110 |
+| | 0111 |
+| data to send | 1000 | write the data at the address loaded in the address reg |
