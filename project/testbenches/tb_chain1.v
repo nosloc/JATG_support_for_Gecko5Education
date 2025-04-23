@@ -20,7 +20,8 @@ module tb_chain1;
         .JUPDATE(JUPDATE),
         .JRSTN(JRSTN),
         .JCE1(JCE1),
-        .JTD1(JTD1)
+        .JTD1(JTD1),
+        .pp_dataOut(32'hFFFFFFFF)
     );
 
     // Clock generation
@@ -88,6 +89,14 @@ module tb_chain1;
         sendInstruction(36'hF8);
 
         #80;
+
+        // Send a read instruction
+        sendInstruction(36'b1001);
+        #20
+
+        // Read the data from the buffer
+        sendInstruction(36'b1010);
+        #160;
         $finish;
     end
 
