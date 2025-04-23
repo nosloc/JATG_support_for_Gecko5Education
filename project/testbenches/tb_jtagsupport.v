@@ -102,6 +102,12 @@ module tb_jtagsupport;
         JCE2 = 0;
         JRTI1 = 1;
         JRTI2 = 1;
+        granted = 0;
+        busyIN = 0;
+        errorIN = 0;
+        data_validIN = 0;
+        end_transactionIN = 0;
+        address_dataIN = 0;
 
         // Reset the DUT
         #8;
@@ -117,13 +123,20 @@ module tb_jtagsupport;
         sendInstruction(36'b11110010);
         $display("Value of byte enable reg: %b", dut.ipcore.instruction_chain1.byte_enable_reg);
 
-        sendInstruction(36'b10011);
+        sendInstruction(36'b00011);
         $display("Value of burst size reg: %b", dut.ipcore.instruction_chain1.busrt_size_reg);
 
         // Read the status reg of the ipcore
         sendInstruction(36'b00000);
 
-        #80;
+        // Start sending data
+        sendInstruction(36'hF8);
+
+        #16;
+        // Grant DMA access to bus architecture
+        granted = 1;
+
+        #160;
 
         
 

@@ -118,6 +118,11 @@ Where :
 ## Try to connect everything together
 
 
+Create a single component name JTAG_suport that encapsulate the ipcore, the pingpong buffer and the DMA. It is then connected to the JTAGG interface and the bus architecture as a master. 
+
+Here is the design :
+
+![JTAG support component](image/JTAG_support.drawio.png)
 
 ## Things to do
 

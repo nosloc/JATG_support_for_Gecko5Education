@@ -26,8 +26,8 @@ module pingpongbuffer (
         .dataOutB(dataOutB)
     );
 
-    always @(posedge clock or posedge reset) begin
-        if (reset) begin
+    always @(posedge clock or negedge reset) begin
+        if (~reset) begin
             switch_reg <= 1'b0; // Initialize to 0 during reset
         end else if (switch) begin
             switch_reg <= ~switch_reg; // Toggle on switch

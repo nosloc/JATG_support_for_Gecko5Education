@@ -1,10 +1,10 @@
 module jtag_support(
     // JTAG signals
     input wire JTCK, 
-    input reg  JTDI, 
+    input wire  JTDI, 
     input wire JSHIFT, 
     input wire JUPDATE, 
-    input reg  JRSTN,
+    input wire  JRSTN,
     input wire JCE1, 
     input wire JCE2, 
     input wire JRTI1, 

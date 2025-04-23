@@ -54,11 +54,11 @@ module DMA #(
     reg [3:0] cur_state, nxt_state;
     wire [31:0] buffer_data;
     wire s_reading_from_buffer_done;
-    wire [31:0] s_address_to_read;
-    wire s_byte_enable;
+    wire [31:0] s_address;
+    wire [3:0] s_byte_enable;
 
-    always @(posedge clock or posedge reset) begin
-        if (reset) begin
+    always @(posedge clock or negedge reset) begin
+        if (~reset) begin
             cur_state <= fsm_idle;
         end else begin
             cur_state <= nxt_state;
@@ -90,21 +90,21 @@ module DMA #(
 
     assign buffer_data = (cur_state == fsm_reading_from_buffer) ? dataOut : 
                          (cur_state == fsm_reading_data && data_validIN == 1'b1) ? address_dataIN :
-                         (cur_state == fsm_end_transaction || errorIN == 1'b1 || reset == 1'b1) ? 32'h0 : buffer_data;
+                         (cur_state == fsm_end_transaction || errorIN == 1'b1 || reset == 1'b0) ? 32'h0 : buffer_data;
 
 
     // Buffer interface set to read at the same location
-    assign addressBuffer = 32'h0;
+    assign bufferAddress = 32'h0;
     assign dataIn = (cur_state == fsm_writting_buffer) ? buffer_data : 32'h0;
     assign writeEnable = (cur_state == fsm_writting_buffer) ? 1'b1 : 1'b0;
     assign s_reading_from_buffer_done = 1'b1;
-    assign s_address_to_read = (cur_state == fsm_idle && ipcore_readReady) ? ipcore_address_to_read : 
-                               (reset == 1'b1 || cur_state == fsm_end_transaction) ? 32'h0 : s_address_to_read;
-    assign s_byte_enable = (cur_state == fsm_idle && ipcore_readReady) ? ipcore_byteEnable : 
-                               (reset == 1'b1 || cur_state == fsm_end_transaction) ? 32'h0 : s_byte_enable;
+    assign s_address = (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) ? ipcore_address_to_read : 
+                               (reset == 1'b0 || cur_state == fsm_end_transaction) ? 32'h0 : s_address;
+    assign s_byte_enable = (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) ? ipcore_byteEnable : 
+                               (reset == 1'b0 || cur_state == fsm_end_transaction) ? 4'h0 : s_byte_enable;
 
-    assign address_dataOUT = (cur_state == fsm_write_sending_handshake ) ? 32'h1 : 
-                             (cur_state == fsm_read_sending_handshake) ? s_address_to_read :
+    assign address_dataOUT = (cur_state == fsm_write_sending_handshake ) ? s_address: 
+                             (cur_state == fsm_read_sending_handshake) ? s_address:
                              (cur_state == fsm_sending_data) ? buffer_data : 32'h0; //for now only 1 byte
     assign byte_enableOUT = (cur_state == fsm_write_sending_handshake || cur_state == fsm_read_sending_handshake) ? s_byte_enable : 4'h0; 
     assign busrt_sizeOUT = (cur_state == fsm_write_sending_handshake) ? 8'h0 : 8'h0; //for now only 1 word
