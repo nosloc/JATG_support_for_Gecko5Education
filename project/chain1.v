@@ -19,13 +19,14 @@ module chain1(
     // Connection with the DMA
     output wire [31:0] dma_address,
     output wire dma_data_ready,
-    output wire [3:0] dma_byte_enable
+    output wire [3:0] dma_byte_enable,
+    output wire dma_readReady
 );
 
 
 reg [35:0] shift_reg;
 reg [31:0] data_reg;
-reg [3:0] status_reg;
+reg [5:0] status_reg;
 reg [31:0] address_reg;
 reg [3:0] byte_enable_reg;
 reg [7:0] busrt_size_reg;
@@ -33,7 +34,10 @@ reg [7:0] remaining_size_reg;
 reg [7:0] pp_address_reg;
 wire is_operation_running;
 wire s_ready_to_switch;
+reg [31:0] read_data_from_buffer;
 reg r_data_shifted_in;
+reg r_launch_read;
+reg r_data_shifted_out;
 
 assign s_ready_to_switch = 1;
 
@@ -42,29 +46,40 @@ localparam write_FILL_BUFFER = 1;
 localparam write_WAIT_FOR_SWITCH = 2;
 localparam write_SWITCH_BUFFER = 3;
 localparam write_LAUNCH_WRITE = 4;
+localparam read_LAUNCH_READ = 5;
+localparam read_WAIT_FOR_SWITCH = 6;
+localparam read_DATA_READY_TO_READ = 7;
+localparam read_SWITCH_BUFFER = 8;
+localparam read_ASK_BUFFER = 9;
+localparam read_STORE_BUFFER_ANSWER = 10;
 
 
-reg [2:0] chain1_cur_state;
-reg [2:0] chain1_nxt_state;
 
-assign is_operation_running = (status_reg[3] == 1'b1) ? 1'b1 : 1'b0;
+reg [4:0] chain1_cur_state;
+reg [4:0] chain1_nxt_state;
+
+// The status register is used to indicate the current state of the operation
+assign is_operation_running = (status_reg[3] == 1'b1 | status_reg[4] == 1'b1) ? 1'b1 : 1'b0;
 
 
 assign JTD1 = shift_reg[0];
 always @(posedge JTCK or negedge JRSTN) begin
     if (JRSTN == 0) begin
         shift_reg <= 34'b0;
-        status_reg <= 4'b0;
+        status_reg <= 6'b0;
         address_reg <= 32'b0;
         byte_enable_reg <= 4'b0;
         busrt_size_reg <= 8'b0;
         remaining_size_reg <= 8'b0;
         pp_address_reg <= 8'b0;
+        r_data_shifted_in <= 1'b0;
+        r_launch_read <= 1'b0;
+        r_data_shifted_out <= 1'b0;
     end
     else  begin
-        if (r_data_shifted_in) begin
-            r_data_shifted_in <= 1'b0;
-        end
+        r_data_shifted_in <= 1'b0;
+        r_launch_read <= 1'b0;
+        r_data_shifted_out <= 1'b0;
         if (JCE1) begin
         // Shifting data in
             if (JSHIFT) begin
@@ -72,7 +87,13 @@ always @(posedge JTCK or negedge JRSTN) begin
             end
             // capture the status register
             else begin
-                shift_reg <= {31'b0, status_reg};
+                if (status_reg[5] == 1'b1) begin
+                    shift_reg <= {3'b111, remaining_size_reg == 0 ? 1'b0 : 1'b1, read_data_from_buffer};
+                    r_data_shifted_out <= 1'b1;
+                end
+                else begin
+                    shift_reg <= {29'b0, status_reg};
+                end
             end 
         end
         // Update datas registers based on the instruction used
@@ -82,14 +103,14 @@ always @(posedge JTCK or negedge JRSTN) begin
                     // Writting to address register
                     if (~is_operation_running) begin
                         address_reg <= shift_reg[35:4];
-                        status_reg <= status_reg | 4'b0001;
+                        status_reg <= status_reg | 6'b0001;
                     end
                 end
                 4'b0010: begin
                     // writting to byte enable register
                     if (~is_operation_running) begin
                         byte_enable_reg <= shift_reg[7:4];
-                        status_reg <= status_reg | 4'b0010;
+                        status_reg <= status_reg | 6'b0010;
                     end
                 end
                 4'b0011: begin
@@ -97,16 +118,23 @@ always @(posedge JTCK or negedge JRSTN) begin
                     if (~is_operation_running) begin
                         busrt_size_reg <= shift_reg[11:4];
                         remaining_size_reg <= shift_reg[11:4];
-                        status_reg <= status_reg | 4'b0100;
+                        status_reg <= status_reg | 6'b0100;
                     end
                 end
                 4'b1000: begin
                     // Send data
                     data_reg <= shift_reg[35:4];
-                    status_reg <= status_reg | 4'b1000;
+                    status_reg <= status_reg | 6'b1000;
                     r_data_shifted_in <= 1'b1;
                 end
-                default: begin
+                4'b1001: begin
+                    // Start the read operation
+                    status_reg <= status_reg | 6'b10000;
+                    r_launch_read <= 1'b1;
+                end
+                4'b1010: begin 
+                    // Read operation and move to next word
+                    status_reg[5] <= 1'b0;
                 end
             endcase 
         end
@@ -117,6 +145,7 @@ always @(posedge JTCK or negedge JRSTN)
     begin
         if (JRSTN == 0) begin
             chain1_cur_state <= IDLE;
+            read_data_from_buffer <= 32'b0;
         end
         else begin 
             chain1_cur_state <= chain1_nxt_state;
@@ -130,7 +159,12 @@ always @(*) begin
                 chain1_nxt_state <= write_FILL_BUFFER;
             end
             else begin
-                chain1_nxt_state <= IDLE;
+                if (r_launch_read) begin
+                    chain1_nxt_state <= read_LAUNCH_READ;
+                end
+                else begin
+                    chain1_nxt_state <= IDLE;
+                end
             end
         end
         write_FILL_BUFFER: begin
@@ -158,11 +192,56 @@ always @(*) begin
 
         write_LAUNCH_WRITE: begin
             if (remaining_size_reg ==0) begin
-                status_reg <= status_reg & 4'b0111;
+                status_reg <= status_reg & 6'b0111;
             end
             chain1_nxt_state <= IDLE;
         end
 
+        read_LAUNCH_READ: begin
+            chain1_nxt_state <= read_WAIT_FOR_SWITCH;
+        end
+
+        read_WAIT_FOR_SWITCH: begin
+            if (s_ready_to_switch) begin
+                chain1_nxt_state <= read_SWITCH_BUFFER;
+            end
+            else begin
+                chain1_nxt_state <= read_WAIT_FOR_SWITCH;
+            end
+        end
+
+        read_SWITCH_BUFFER: begin
+            chain1_nxt_state <= read_ASK_BUFFER;
+        end
+
+        read_ASK_BUFFER: begin
+            chain1_nxt_state <= read_STORE_BUFFER_ANSWER;
+        end
+
+        read_STORE_BUFFER_ANSWER: begin
+            read_data_from_buffer <= pp_dataOut;
+            chain1_nxt_state <= read_DATA_READY_TO_READ;
+            status_reg <= status_reg | 6'b100000;
+        end
+
+        read_DATA_READY_TO_READ: begin
+            if (r_data_shifted_out) begin
+                // r_data_shifted_out <= 1'b0;
+                status_reg[5] <= 1'b0;
+                if (remaining_size_reg == 0) begin
+                    chain1_nxt_state <= IDLE;
+                    status_reg[4] <= 1'b0;
+                end
+                else begin
+                    remaining_size_reg <= remaining_size_reg - 1;
+                    chain1_nxt_state <= read_ASK_BUFFER;
+                end
+            end
+            else begin
+                chain1_nxt_state <= read_DATA_READY_TO_READ;
+            end
+            
+        end
         default: begin
             chain1_nxt_state <= IDLE;
         end
@@ -170,13 +249,14 @@ always @(*) begin
     endcase 
 end
 
-    assign pp_address = (chain1_cur_state == write_FILL_BUFFER) ? {1'b0, pp_address_reg}: 9'b0;
+    assign pp_address = (chain1_cur_state == write_FILL_BUFFER | chain1_cur_state == read_ASK_BUFFER) ? {1'b0, pp_address_reg}: 9'b0;
     assign pp_writeEnable = (chain1_cur_state == write_FILL_BUFFER) ? 1'b1 : 1'b0;
     assign pp_dataIn = (chain1_cur_state == write_FILL_BUFFER) ? data_reg : 32'b0;
-    assign pp_switch = (chain1_cur_state == write_SWITCH_BUFFER) ? 1'b1 : 1'b0;
-    assign dma_address = (chain1_cur_state == write_LAUNCH_WRITE) ? address_reg : 32'b0;
+    assign pp_switch = (chain1_cur_state == write_SWITCH_BUFFER | chain1_cur_state == read_SWITCH_BUFFER) ? 1'b1 : 1'b0;
+    assign dma_address = (chain1_cur_state == write_LAUNCH_WRITE | chain1_cur_state == read_LAUNCH_READ) ? address_reg : 32'b0;
     assign dma_data_ready = (chain1_cur_state == write_LAUNCH_WRITE) ? 1'b1 : 1'b0;
-    assign dma_byte_enable = (chain1_cur_state == write_LAUNCH_WRITE) ? byte_enable_reg : 4'b0;
+    assign dma_byte_enable = (chain1_cur_state == write_LAUNCH_WRITE | chain1_cur_state == read_LAUNCH_READ) ? byte_enable_reg : 4'b0;
+    assign dma_readReady = (chain1_cur_state == read_LAUNCH_READ) ? 1'b1 : 1'b0;
 
 
 endmodule

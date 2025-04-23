@@ -53,11 +53,13 @@ For the moment we don't care about the transaction size
 | | 0110 ||
 | | 0111 ||
 | data to send | 1000 | write the data at the address loaded in the address reg |
-| empty | 1001 | Read data | 
+| empty | 1001 | Start Read operation data | 
+| empty | 1010 | write empty to empty out the data read |
+
 
 ### The status register
 
-| Is an operation running ? | is size loaded | is byte_enable loaded | is address loaded |
+| Is data ready to read | Is reading going ? | Is sending running ? | is size loaded | is byte_enable loaded | is address loaded |
 
 ### Writing operation
 
@@ -91,5 +93,33 @@ A simulation of a write looks something like this :
 
 ### Reading operation
 
-In order to read in a register we need to write. So having a read operation that return the value read.
+For the write operation we have two differents operations :
 
+1. 1001 is used to launch the read operation (micro-architecturarly it ask the DMA to start the read)
+2. 1010 is used to shifted out the data read and advance to the next one(If data is not ready the shifte register is shifted out 29 zeroes and the shift register, if it is ready 3 ones, the remaining size to read, and the data out)
+3. When the data is ready to read the data shifted out is always the data read but using 2. make it advance to the next one
+
+The read operation is a bit complexe since we have to wait for the DMA to execute part of the read operation to be able to actually read and also we need to write to actually get some data out 
+
+When receive the operation to start the read operation (1001) the ipcore follow this FSM :
+
+![read FSM](image/IPCORE_read.drawio.png)
+
+Where : 
+
+- **IDLE** : The IP core is not doing anything except receiving instructions and update the config regs 
+- **LAUNCH READ**: State entered after receiving the start reading operation (1001) in this state the IPCore send signals to the DMA to start the Reading from address in the reg file, enter the wait for switch after
+- **WAIT FOR SWITCH**: In this stage the the IP core wait for the signal of the DMA saying that it is ready to switch and that there will be interesting data in the buffer once received move to next state
+- **SWITCH BUFFER**: One clock cycle where the buffer is switched to be able to access the data read by the DMA
+- **ASK BUFFER**: Instantiate the read operation in the buffer
+- **STORE BUFFER ANSWER**: Store the result of the read and make the data ready to read for the user
+- **DATA READY TO READ**: In this state the IP core the data shifted out will always be the data read but if the instruction 1010 is used then if it is the end of the transaction we move to the IDLE state and cleat any used reg if not we simply move to either SWITCH buffer if no valid data is in the buffer or Ask buffer in the other case.
+
+## Things to do
+
+1. Make the burst size actaully usefull
+2. Make the is_ready_to switch not always to one
+3. Make the DMA and the IP core care about not writting the full buffer
+4. Integrate them to the whole system
+5. I supposed the DMA is always ready is it always the case ?
+6. Can't make transaction that needs more than a buffer for now
