@@ -115,6 +115,10 @@ Where :
 - **STORE BUFFER ANSWER**: Store the result of the read and make the data ready to read for the user
 - **DATA READY TO READ**: In this state the IP core the data shifted out will always be the data read but if the instruction 1010 is used then if it is the end of the transaction we move to the IDLE state and cleat any used reg if not we simply move to either SWITCH buffer if no valid data is in the buffer or Ask buffer in the other case.
 
+## Try to connect everything together
+
+
+
 ## Things to do
 
 1. Make the burst size actaully usefull
@@ -123,3 +127,4 @@ Where :
 4. Integrate them to the whole system
 5. I supposed the DMA is always ready is it always the case ?
 6. Can't make transaction that needs more than a buffer for now
+7. Handle errors

@@ -10,19 +10,26 @@ module ipcore(
     input wire JCE2,
     output wire JTD1,
     output wire JTD2,
-    output wire [9:0] red,
-    output wire [9:0] blue,
-    output wire [9:0] green,
-    output wire [3:0] rgbRow
+
+    // Chain1 outputs
+    // pingpong buffer connections
+    output wire [8:0] pp_address,
+    output wire pp_writeEnable,
+    output wire [31:0] pp_dataIn,
+    input wire [31:0] pp_dataOut,
+    output wire pp_switch,
+
+    //DMA connections
+    output wire [31:0] dma_address,
+    output wire dma_data_ready,
+    output wire [3:0] dma_byte_enable,
+    output wire dma_readReady
+
 );
 
 wire s_JTDI_1, s_JTDI_2;
-wire [29:0] LEDS;
 assign s_JTDI_1 = (JCE1) ? JTDI : 1'bz;
 assign s_JTDI_2 = (JCE2) ? JTDI : 1'bz;
-assign red = LEDS[9:0];
-assign green = LEDS[19:10];
-assign blue = LEDS[29:20];
 
 chain1 instruction_chain1 (
     .JTCK(JTCK),
@@ -33,21 +40,30 @@ chain1 instruction_chain1 (
     .JRSTN(JRSTN),
     .JCE1(JCE1),
     .JTD1(JTD1),
-    .LEDS(LEDS)
+    .pp_address(pp_address),
+    .pp_writeEnable(pp_writeEnable),
+    .pp_dataIn(pp_dataIn),
+    .pp_dataOut(pp_dataOut),
+    .pp_switch(pp_switch),
+    .dma_address(dma_address),
+    .dma_data_ready(dma_data_ready),
+    .dma_byte_enable(dma_byte_enable),
+    .dma_readReady(dma_readReady)
 );
 
 
 
-chain2 instruction_chain2 (
-    .JTCK(JTCK),
-    .JTDI(s_JTDI_2),
-    .JRTI2(JRTI2),
-    .JSHIFT(JSHIFT),
-    .JUPDATE(JUPDATE),
-    .JRSTN(JRSTN),
-    .JCE2(JCE2),
-    .JTD2(JTD2),
-    .rgbRow(rgbRow)
-);
+// Not used here
+// chain2 instruction_chain2 (
+//     .JTCK(JTCK),
+//     .JTDI(s_JTDI_2),
+//     .JRTI2(JRTI2),
+//     .JSHIFT(JSHIFT),
+//     .JUPDATE(JUPDATE),
+//     .JRSTN(JRSTN),
+//     .JCE2(JCE2),
+//     .JTD2(JTD2),
+//     .rgbRow()
+// );
 
 endmodule

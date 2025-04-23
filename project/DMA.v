@@ -4,7 +4,7 @@ module DMA #(
     input wire                    clock, reset,
     input wire                    ipcore_dataReady,
     input wire                    ipcore_readReady,
-    input wire                    ipcore_byteEnable,
+    input wire [3:0]              ipcore_byteEnable,
     input wire [31:0]             ipcore_address_to_read,
 
 
