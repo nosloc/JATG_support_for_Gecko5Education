@@ -40,7 +40,7 @@ The idea here will be to put everything in a single chain (arbitrarly 0x32) and 
 Change the functionality of the chain1  to handle this : 
 For the moment we don't care about the transaction size
 
-Instructions : 
+### Instructions
 
 | Data section (32 bits) | instruction code (4 bits) | Signification |
 | ---------------------- | ------------------------- | ------------- |
@@ -48,8 +48,48 @@ Instructions :
 | address (32 bits) | 0001 | set the address reg to the value in the data section |
 | byte_enable (4 bits) | 0010 | set the byte enable reg |
 | Size (32 bits) | 0011 | set the size of the transaction in number of words |
-| | 0100 |
-| | 0101 |
-| | 0110 |
-| | 0111 |
+| | 0100 ||
+| | 0101 ||
+| | 0110 ||
+| | 0111 ||
 | data to send | 1000 | write the data at the address loaded in the address reg |
+| empty | 1001 | Read data | 
+
+### The status register
+
+| Is an operation running ? | is size loaded | is byte_enable loaded | is address loaded |
+
+### Writing operation
+
+The operation of writting is done in two phases:
+
+1. Setting up the config registers
+2. Actually send the data
+
+The register that needs to be setted up :
+
+- The address where we want to write
+- The size of the data we want to write
+- The byte enable register
+
+They all can be set up using different instructions. 
+
+Once the the send instruction is received the IPcore enter a fsm for the write :
+
+![Write FSM](image/IPCORE_write.drawio.png)
+
+- IDLE: Default state where the IPCORE wait for the next instruction
+- FILL BUFFER: Add the data to the pingpong buffer (if the buffer is full the next state WAIT_FOR_SWITCH or the remaining data size reaches 0, else return to IDLE and wait other write instructions)
+- WAIT_FOR_SWITCH: Wait for DMA signal that says that it is ready to switch the buffer
+- SWITCH_BUFFER: switch the pinpong buffer
+- LAUNCH_WRITE: Launch the transaction to the DMA and reset the operation running bit of the status reg if needed
+
+
+A simulation of a write looks something like this :
+
+![Write simulation](image/wave_write.png)
+
+### Reading operation
+
+In order to read in a register we need to write. So having a read operation that return the value read.
+
