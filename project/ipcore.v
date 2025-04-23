@@ -23,7 +23,8 @@ module ipcore(
     output wire [31:0] dma_address,
     output wire dma_data_ready,
     output wire [3:0] dma_byte_enable,
-    output wire dma_readReady
+    output wire dma_readReady,
+    input wire switch_ready
 
 );
 
@@ -48,7 +49,8 @@ chain1 instruction_chain1 (
     .dma_address(dma_address),
     .dma_data_ready(dma_data_ready),
     .dma_byte_enable(dma_byte_enable),
-    .dma_readReady(dma_readReady)
+    .dma_readReady(dma_readReady),
+    .switch_ready(switch_ready)
 );
 
 

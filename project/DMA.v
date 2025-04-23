@@ -6,6 +6,7 @@ module DMA #(
     input wire                    ipcore_readReady,
     input wire [3:0]              ipcore_byteEnable,
     input wire [31:0]             ipcore_address_to_read,
+    output wire                   ipcore_switch_ready,
 
 
     // Buffer interface
@@ -81,7 +82,7 @@ module DMA #(
 
                 fsm_read_request: nxt_state = (granted) ? fsm_read_sending_handshake : fsm_read_request;
                 fsm_read_sending_handshake: nxt_state = fsm_reading_data;
-                fsm_reading_data: nxt_state = (end_transactionIN) ? fsm_reading_data : fsm_writting_buffer;
+                fsm_reading_data: nxt_state = (~end_transactionIN) ? fsm_reading_data : fsm_writting_buffer;
                 fsm_writting_buffer: nxt_state = fsm_end_transaction;
                 // default: nxt_state = fsm_idle;
             endcase
@@ -118,4 +119,10 @@ module DMA #(
     assign busyOUT = (cur_state == fsm_sending_data) ? 1'b0 : 1'b0; //for now always 0
 
     assign request = (cur_state == fsm_write_request || cur_state == fsm_read_request) ? 1'b1 : 1'b0;
+
+    assign ipcore_switch_ready = (cur_state == fsm_idle |
+                                    cur_state == fsm_write_request |
+                                    cur_state == fsm_write_sending_handshake |
+                                    cur_state == fsm_sending_data |
+                                    cur_state == fsm_end_transaction) ? 1'b1 : 1'b0;
 endmodule

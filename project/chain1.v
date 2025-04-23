@@ -20,7 +20,8 @@ module chain1(
     output wire [31:0] dma_address,
     output wire dma_data_ready,
     output wire [3:0] dma_byte_enable,
-    output wire dma_readReady
+    output wire dma_readReady,
+    input wire switch_ready
 );
 
 
@@ -39,7 +40,7 @@ reg r_data_shifted_in;
 reg r_launch_read;
 reg r_data_shifted_out;
 
-assign s_ready_to_switch = 1;
+assign s_ready_to_switch = switch_ready;
 
 localparam IDLE = 0;
 localparam write_FILL_BUFFER = 1;

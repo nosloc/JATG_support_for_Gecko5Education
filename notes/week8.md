@@ -124,10 +124,12 @@ Here is the design :
 
 ![JTAG support component](image/JTAG_support.drawio.png)
 
+After many debugging it seems that i have a version of the JTAG support that can read and write at a memory address a single word (byte enable should also work)
+
 ## Things to do
 
 1. Make the burst size actaully usefull
-2. Make the is_ready_to switch not always to one
+2. Make the is_ready_to switch not always to one (Solved set to one for only some states of the DMA)
 3. Make the DMA and the IP core care about not writting the full buffer
 4. Integrate them to the whole system
 5. I supposed the DMA is always ready is it always the case ?

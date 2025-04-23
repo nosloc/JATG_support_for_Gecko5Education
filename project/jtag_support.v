@@ -48,6 +48,8 @@ wire s_pp_writeEnable_dma;
 wire [31:0] s_pp_dataIn_dma;
 wire [31:0] s_pp_dataOut_dma;
 
+wire s_ipcore_switch_ready;
+
 // instantiate the ipcore module
 ipcore ipcore (
     .JTCK(JTCK),
@@ -73,7 +75,8 @@ ipcore ipcore (
     .dma_address(s_dma_address),
     .dma_data_ready(s_dma_data_ready),
     .dma_byte_enable(s_dma_byte_enable),
-    .dma_readReady(s_dma_readReady)
+    .dma_readReady(s_dma_readReady),
+    .switch_ready(s_ipcore_switch_ready)
 );
 
 // Instantiate the Ping-Pong Buffer
@@ -99,6 +102,7 @@ DMA dma_inst (
     .ipcore_readReady(s_dma_readReady),
     .ipcore_byteEnable(s_dma_byte_enable),
     .ipcore_address_to_read(s_dma_address),
+    .ipcore_switch_ready(s_ipcore_switch_ready),
 
     // Buffer interface
     .bufferAddress(s_pp_address_dma),

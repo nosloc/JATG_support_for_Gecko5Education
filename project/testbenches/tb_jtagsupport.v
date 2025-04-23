@@ -32,6 +32,7 @@ module tb_jtagsupport;
 
     wire request;
     reg granted;
+    reg [31:0] memory_0x55555555;
 
     // Instantiate the DUT (Device Under Test)
     jtag_support dut (
@@ -108,6 +109,7 @@ module tb_jtagsupport;
         data_validIN = 0;
         end_transactionIN = 0;
         address_dataIN = 0;
+        memory_0x55555555 = 32'hDEADBEEF;
 
         // Reset the DUT
         #8;
@@ -130,11 +132,28 @@ module tb_jtagsupport;
         sendInstruction(36'b00000);
 
         // Start sending data
-        sendInstruction(36'hF8);
+        sendInstruction(36'hABCDEF8);
 
-        #16;
+
+        #40;
         // Grant DMA access to bus architecture
         granted = 1;
+        #4;
+        granted = 0;
+        #20; // Wait for instrction to finish
+
+        // Try to read at address 0x55555555
+        sendInstruction(36'b1001); // start the read operation
+        #12;
+        granted = 1;
+        data_validIN = 1;
+        address_dataIN = memory_0x55555555;
+        #4;
+        end_transactionIN = 1;
+
+        #20;
+        sendInstruction(36'b01010);
+
 
         #160;
 
@@ -147,6 +166,13 @@ module tb_jtagsupport;
     initial begin
         $dumpfile("test_jtagsupport.vcd");
         $dumpvars(0, tb_jtagsupport);
+    end
+
+    always @(posedge JTCK) begin
+        if (data_validOUT) begin
+            memory_0x55555555 = address_dataOUT;
+            $display("Data written to memory: %h", address_dataOUT);
+        end
     end
 
 endmodule
