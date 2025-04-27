@@ -29,7 +29,13 @@ module jtag_support(
 
     // arbitrer signals
     output wire request,
-    input wire granted
+    input wire granted,
+
+    // Visual clues
+    output [3:0] rgbRow,
+    output [9:0] red,
+    output [9:0] blue,
+    output [9:0] green
 );
 
 wire [8:0] s_pp_address_ipcore;
@@ -49,6 +55,14 @@ wire [31:0] s_pp_dataIn_dma;
 wire [31:0] s_pp_dataOut_dma;
 
 wire s_ipcore_switch_ready;
+
+wire [5:0] s_status_reg_out;
+
+assign rgbRow = 4'b0000;
+assign red = {~s_status_reg_out[5:0]};
+assign blue = {~s_status_reg_out[5:0]};
+assign green = {~s_status_reg_out[5:0]};
+// assign green = {~s_status_reg_out[5:0]};
 
 // instantiate the ipcore module
 ipcore ipcore (
@@ -76,7 +90,10 @@ ipcore ipcore (
     .dma_data_ready(s_dma_data_ready),
     .dma_byte_enable(s_dma_byte_enable),
     .dma_readReady(s_dma_readReady),
-    .switch_ready(s_ipcore_switch_ready)
+    .switch_ready(s_ipcore_switch_ready),
+
+    // Visual clues
+    .s_status_reg_out(s_status_reg_out)
 );
 
 // Instantiate the Ping-Pong Buffer

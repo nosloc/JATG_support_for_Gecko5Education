@@ -21,7 +21,10 @@ module chain1(
     output wire dma_data_ready,
     output wire [3:0] dma_byte_enable,
     output wire dma_readReady,
-    input wire switch_ready
+    input wire switch_ready,
+
+    // Visual Clues 
+    output wire [5:0] status_reg_out
 );
 
 
@@ -40,6 +43,7 @@ reg r_data_shifted_in;
 reg r_launch_read;
 reg r_data_shifted_out;
 
+assign status_reg_out = {status_reg[5:0]};
 assign s_ready_to_switch = switch_ready;
 
 localparam IDLE = 0;
@@ -76,11 +80,48 @@ always @(posedge JTCK or negedge JRSTN) begin
         r_data_shifted_in <= 1'b0;
         r_launch_read <= 1'b0;
         r_data_shifted_out <= 1'b0;
+        read_data_from_buffer <= 32'b0;
+        chain1_cur_state <= IDLE;
     end
     else  begin
+        // Reset the registers
         r_data_shifted_in <= 1'b0;
         r_launch_read <= 1'b0;
         r_data_shifted_out <= 1'b0;
+        
+        // Move to the next state
+        chain1_cur_state <= chain1_nxt_state;
+
+        // Handle internal signals
+        case (chain1_cur_state)
+            write_FILL_BUFFER: begin 
+                if (remaining_size_reg != 0) begin
+                    remaining_size_reg <= remaining_size_reg - 1;
+                end
+            end 
+            write_LAUNCH_WRITE: begin
+                if (remaining_size_reg == 0) begin
+                    status_reg <= status_reg & 6'b0111;
+                end
+            end
+            read_STORE_BUFFER_ANSWER: begin
+                read_data_from_buffer <= pp_dataOut;
+                status_reg <= status_reg | 6'b100000;
+            end
+            read_DATA_READY_TO_READ: begin
+                if (r_data_shifted_out) begin
+                    status_reg[5] <= 1'b0;
+                    if (remaining_size_reg == 0) begin
+                        status_reg[4] <= 1'b0;
+                    end
+                    else begin
+                        remaining_size_reg <= remaining_size_reg - 1;
+                    end
+                end
+            end
+        endcase
+
+        // handle the JTAG signals
         if (JCE1) begin
         // Shifting data in
             if (JSHIFT) begin
@@ -145,40 +186,38 @@ end
 always @(posedge JTCK or negedge JRSTN) 
     begin
         if (JRSTN == 0) begin
-            chain1_cur_state <= IDLE;
-            read_data_from_buffer <= 32'b0;
+            // chain1_cur_state <= IDLE;
+            // read_data_from_buffer <= 32'b0;
         end
         else begin 
-            chain1_cur_state = chain1_nxt_state;
-            case (chain1_cur_state)
-                write_FILL_BUFFER: begin 
-                    if (remaining_size_reg != 0) begin
-                        remaining_size_reg <= remaining_size_reg - 1;
-                    end
-                end 
-                write_LAUNCH_WRITE: begin
-                    if (remaining_size_reg == 0) begin
-                        status_reg <= status_reg & 6'b0111;
-                    end
-                end
-                read_STORE_BUFFER_ANSWER: begin
-                    read_data_from_buffer <= pp_dataOut;
-                    status_reg <= status_reg | 6'b100000;
-                end
-                read_DATA_READY_TO_READ: begin
-                    if (r_data_shifted_out) begin
-                        status_reg[5] <= 1'b0;
-                        if (remaining_size_reg == 0) begin
-                            status_reg[4] <= 1'b0;
-                        end
-                        else begin
-                            remaining_size_reg <= remaining_size_reg - 1;
-                        end
-                    end
-                end
-        endcase
-
-
+        //     chain1_cur_state = chain1_nxt_state;
+        //     case (chain1_cur_state)
+        //         write_FILL_BUFFER: begin 
+        //             if (remaining_size_reg != 0) begin
+        //                 remaining_size_reg <= remaining_size_reg - 1;
+        //             end
+        //         end 
+        //         write_LAUNCH_WRITE: begin
+        //             if (remaining_size_reg == 0) begin
+        //                 status_reg <= status_reg & 6'b0111;
+        //             end
+        //         end
+        //         read_STORE_BUFFER_ANSWER: begin
+        //             read_data_from_buffer <= pp_dataOut;
+        //             status_reg <= status_reg | 6'b100000;
+        //         end
+        //         read_DATA_READY_TO_READ: begin
+        //             if (r_data_shifted_out) begin
+        //                 status_reg[5] <= 1'b0;
+        //                 if (remaining_size_reg == 0) begin
+        //                     status_reg[4] <= 1'b0;
+        //                 end
+        //                 else begin
+        //                     remaining_size_reg <= remaining_size_reg - 1;
+        //                 end
+        //             end
+        //         end
+        // endcase
         end
     end 
 

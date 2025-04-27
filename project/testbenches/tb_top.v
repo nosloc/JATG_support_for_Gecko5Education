@@ -12,15 +12,22 @@ module tb_top;
     end
 
     wire s_JTDI, s_JTCK, s_JRTI2, s_JRTI1, s_JSHIFT, s_JUPDATE, s_JRSTN, s_JCE2, s_JCE1;
+    wire [9:0] red, blue, green;
+    wire [3:0] rgbRow;
 
     top top(
         .TCK(TCK),
         .TMS(TMS),
         .TDI(TDI),
         .TDO(TDO),
-        .LEDS(LEDS),
-        .LEDS_colums(LEDS_colums)
+        .red(red),
+        .blue(blue),
+        .green(green),
+        .rgbRow(rgbRow)
     );
+
+    assign LEDS = red[8:0]; // Map red to LEDS
+    assign LEDS_colums = rgbRow; // Map rgbRow to LEDS_colums
 
      task write_IR (input [7:0] ir);
         integer i;
@@ -56,7 +63,7 @@ module tb_top;
         end
     endtask
 
-    task write_DR (input [8:0] dr);
+    task write_DR (input [35:0] dr);
         integer i;
         begin
             TMS = 1'b1;
@@ -67,7 +74,7 @@ module tb_top;
             // CAPTURE-DR
             TMS = 1'b0;
             // SHIFT-DR
-            for (i = 0; i < 9; i = i + 1) begin
+            for (i = 0; i < 37; i = i + 1) begin
                 TDI = dr[i];
                 #4;
             end
@@ -100,13 +107,10 @@ module tb_top;
         // RUN-TEST/IDLE
         #4;
         write_IR(8'h32);
-        write_DR(9'b011001101);
-        #10
-        $display("LEDS = %b", LEDS);
-        $display("LEDS_colums = %b", LEDS_colums);
-        write_IR(8'h38);
-        write_DR(9'b001100000);
-        #10
+        #4;
+        write_DR(36'b11111110001);
+        #12
+        write_DR(36'b00000000000);
         $display("LEDS = %b", LEDS);
         $display("LEDS_colums = %b", LEDS_colums);
         $finish;

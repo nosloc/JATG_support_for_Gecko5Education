@@ -126,6 +126,19 @@ Here is the design :
 
 After many debugging it seems that i have a version of the JTAG support that can read and write at a memory address a single word (byte enable should also work)
 
+Debug some issues :
+
+- loop in the combinational logic transform them into registers
+- loop in an ```always @(*)``` block
+
+## Trying to see if the synthetized version can update the status reg
+
+1. Synthetized the system 
+2. Use IRscan to select the first chain
+3. use drscan to set up the different config regs
+4. Verify the output using the output of openOCD and the visual clues on the led array
+
+
 ## Things to do
 
 1. Make the burst size actaully usefull
