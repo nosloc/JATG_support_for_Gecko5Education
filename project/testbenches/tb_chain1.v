@@ -21,7 +21,8 @@ module tb_chain1;
         .JRSTN(JRSTN),
         .JCE1(JCE1),
         .JTD1(JTD1),
-        .pp_dataOut(32'hFFFFFFFF)
+        .pp_dataOut(32'hFFFFFFFF),
+        .switch_ready(1'b1)
     );
 
     // Clock generation

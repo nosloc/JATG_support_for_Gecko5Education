@@ -21,9 +21,10 @@ module tb_DMA;
     DMA dut (
         .clock(clock),
         .reset(reset),
-        .dataReady(dataReady),
-        .readReady(readReady),
-        .address_to_read(address_to_read),
+        .ipcore_dataReady(dataReady),
+        .ipcore_readReady(readReady),
+        .ipcore_address_to_read(address_to_read),
+        .ipcore_byteEnable(4'b1111),
         .bufferAddress(addressBuffer),
         .writeEnable(writeEnable),
         .dataIn(dataIn),
@@ -51,7 +52,7 @@ module tb_DMA;
     initial begin
         // Initialize signals
         clock = 0;
-        reset = 1;
+        reset = 0;
         dataReady = 0;
         address_dataIN = 32'h0;
         end_transactionIN = 0;
@@ -64,7 +65,7 @@ module tb_DMA;
         address_to_read = 32'h0;
 
         // Reset sequence
-        #4 reset = 0;
+        #4 reset = 1;
         
 
         // Test case: Write operation
@@ -93,6 +94,7 @@ module tb_DMA;
         end_transactionIN = 1;
         #4 data_validIN = 0;
         // address_dataIN = 32'h0;
+        #1;
         end_transactionIN = 0;
 
 

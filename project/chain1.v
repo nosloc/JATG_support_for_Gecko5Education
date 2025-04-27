@@ -149,7 +149,36 @@ always @(posedge JTCK or negedge JRSTN)
             read_data_from_buffer <= 32'b0;
         end
         else begin 
-            chain1_cur_state <= chain1_nxt_state;
+            chain1_cur_state = chain1_nxt_state;
+            case (chain1_cur_state)
+                write_FILL_BUFFER: begin 
+                    if (remaining_size_reg != 0) begin
+                        remaining_size_reg <= remaining_size_reg - 1;
+                    end
+                end 
+                write_LAUNCH_WRITE: begin
+                    if (remaining_size_reg == 0) begin
+                        status_reg <= status_reg & 6'b0111;
+                    end
+                end
+                read_STORE_BUFFER_ANSWER: begin
+                    read_data_from_buffer <= pp_dataOut;
+                    status_reg <= status_reg | 6'b100000;
+                end
+                read_DATA_READY_TO_READ: begin
+                    if (r_data_shifted_out) begin
+                        status_reg[5] <= 1'b0;
+                        if (remaining_size_reg == 0) begin
+                            status_reg[4] <= 1'b0;
+                        end
+                        else begin
+                            remaining_size_reg <= remaining_size_reg - 1;
+                        end
+                    end
+                end
+        endcase
+
+
         end
     end 
 
@@ -173,7 +202,6 @@ always @(*) begin
                 chain1_nxt_state <= write_WAIT_FOR_SWITCH;
             end
             else begin
-                remaining_size_reg = remaining_size_reg - 1;
                 chain1_nxt_state <= IDLE;
             end
         end
@@ -192,9 +220,6 @@ always @(*) begin
         end
 
         write_LAUNCH_WRITE: begin
-            if (remaining_size_reg ==0) begin
-                status_reg <= status_reg & 6'b0111;
-            end
             chain1_nxt_state <= IDLE;
         end
 
@@ -220,21 +245,16 @@ always @(*) begin
         end
 
         read_STORE_BUFFER_ANSWER: begin
-            read_data_from_buffer <= pp_dataOut;
             chain1_nxt_state <= read_DATA_READY_TO_READ;
-            status_reg <= status_reg | 6'b100000;
         end
 
         read_DATA_READY_TO_READ: begin
             if (r_data_shifted_out) begin
                 // r_data_shifted_out <= 1'b0;
-                status_reg[5] <= 1'b0;
                 if (remaining_size_reg == 0) begin
                     chain1_nxt_state <= IDLE;
-                    status_reg[4] <= 1'b0;
                 end
                 else begin
-                    remaining_size_reg <= remaining_size_reg - 1;
                     chain1_nxt_state <= read_ASK_BUFFER;
                 end
             end
