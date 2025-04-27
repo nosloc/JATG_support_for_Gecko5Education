@@ -58,13 +58,13 @@ module DMA #(
     reg [31:0] s_address;
     reg [3:0] s_byte_enable;
 
-    always @(posedge clock or negedge reset) begin
-        if (~reset) begin
-            cur_state <= fsm_idle;
-        end else begin
-            cur_state <= nxt_state;
-        end
-    end
+    // always @(posedge clock or negedge reset) begin
+    //     if (~reset) begin
+    //         cur_state <= fsm_idle;
+    //     end else begin
+    //         cur_state <= nxt_state;
+    //     end
+    // end
 
 
     always @(*) begin
@@ -89,20 +89,30 @@ module DMA #(
         end
     end
 
-    always @(*) begin 
-        if (cur_state == fsm_reading_from_buffer) begin
-            buffer_data = dataOut;
-        end else if (cur_state == fsm_reading_data && data_validIN == 1'b1) begin
-            buffer_data = address_dataIN;
-        end else if (cur_state == fsm_end_transaction || errorIN == 1'b1 || reset == 1'b0) begin
-            buffer_data = 32'h0;
+    always @(posedge clock or negedge reset) begin 
+        if (~reset) begin
+            buffer_data <= 32'h0;
+            s_address <= 32'h0;
+            s_byte_enable <= 4'h0;
+            cur_state <= fsm_idle;
+            nxt_state <= fsm_idle;
         end
-        if (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) begin
-            s_byte_enable = ipcore_byteEnable;
-            s_address = ipcore_address_to_read;
-        end else if (reset == 1'b0 || cur_state == fsm_end_transaction) begin
-            s_address = 32'h0;
-            s_byte_enable = 4'h0;
+        else begin 
+            cur_state <= nxt_state;
+            if (cur_state == fsm_reading_from_buffer) begin
+                buffer_data <= dataOut;
+            end else if (cur_state == fsm_reading_data && data_validIN == 1'b1) begin
+                buffer_data <= address_dataIN;
+            end else if (cur_state == fsm_end_transaction || errorIN == 1'b1) begin
+                buffer_data <= 32'h0;
+            end
+            if (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) begin
+                s_byte_enable <= ipcore_byteEnable;
+                s_address <= ipcore_address_to_read;
+            end else if (cur_state == fsm_end_transaction) begin
+                s_address <= 32'h0;
+                s_byte_enable <= 4'h0;
+            end
         end
     end
 

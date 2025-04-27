@@ -74,7 +74,7 @@ module tb_top;
             // CAPTURE-DR
             TMS = 1'b0;
             // SHIFT-DR
-            for (i = 0; i < 37; i = i + 1) begin
+            for (i = 0; i < 36; i = i + 1) begin
                 TDI = dr[i];
                 #4;
             end
