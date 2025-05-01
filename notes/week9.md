@@ -10,3 +10,6 @@ To do that we use this design :
 ![Clock synchronizer](image/clock_synchronizer.drawio.png)
 
 
+Change the ping pong buffer to use a different clock for the DMA and the Ipcore
+
+Chang the JTAG_support design to handle both clock speeds

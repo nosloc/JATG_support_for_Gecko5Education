@@ -1,5 +1,6 @@
 module pingpongbuffer (
-        input wire clock, 
+        input wire clockA,
+        input wire clockB, 
         input wire [8:0] addressA,
         input wire [8:0] addressB,
         input wire writeEnableA, writeEnableB,
@@ -14,8 +15,8 @@ module pingpongbuffer (
     reg switch_reg;
 
     fullyDualPortSSRAM ssram (
-        .clockA(clock),
-        .clockB(clock),
+        .clockA(clockA),
+        .clockB(clockB),
         .addressA(s_addressA),
         .addressB(s_addressB),
         .writeEnableA(writeEnableA),
@@ -26,7 +27,7 @@ module pingpongbuffer (
         .dataOutB(dataOutB)
     );
 
-    always @(posedge clock or negedge reset) begin
+    always @(posedge clockA or negedge reset) begin
         if (~reset) begin
             switch_reg <= 1'b0; // Initialize to 0 during reset
         end else if (switch) begin

@@ -34,6 +34,8 @@ module tb_jtagsupport;
     reg granted;
     reg [31:0] memory_0x55555555;
 
+    reg system_clock;
+
     // Instantiate the DUT (Device Under Test)
     jtag_support dut (
         .JTCK(JTCK),
@@ -47,6 +49,7 @@ module tb_jtagsupport;
         .JRTI2(JRTI2),
         .JTDO1(JTDO1),
         .JTDO2(JTDO2),
+        .system_clock(system_clock), // Assuming JTCK is the system clock
         .address_dataOUT(address_dataOUT),
         .byte_enableOUT(byte_enableOUT),
         .busrt_sizeOUT(busrt_sizeOUT),
@@ -69,6 +72,12 @@ module tb_jtagsupport;
         JTCK = 0;
         forever #2 JTCK = ~JTCK; // 100 MHz clock
     end
+
+    initial begin
+        system_clock = 0;
+        forever #1 system_clock = ~system_clock; // 100 MHz clock
+    end
+
     integer i;
     task sendInstruction(input [35:0] instruction);
         begin
@@ -135,7 +144,7 @@ module tb_jtagsupport;
         sendInstruction(36'hABCDEF8);
 
 
-        #40;
+        #80;
         // Grant DMA access to bus architecture
         granted = 1;
         #4;
@@ -168,9 +177,9 @@ module tb_jtagsupport;
         $dumpvars(0, tb_jtagsupport);
     end
 
-    always @(posedge JTCK) begin
+    always @(posedge system_clock) begin
         if (data_validOUT) begin
-            memory_0x55555555 = address_dataOUT;
+            memory_0x55555555 = 32'hFFFFFFFF;
             $display("Data written to memory: %h", address_dataOUT);
         end
     end

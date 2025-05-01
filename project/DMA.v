@@ -35,9 +35,8 @@ module DMA #(
 
     // here the interface with the arbitrer
     output wire        request,
-    input wire         granted,
+    input wire         granted
 
-    output wire        output_current_state
     );
 
 
@@ -60,7 +59,6 @@ module DMA #(
     reg [31:0] s_address;
     reg [3:0] s_byte_enable;
 
-    assign output_current_state = cur_state;
 
 
     // always @(posedge clock or negedge reset) begin

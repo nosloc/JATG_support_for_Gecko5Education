@@ -13,6 +13,7 @@ module jtag_support(
     output  wire JTDO2,
 
     // Bus architecture signals
+    input wire system_clock,
     output wire [31:0] address_dataOUT,
     output wire [3:0] byte_enableOUT,
     output wire [7:0] busrt_sizeOUT,
@@ -59,6 +60,12 @@ wire s_ipcore_switch_ready;
 wire [5:0] s_status_reg_out;
 wire [3:0] s_dma_cur_state;
 
+wire sync_s_dma_data_ready;
+wire sync_s_dma_readReady;
+wire [3:0] sync_s_dma_byte_enable;
+wire [31:0] sync_s_dma_address;
+wire sync_switch_ready;
+
 assign rgbRow = 4'b0000;
 assign red = {~s_status_reg_out[5:0], s_dma_cur_state};
 assign blue = {~s_status_reg_out[5:0], s_dma_cur_state};
@@ -91,7 +98,7 @@ ipcore ipcore (
     .dma_data_ready(s_dma_data_ready),
     .dma_byte_enable(s_dma_byte_enable),
     .dma_readReady(s_dma_readReady),
-    .switch_ready(s_ipcore_switch_ready),
+    .switch_ready(sync_switch_ready & s_ipcore_switch_ready),
 
     // Visual clues
     .s_status_reg_out(s_status_reg_out)
@@ -99,7 +106,8 @@ ipcore ipcore (
 
 // Instantiate the Ping-Pong Buffer
 pingpongbuffer pingpongbuffer_inst (
-    .clock(JTCK),
+    .clockA(JTCK),
+    .clockB(system_clock),
     .addressA(s_pp_address_ipcore),
     .addressB(s_pp_address_dma),
     .writeEnableA(s_pp_writeEnable_ipcore),
@@ -114,12 +122,12 @@ pingpongbuffer pingpongbuffer_inst (
 
 // Instantiate the DMA module
 DMA dma_inst (
-    .clock(JTCK),
+    .clock(system_clock),
     .reset(JRSTN),
-    .ipcore_dataReady(s_dma_data_ready),
-    .ipcore_readReady(s_dma_readReady),
-    .ipcore_byteEnable(s_dma_byte_enable),
-    .ipcore_address_to_read(s_dma_address),
+    .ipcore_dataReady(sync_s_dma_data_ready),
+    .ipcore_readReady(sync_s_dma_readReady),
+    .ipcore_byteEnable(sync_s_dma_byte_enable),
+    .ipcore_address_to_read(sync_s_dma_address),
     .ipcore_switch_ready(s_ipcore_switch_ready),
 
     // Buffer interface
@@ -145,11 +153,60 @@ DMA dma_inst (
 
     // Arbitrer interface
     .request(request),
-    .granted(granted),
-
-    .output_current_state(s_dma_cur_state)
-
+    .granted(granted)
 );
+
+    // Synchronize the signals from the JTAG clock domain to the system clock domain
+    clock_synchronizer #(
+        .SYNC_WIDTH(1)
+    ) clock_synchronizer_dataREady (
+        .clk_in(JTCK),
+        .clk_out(system_clock),
+        .to_sync(s_dma_data_ready),
+        .n_reset(JRSTN),
+        .sync_out(sync_s_dma_data_ready)
+    );
+
+    clock_synchronizer #(
+        .SYNC_WIDTH(1)
+    ) clock_synchronizer_readReady (
+        .clk_in(JTCK),
+        .clk_out(system_clock),
+        .to_sync(s_dma_readReady),
+        .n_reset(JRSTN),
+        .sync_out(sync_s_dma_readReady)
+    );
+
+    clock_synchronizer #(
+        .SYNC_WIDTH(4)
+    ) clock_synchronizer_byteEnable (
+        .clk_in(JTCK),
+        .clk_out(system_clock),
+        .to_sync(s_dma_byte_enable),
+        .n_reset(JRSTN),
+        .sync_out(sync_s_dma_byte_enable)
+    );
+
+    clock_synchronizer #(
+        .SYNC_WIDTH(32)
+    ) clock_synchronizer_address (
+        .clk_in(JTCK),
+        .clk_out(system_clock),
+        .to_sync(s_dma_address),
+        .n_reset(JRSTN),
+        .sync_out(sync_s_dma_address)
+    );
+
+    clock_synchronizer #(
+        .SYNC_WIDTH(1)
+    ) clock_synchronizer_switch (
+        .clk_in(system_clock),
+        .clk_out(JTCK),
+        .to_sync(s_ipcore_switch_ready),
+        .n_reset(JRSTN),
+        .sync_out(sync_switch_ready)
+    );
+
 
 
 

@@ -42,6 +42,7 @@ module top(
         .JRTI2(s_JRTI2),
         .JTDO1(s_JTDO1),
         .JTDO2(s_JTDO2),
+        .system_clock(JTCK), // Assuming JTCK is the system clock
         .address_dataOUT(),
         .byte_enableOUT(),
         .busrt_sizeOUT(),
