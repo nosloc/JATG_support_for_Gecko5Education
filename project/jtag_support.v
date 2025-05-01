@@ -57,11 +57,12 @@ wire [31:0] s_pp_dataOut_dma;
 wire s_ipcore_switch_ready;
 
 wire [5:0] s_status_reg_out;
+wire [3:0] s_dma_cur_state;
 
 assign rgbRow = 4'b0000;
-assign red = {~s_status_reg_out[5:0]};
-assign blue = {~s_status_reg_out[5:0]};
-assign green = {~s_status_reg_out[5:0]};
+assign red = {~s_status_reg_out[5:0], s_dma_cur_state};
+assign blue = {~s_status_reg_out[5:0], s_dma_cur_state};
+assign green = {~s_status_reg_out[5:0], 3'b0, s_dma_data_ready};
 // assign green = {~s_status_reg_out[5:0]};
 
 // instantiate the ipcore module
@@ -144,7 +145,10 @@ DMA dma_inst (
 
     // Arbitrer interface
     .request(request),
-    .granted(granted) // Assuming granted is always high for simplicity
+    .granted(granted),
+
+    .output_current_state(s_dma_cur_state)
+
 );
 
 

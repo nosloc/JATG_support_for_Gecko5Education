@@ -138,6 +138,10 @@ Debug some issues :
 3. use drscan to set up the different config regs
 4. Verify the output using the output of openOCD and the visual clues on the led array
 
+It does actually and the ipcore is actually following the state it should follow but the DMA is not working on my sintethised design
+
+For now the version is not working the DMA state is not changing in the syntethyzed version whereas in the simulation everything works greatly
+
 
 ## Things to do
 
@@ -145,6 +149,8 @@ Debug some issues :
 2. Make the is_ready_to switch not always to one (Solved set to one for only some states of the DMA)
 3. Make the DMA and the IP core care about not writting the full buffer
 4. Integrate them to the whole system
-5. I supposed the DMA is always ready is it always the case ?
+5. I supposed the DMA is always ready is it always the case ? (Not the case anymore)
 6. Can't make transaction that needs more than a buffer for now
 7. Handle errors
+8. The launch state moves to idle even if dma has not finished
+9. ![bug to solve](image/bug_to_solve.png)

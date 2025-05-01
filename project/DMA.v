@@ -35,7 +35,9 @@ module DMA #(
 
     // here the interface with the arbitrer
     output wire        request,
-    input wire         granted
+    input wire         granted,
+
+    output wire        output_current_state
     );
 
 
@@ -57,6 +59,9 @@ module DMA #(
     wire s_reading_from_buffer_done;
     reg [31:0] s_address;
     reg [3:0] s_byte_enable;
+
+    assign output_current_state = cur_state;
+
 
     // always @(posedge clock or negedge reset) begin
     //     if (~reset) begin
@@ -95,7 +100,6 @@ module DMA #(
             s_address <= 32'h0;
             s_byte_enable <= 4'h0;
             cur_state <= fsm_idle;
-            nxt_state <= fsm_idle;
         end
         else begin 
             cur_state <= nxt_state;
@@ -148,8 +152,8 @@ module DMA #(
     assign request = (cur_state == fsm_write_request || cur_state == fsm_read_request) ? 1'b1 : 1'b0;
 
     assign ipcore_switch_ready = (cur_state == fsm_idle |
-                                    cur_state == fsm_write_request |
-                                    cur_state == fsm_write_sending_handshake |
-                                    cur_state == fsm_sending_data |
+                                    // cur_state == fsm_write_request |
+                                    // cur_state == fsm_write_sending_handshake |
+                                    // cur_state == fsm_sending_data |
                                     cur_state == fsm_end_transaction) ? 1'b1 : 1'b0;
 endmodule
