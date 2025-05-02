@@ -27,7 +27,7 @@ module tb_clock_synchronizer;
     // Clock generation for clk_out
     initial begin
         clk_out = 0;
-        forever #7 clk_out = ~clk_out; // 14ns period
+        forever #3 clk_out = ~clk_out; // 14ns period
     end
 
     // Test stimulus
@@ -39,6 +39,9 @@ module tb_clock_synchronizer;
 
 
         #10 to_sync = 10'h3FF;
+        #10 to_sync = 10'h0; // Set to_sync low
+
+        #10 to_sync = 10'h1FF; // Set to_sync high again
 
         // Finish simulation
         #100 $finish;

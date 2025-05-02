@@ -56,6 +56,7 @@ read -sv ../../../modules/jtag_interface/DMA.v
 read -sv ../../../modules/jtag_interface/fullyDualPortSSRAM.v
 read -sv ../../../modules/jtag_interface/ipcore.v
 read -sv ../../../modules/jtag_interface/jtag_support.v
+read -sv ../../../modules/jtag_interface/jtag_interface.v
 read -sv ../../../modules/jtag_interface/pingpongbuffer.v
 read -sv ../verilog/or1420SingleCore.v
 synth_ecp5 -top or1420SingleCore -json or1420SingleCore.json

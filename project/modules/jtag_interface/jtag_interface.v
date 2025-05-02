@@ -6,7 +6,7 @@ module jtag_interface(
     output wire [9:0] red,
     output wire [9:0] blue,
     output wire [9:0] green,
-    output wire [3:0] rgbRow
+    output wire [3:0] rgbRow,
     
     // Bus Interface Signals
     input wire system_clock,

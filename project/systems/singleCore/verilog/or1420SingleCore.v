@@ -44,7 +44,7 @@ module or1420SingleCore ( input wire         clock12MHz,
                                              camHsync,
                                              camVsync,
                                              biosBypass,
-                          input wire [7:0]   camData
+                          input wire [7:0]   camData,
                           output wire [9:0] red,
                           output wire [9:0] blue,
                           output wire [9:0] green,

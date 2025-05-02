@@ -40,3 +40,6 @@ Connect this component to the rest of the design :
 3. Bus arbitrer :
    - request : s_jtagRequestBus -> s_busRequests\[27\]
    - busGranted : s_jtagBusAck -> s_busGrants\[27\]
+
+
+After adding the component we need to change the script to load all used verilog file and update the lpf to handle the led array
