@@ -10,6 +10,7 @@ module jtag_interface(
     
     // Bus Interface Signals
     input wire system_clock,
+    input wire system_reset,
     output wire [31:0] address_dataOUT,
     output wire [3:0] byte_enableOUT,
     output wire [7:0] busrt_sizeOUT,
@@ -26,7 +27,7 @@ module jtag_interface(
 
     // Arbitrer Signals
     output wire request,
-    input wire busGranted,
+    input wire busGranted
 );
 
     wire s_TDO, s_JTDI, s_JTCK, s_JRTI2, s_JRTI1, s_JSHIFT, s_JUPDATE, s_JRSTN, s_JCE2, s_JCE1;
@@ -63,6 +64,7 @@ module jtag_interface(
         .JTDO1(s_JTDO1),
         .JTDO2(s_JTDO2),
         .system_clock(system_clock), 
+        .system_reset(system_reset),
         .address_dataOUT(address_dataOUT),
         .byte_enableOUT(byte_enableOUT),
         .busrt_sizeOUT(burstSizeOut),

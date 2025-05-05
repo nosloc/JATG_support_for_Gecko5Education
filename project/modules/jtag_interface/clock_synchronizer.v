@@ -15,7 +15,11 @@ module clock_synchronizer #(
         if (!n_reset) begin
             sync_reg_1 <= 0;
         end else begin
-            sync_reg_1 <= to_sync | sync_reg_1;
+            if (sync_reg_3) begin
+                sync_reg_1 <= 0;
+            end else begin
+                sync_reg_1 <= to_sync | sync_reg_2;
+            end
         end
     end
 
@@ -24,8 +28,13 @@ module clock_synchronizer #(
             sync_reg_2 <= 0;
             sync_reg_3 <= 0;
         end else begin
-            sync_reg_2 <= sync_reg_1;
-            sync_reg_3 <= sync_reg_2;
+            if (sync_reg_3) begin
+                sync_reg_2 <= 0;
+                sync_reg_3 <= 0;
+            end else begin
+                sync_reg_2 <= sync_reg_1;
+                sync_reg_3 <= sync_reg_2;
+            end
         end
     end
 endmodule

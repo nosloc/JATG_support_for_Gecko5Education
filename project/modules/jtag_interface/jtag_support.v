@@ -14,6 +14,7 @@ module jtag_support(
 
     // Bus architecture signals
     input wire system_clock,
+    input wire system_reset,
     output wire [31:0] address_dataOUT,
     output wire [3:0] byte_enableOUT,
     output wire [7:0] busrt_sizeOUT,
@@ -67,10 +68,10 @@ wire [31:0] sync_s_dma_address;
 wire sync_switch_ready;
 
 assign rgbRow = 4'b0000;
-assign red = {~s_status_reg_out[5:0], s_dma_cur_state};
-assign blue = {~s_status_reg_out[5:0], s_dma_cur_state};
-assign green = {~s_status_reg_out[5:0], 3'b0, s_dma_data_ready};
-// assign green = {~s_status_reg_out[5:0]};
+// assign red = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
+// assign blue = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
+// assign green = {~s_dma_cur_state, ~granted, ~s_dma_data_ready ,~(sync_switch_ready & s_ipcore_switch_ready), ~request};
+assign green = {~s_status_reg_out[5:0], ~s_dma_cur_state, ~s_ipcore_switch_ready};
 
 // instantiate the ipcore module
 ipcore ipcore (
@@ -117,13 +118,13 @@ pingpongbuffer pingpongbuffer_inst (
     .dataOutA(s_pp_dataOut_ipcore),
     .dataOutB(s_pp_dataOut_dma),
     .switch(s_pp_switch_ipcore),
-    .reset(JRSTN)
+    .reset(JRSTN | ~system_reset)
 );
 
 // Instantiate the DMA module
 DMA dma_inst (
     .clock(system_clock),
-    .reset(JRSTN),
+    .reset(JRSTN | ~system_reset),
     .ipcore_dataReady(sync_s_dma_data_ready),
     .ipcore_readReady(sync_s_dma_readReady),
     .ipcore_byteEnable(sync_s_dma_byte_enable),
@@ -153,7 +154,9 @@ DMA dma_inst (
 
     // Arbitrer interface
     .request(request),
-    .granted(granted)
+    .granted(granted),
+
+    .s_dma_cur_state(s_dma_cur_state)
 );
 
     // Synchronize the signals from the JTAG clock domain to the system clock domain

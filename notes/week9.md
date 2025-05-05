@@ -43,3 +43,13 @@ Connect this component to the rest of the design :
 
 
 After adding the component we need to change the script to load all used verilog file and update the lpf to handle the led array
+
+
+## Issue:
+
+1. The bus arbitrer is always busy so DMA can't access it 
+2.
+## Questions :
+
+1. Do you have any idea of when will be the final presentation ?
+2. What about the report ?

@@ -623,18 +623,19 @@ module or1420SingleCore ( input wire         clock12MHz,
   wire [7:0] s_jtagBurstSize;
   wire s_jtagReadNotWrite, s_jtagBeginTransaction, s_jtagEndTransaction, s_jtagDataValid, s_jtagBusy, s_jtagRequestBus;
   wire s_jtagBusAck;
+  wire [9:0] s_blue, s_red, s_green;
 
   jtag_interface jtag (
-      .red(red),
-      .blue(blue),
-      .green(green),
+      .red(s_red),
+      .blue(s_blue),
+      .green(s_green),
       .rgbRow(rgbRow),
       .system_clock(s_systemClock),
       .address_dataOUT(s_jtagAddressData),
       .byte_enableOUT(s_jtagByteEnable),
       .busrt_sizeOUT(s_jtagBurstSize),
       .read_n_writeOUT(s_jtagReadNotWrite),
-      .begin_transactionOUT(s_jtagBeginTransaction),
+      // .begin_transactionOUT(s_jtagBeginTransaction),
       .end_transactionOUT(s_jtagEndTransaction),
       .data_validOUT(s_jtagDataValid),
       .busyOUT(s_jtagBusy),
@@ -644,7 +645,7 @@ module or1420SingleCore ( input wire         clock12MHz,
       .busyIN(s_busy),
       .errorIN(s_busError),
       .request(s_jtagRequestBus),
-      .busGranted(s_jtagBusAck)
+      .busGranted(1'b0)
   );
 
   /*
@@ -661,12 +662,19 @@ module or1420SingleCore ( input wire         clock12MHz,
  assign s_busRequests[28] = s_camReqBus;
  assign s_busRequests[27] = s_jtagRequestBus;
  assign s_busRequests[26:0] = 27'd0;
+// assign s_busRequests[27:0] = 28'd0;
  
  assign s_cpu1DcacheBusAccessGranted = s_busGrants[31];
  assign s_cpu1IcacheBusAccessGranted = s_busGrants[30];
  assign s_hdmiBusgranted             = s_busGrants[29];
  assign s_camAckBus                  = s_busGrants[28];
-  assign s_jtagBusAck                = s_busGrants[27];
+ assign s_jtagBusAck                = s_busGrants[27];
+   
+  // assign red = {~s_busIdle, ~s_jtagRequestBus, s_red[7:0]};
+  // assign blue = {~s_busIdle,  ~s_jtagRequestBus, s_blue[7:0]};
+  // assign green = {~s_busIdle, ~s_jtagRequestBus, s_green[7:0]};
+  assign green = s_green;
+
 
  busArbiter arbiter ( .clock(s_systemClock),
                       .reset(s_reset),

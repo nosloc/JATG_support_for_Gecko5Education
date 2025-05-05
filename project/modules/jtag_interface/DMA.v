@@ -35,7 +35,10 @@ module DMA #(
 
     // here the interface with the arbitrer
     output wire        request,
-    input wire         granted
+    input wire         granted,
+
+
+    output wire [3:0]  s_dma_cur_state
 
     );
 
@@ -59,6 +62,7 @@ module DMA #(
     reg [31:0] s_address;
     reg [3:0] s_byte_enable;
 
+    assign s_dma_cur_state = cur_state;
 
 
     // always @(posedge clock or negedge reset) begin
@@ -78,7 +82,7 @@ module DMA #(
                 fsm_idle: nxt_state = (ipcore_dataReady) ? fsm_asking_for_buffer : (ipcore_readReady) ? fsm_read_request : fsm_idle;
                 fsm_asking_for_buffer: nxt_state = fsm_reading_from_buffer;
                 fsm_reading_from_buffer: nxt_state = (s_reading_from_buffer_done) ? fsm_write_request : fsm_reading_from_buffer;
-                fsm_write_request: nxt_state = (granted) ? fsm_write_sending_handshake : fsm_write_request;
+                fsm_write_request: nxt_state = (granted == 1'b1) ? fsm_write_sending_handshake : fsm_write_request;
                 fsm_write_sending_handshake: nxt_state = fsm_sending_data;
                 fsm_sending_data: nxt_state = (busyIN)? fsm_sending_data : fsm_end_transaction; 
                 fsm_end_transaction: nxt_state = fsm_idle;
@@ -87,7 +91,7 @@ module DMA #(
                 fsm_read_sending_handshake: nxt_state = fsm_reading_data;
                 fsm_reading_data: nxt_state = (end_transactionIN) ? fsm_writting_buffer : fsm_reading_data;
                 fsm_writting_buffer: nxt_state = fsm_end_transaction;
-                // default: nxt_state = fsm_idle;
+                default: nxt_state = fsm_idle;
             endcase
         end
     end
@@ -98,6 +102,7 @@ module DMA #(
             s_address <= 32'h0;
             s_byte_enable <= 4'h0;
             cur_state <= fsm_idle;
+            nxt_state <= fsm_idle;
         end
         else begin 
             cur_state <= nxt_state;
@@ -139,7 +144,7 @@ module DMA #(
     assign byte_enableOUT = (cur_state == fsm_write_sending_handshake || cur_state == fsm_read_sending_handshake) ? s_byte_enable : 4'h0; 
     assign busrt_sizeOUT = (cur_state == fsm_write_sending_handshake) ? 8'h0 : 8'h0; //for now only 1 word
     assign read_n_writeOUT = (cur_state == fsm_read_sending_handshake) ? 1'b1 : 1'b0; 
-    assign begin_transactionOUT = (cur_state == fsm_write_sending_handshake || cur_state == fsm_read_sending_handshake) ? 1'b1 : 1'b0;
+    assign begin_transactionOUT = ((cur_state == fsm_write_sending_handshake) || (cur_state == fsm_read_sending_handshake)) ? 1'b1 : 1'b0;
 
     assign end_transactionOUT = ((cur_state == fsm_sending_data && busyIN == 1'b0) || errorIN == 1'b1) ? 1'b1 : 1'b0;
 

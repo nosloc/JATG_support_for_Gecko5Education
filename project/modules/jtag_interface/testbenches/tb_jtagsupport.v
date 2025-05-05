@@ -50,6 +50,7 @@ module tb_jtagsupport;
         .JTDO1(JTDO1),
         .JTDO2(JTDO2),
         .system_clock(system_clock), // Assuming JTCK is the system clock
+        .system_reset(~JRSTN),
         .address_dataOUT(address_dataOUT),
         .byte_enableOUT(byte_enableOUT),
         .busrt_sizeOUT(busrt_sizeOUT),
