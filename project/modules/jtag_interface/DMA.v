@@ -62,7 +62,7 @@ module DMA #(
     reg [31:0] s_address;
     reg [3:0] s_byte_enable;
 
-    assign s_dma_cur_state = cur_state;
+    assign s_dma_cur_state = {s_address[1:0], cur_state[1:0]};
 
 
     // always @(posedge clock or negedge reset) begin

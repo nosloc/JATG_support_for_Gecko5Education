@@ -71,7 +71,7 @@ assign rgbRow = 4'b0000;
 // assign red = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign blue = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign green = {~s_dma_cur_state, ~granted, ~s_dma_data_ready ,~(sync_switch_ready & s_ipcore_switch_ready), ~request};
-assign green = {~s_status_reg_out[5:0], ~s_dma_cur_state, ~s_ipcore_switch_ready};
+assign green = {~s_status_reg_out[5:0]};
 
 // instantiate the ipcore module
 ipcore ipcore (
@@ -161,53 +161,53 @@ DMA dma_inst (
 
     // Synchronize the signals from the JTAG clock domain to the system clock domain
     clock_synchronizer #(
-        .SYNC_WIDTH(1)
+        .WIDTH(1)
     ) clock_synchronizer_dataREady (
-        .clk_in(JTCK),
-        .clk_out(system_clock),
-        .to_sync(s_dma_data_ready),
-        .n_reset(JRSTN),
-        .sync_out(sync_s_dma_data_ready)
+        .clockIn(JTCK),
+        .clockOut(system_clock),
+        .D(s_dma_data_ready),
+        .reset(JRSTN| ~system_reset),
+        .Q(sync_s_dma_data_ready)
     );
 
     clock_synchronizer #(
-        .SYNC_WIDTH(1)
+        .WIDTH(1)
     ) clock_synchronizer_readReady (
-        .clk_in(JTCK),
-        .clk_out(system_clock),
-        .to_sync(s_dma_readReady),
-        .n_reset(JRSTN),
-        .sync_out(sync_s_dma_readReady)
+        .clockIn(JTCK),
+        .clockOut(system_clock),
+        .D(s_dma_readReady),
+        .reset(JRSTN| ~system_reset),
+        .Q(sync_s_dma_readReady)
     );
 
     clock_synchronizer #(
-        .SYNC_WIDTH(4)
+        .WIDTH(4)
     ) clock_synchronizer_byteEnable (
-        .clk_in(JTCK),
-        .clk_out(system_clock),
-        .to_sync(s_dma_byte_enable),
-        .n_reset(JRSTN),
-        .sync_out(sync_s_dma_byte_enable)
+        .clockIn(JTCK),
+        .clockOut(system_clock),
+        .D(s_dma_byte_enable),
+        .reset(JRSTN| ~system_reset),
+        .Q(sync_s_dma_byte_enable)
     );
 
     clock_synchronizer #(
-        .SYNC_WIDTH(32)
+        .WIDTH(32)
     ) clock_synchronizer_address (
-        .clk_in(JTCK),
-        .clk_out(system_clock),
-        .to_sync(s_dma_address),
-        .n_reset(JRSTN),
-        .sync_out(sync_s_dma_address)
+        .clockIn(JTCK),
+        .clockOut(system_clock),
+        .D(s_dma_address),
+        .reset(JRSTN| ~system_reset),
+        .Q(sync_s_dma_address)
     );
 
     clock_synchronizer #(
-        .SYNC_WIDTH(1)
+        .WIDTH(1)
     ) clock_synchronizer_switch (
-        .clk_in(system_clock),
-        .clk_out(JTCK),
-        .to_sync(s_ipcore_switch_ready),
-        .n_reset(JRSTN),
-        .sync_out(sync_switch_ready)
+        .clockIn(system_clock),
+        .clockOut(JTCK),
+        .D(s_ipcore_switch_ready),
+        .reset(JRSTN| ~system_reset),
+        .Q(sync_switch_ready)
     );
 
 

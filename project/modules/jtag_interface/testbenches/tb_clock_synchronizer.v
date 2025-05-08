@@ -11,11 +11,11 @@ module tb_clock_synchronizer;
 
     // Instantiate the DUT (Device Under Test)
     clock_synchronizer #(10) uut (
-        .clk_in(clk_in),
-        .clk_out(clk_out),
-        .to_sync(to_sync),
-        .sync_out(sync_out),
-        .n_reset(n_reset)
+        .clockIn(clk_in),
+        .clockOut(clk_out),
+        .D(to_sync),
+        .Q(sync_out),
+        .reset(~n_reset)
     );
 
     // Clock generation for clk_in
