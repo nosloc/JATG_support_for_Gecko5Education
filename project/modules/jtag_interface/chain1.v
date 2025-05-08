@@ -61,7 +61,7 @@ localparam read_STORE_BUFFER_ANSWER = 10;
 
 reg [4:0] chain1_cur_state;
 reg [4:0] chain1_nxt_state;
-assign status_reg_out = shift_reg[5:0];
+assign status_reg_out = chain1_cur_state[5:0];
 
 // The status register is used to indicate the current state of the operation
 assign is_operation_running = (status_reg[3] == 1'b1 | status_reg[4] == 1'b1) ? 1'b1 : 1'b0;

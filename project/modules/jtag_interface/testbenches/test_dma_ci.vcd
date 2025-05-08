@@ -1,0 +1,287 @@
+$date
+	Thu May  8 23:49:11 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_dma_ci $end
+$var wire 1 ! s_readReady $end
+$var wire 1 " s_dataReady $end
+$var wire 4 # s_byteEnable [3:0] $end
+$var wire 32 $ s_address_to_read [31:0] $end
+$var wire 32 % result [31:0] $end
+$var wire 1 & done $end
+$var parameter 8 ' CUSTOM_INSTRUCTION_ID $end
+$var reg 1 ( clock $end
+$var reg 8 ) iseId [7:0] $end
+$var reg 1 * reset $end
+$var reg 1 + s_address_data $end
+$var reg 1 , s_dataValid $end
+$var reg 1 - s_endTransaction $end
+$var reg 1 . start $end
+$var reg 32 / valueA [31:0] $end
+$var reg 32 0 valueB [31:0] $end
+$scope module uut $end
+$var wire 1 ( clock $end
+$var wire 8 1 iseId [7:0] $end
+$var wire 1 * reset $end
+$var wire 1 + s_address_data $end
+$var wire 1 , s_dataValid $end
+$var wire 1 - s_endTransaction $end
+$var wire 1 . start $end
+$var wire 32 2 valueA [31:0] $end
+$var wire 32 3 valueB [31:0] $end
+$var wire 1 ! s_readReady $end
+$var wire 1 4 s_isMyIse $end
+$var wire 1 " s_dataReady $end
+$var wire 4 5 s_byteEnable [3:0] $end
+$var wire 32 6 s_address_to_read [31:0] $end
+$var wire 32 7 result [31:0] $end
+$var wire 1 & done $end
+$var parameter 8 8 customInstructionId $end
+$var parameter 3 9 fsm_end_ci $end
+$var parameter 3 : fsm_idle $end
+$var parameter 3 ; fsm_initiate_transaction $end
+$var parameter 3 < fsm_wait_end $end
+$var reg 32 = address_reg [31:0] $end
+$var reg 3 > cur_state [2:0] $end
+$var reg 1 ? is_read $end
+$var reg 3 @ nxt_state [2:0] $end
+$var reg 32 A result_reg [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1 <
+b10 ;
+b0 :
+b11 9
+b110001 8
+b110001 '
+$end
+#0
+$dumpvars
+bx A
+b0 @
+x?
+bx >
+bx =
+bx 7
+bx 6
+bx 5
+04
+b0 3
+b0 2
+b0 1
+b0 0
+b0 /
+0.
+0-
+0,
+0+
+0*
+b0 )
+0(
+x&
+bx %
+bx $
+bx #
+x"
+x!
+$end
+#5000
+b0 %
+b0 7
+0&
+0"
+0!
+b0 #
+b0 5
+b0 $
+b0 6
+b0 >
+1(
+#10000
+0(
+1*
+#15000
+0?
+b0 =
+b0 A
+1(
+#20000
+0(
+0*
+#25000
+1(
+#30000
+b10 @
+14
+0(
+1.
+b1 0
+b1 3
+b10010001101000101011001111000 /
+b10010001101000101011001111000 2
+b110001 )
+b110001 1
+#35000
+b1 @
+1"
+0!
+b1111 #
+b1111 5
+b10010001101000101011001111000 $
+b10010001101000101011001111000 6
+1?
+b10010001101000101011001111000 =
+b10 >
+1(
+#40000
+04
+0(
+b0 0
+b0 3
+b0 /
+b0 2
+0.
+#45000
+0"
+b0 #
+b0 5
+b0 $
+b0 6
+b1 >
+1(
+#50000
+0(
+#55000
+1(
+#60000
+0(
+#65000
+1(
+#70000
+0(
+#75000
+1(
+#80000
+0(
+#85000
+1(
+#90000
+b11 @
+0(
+1-
+#95000
+b0 @
+1&
+b11 >
+1(
+#100000
+0(
+0-
+#105000
+0&
+b0 >
+1(
+#110000
+0(
+#115000
+1(
+#120000
+0(
+#125000
+1(
+#130000
+0(
+#135000
+1(
+#140000
+0(
+#145000
+1(
+#150000
+0(
+1.
+b10000111011001010100001100100001 /
+b10000111011001010100001100100001 2
+b11111111 )
+b11111111 1
+#155000
+1(
+#160000
+0(
+b0 /
+b0 2
+0.
+#165000
+1(
+#170000
+0(
+#175000
+1(
+#180000
+0(
+#185000
+1(
+#190000
+0(
+#195000
+1(
+#200000
+0(
+#205000
+1(
+#210000
+0(
+1-
+#215000
+1(
+#220000
+0(
+0-
+#225000
+1(
+#230000
+0(
+#235000
+1(
+#240000
+0(
+#245000
+1(
+#250000
+0(
+#255000
+1(
+#260000
+0(
+#265000
+1(
+#270000
+0(
+#275000
+1(
+#280000
+0(
+#285000
+1(
+#290000
+0(
+#295000
+1(
+#300000
+0(
+#305000
+1(
+#310000
+0(
+#315000
+1(
+#320000
+0(

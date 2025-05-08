@@ -71,7 +71,7 @@ assign rgbRow = 4'b0000;
 // assign red = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign blue = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign green = {~s_dma_cur_state, ~granted, ~s_dma_data_ready ,~(sync_switch_ready & s_ipcore_switch_ready), ~request};
-assign green = {~s_status_reg_out[5:0]};
+assign green = {~s_status_reg_out[5:0], ~s_ready_to_switch, ~s_dma_cur_state};
 
 // instantiate the ipcore module
 ipcore ipcore (
@@ -160,23 +160,19 @@ DMA dma_inst (
 );
 
     // Synchronize the signals from the JTAG clock domain to the system clock domain
-    clock_synchronizer #(
-        .WIDTH(1)
-    ) clock_synchronizer_dataREady (
+    synchroFlop clock_synchronizer_dataREady (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_data_ready),
-        .reset(JRSTN| ~system_reset),
+        .reset(~JRSTN| system_reset),
         .Q(sync_s_dma_data_ready)
     );
 
-    clock_synchronizer #(
-        .WIDTH(1)
-    ) clock_synchronizer_readReady (
+    synchroFlop clock_synchronizer_readReady (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_readReady),
-        .reset(JRSTN| ~system_reset),
+        .reset(~JRSTN| system_reset),
         .Q(sync_s_dma_readReady)
     );
 
@@ -186,7 +182,7 @@ DMA dma_inst (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_byte_enable),
-        .reset(JRSTN| ~system_reset),
+        .reset(~JRSTN| system_reset),
         .Q(sync_s_dma_byte_enable)
     );
 
@@ -196,17 +192,15 @@ DMA dma_inst (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_address),
-        .reset(JRSTN| ~system_reset),
+        .reset(~JRSTN| system_reset),
         .Q(sync_s_dma_address)
     );
 
-    clock_synchronizer #(
-        .WIDTH(1)
-    ) clock_synchronizer_switch (
+    synchroFlop clock_synchronizer_switch (
         .clockIn(system_clock),
         .clockOut(JTCK),
         .D(s_ipcore_switch_ready),
-        .reset(JRSTN| ~system_reset),
+        .reset(~JRSTN| system_reset),
         .Q(sync_switch_ready)
     );
 
