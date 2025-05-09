@@ -53,3 +53,4 @@ After adding the component we need to change the script to load all used verilog
 
 1. Do you have any idea of when will be the final presentation ?
 2. What about the report ?
+3. Problem with the clock_synchronizer ?

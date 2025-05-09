@@ -336,9 +336,11 @@ module or1420SingleCore ( input wire         clock12MHz,
   wire        s_cpu1DataValid;
   wire [7:0]  s_cpu1BurstSize;
   wire        s_spm1Irq, s_stall;
+  wire [31:0] s_dmaciResult;
+  wire        s_dmaciDone;
   
-  assign s_cpu1CiDone = s_hdmiDone | s_swapByteDone | s_flashDone | s_cpuFreqDone | s_i2cCiDone | s_delayCiDone | s_camCiDone;
-  assign s_cpu1CiResult = s_hdmiResult | s_swapByteResult | s_flashResult | s_cpuFreqResult | s_i2cCiResult | s_camCiResult | s_delayResult; 
+  assign s_cpu1CiDone = s_hdmiDone | s_swapByteDone | s_flashDone | s_cpuFreqDone | s_i2cCiDone | s_delayCiDone | s_camCiDone | s_dmaciDone;
+  assign s_cpu1CiResult = s_hdmiResult | s_swapByteResult | s_flashResult | s_cpuFreqResult | s_i2cCiResult | s_camCiResult | s_delayResult | s_dmaciResult; 
 
   or1420Top #( .NOP_INSTRUCTION(32'h1500FFFF)) cpu1
              (.cpuClock(s_systemClock),
@@ -444,6 +446,22 @@ module or1420SingleCore ( input wire         clock12MHz,
              .ciValueB(s_cpu1CiDataB),
              .ciDone(s_delayCiDone),
              .ciResult(s_delayResult));
+
+  /*
+    *
+    * Here we define a custom instruction that implements a DMA controller
+    *
+    */
+
+    dma_ci #(.custominstructionid(8'd3)) dmaController
+           (.start(s_cpu1CiStart),
+            .clock(s_systemClock),
+            .reset(s_cpuReset),
+            .valuea(s_cpu1CiDataA),
+            .valueb(s_cpu1CiDataB),
+            .iseid(s_cpu1CiN),
+            .done(s_dmaciDone),
+            .result(s_dmaciResult));
 
   /*
    *
