@@ -102,7 +102,6 @@ module DMA #(
             s_address <= 32'h0;
             s_byte_enable <= 4'h0;
             cur_state <= fsm_idle;
-            nxt_state <= fsm_idle;
         end
         else begin 
             cur_state <= nxt_state;

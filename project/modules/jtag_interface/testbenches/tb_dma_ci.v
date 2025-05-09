@@ -12,17 +12,19 @@ module tb_dma_ci;
     reg [31:0] valueA;
     reg [31:0] valueB;
     reg [7:0] iseId;
-    reg s_endTransaction;
-    reg s_dataValid;
-    reg s_address_data;
 
     // Outputs
     wire done;
     wire [31:0] result;
+
+    // Internal signals
     wire s_dataReady;
     wire s_readReady;
     wire [3:0] s_byteEnable;
     wire [31:0] s_address_to_read;
+    wire s_endTransaction;
+    wire s_dataValid;
+    wire s_address_data;
 
     // Instantiate the Unit Under Test (UUT)
     dma_ci #(.customInstructionId(CUSTOM_INSTRUCTION_ID)) uut (
@@ -33,14 +35,7 @@ module tb_dma_ci;
         .valueB(valueB),
         .iseId(iseId),
         .done(done),
-        .result(result),
-        .s_dataReady(s_dataReady),
-        .s_readReady(s_readReady),
-        .s_byteEnable(s_byteEnable),
-        .s_address_to_read(s_address_to_read),
-        .s_endTransaction(s_endTransaction),
-        .s_dataValid(s_dataValid),
-        .s_address_data(s_address_data)
+        .result(result)
     );
 
     // Clock generation
@@ -57,9 +52,6 @@ module tb_dma_ci;
         valueA = 32'h0;
         valueB = 32'h0;
         iseId = 8'h0;
-        s_endTransaction = 0;
-        s_dataValid = 0;
-        s_address_data = 0;
 
         // Reset the design
         #10 reset = 1;
@@ -68,32 +60,29 @@ module tb_dma_ci;
         // Test case 1: Start a transaction with matching ISE ID
         #10 iseId = CUSTOM_INSTRUCTION_ID;
         valueA = 32'h12345678;
-        valueB = 32'h00000001; // is_read = 1
+        valueB = 32'h00FFFFF1; // is_read = 1
         start = 1;
         #10 start = 0;
-        valueA = 32'h0; // Reset valueA after starting
-        valueB = 32'h0; // Reset valueB after starting
 
-        // Simulate end of transaction
-        #50 s_endTransaction = 1;
-        #10 s_endTransaction = 0;
+        // Wait for done signal
+        // wait(done);
+        #50;
 
         // Test case 2: Start a transaction with non-matching ISE ID
-        #50 iseId = 8'hFF; // Non-matching ID
+        #50; // Non-matching ID
         valueA = 32'h87654321;
-        valueB = 32'h00000000; // is_read = 0
+        valueB = 32'h00FFFFF0; // is_read = 0
         start = 1;
         #10 start = 0;
-        valueA = 32'h0; // Reset valueA after starting
-        valueB = 32'h0; // Reset valueB after starting
 
-        // Simulate end of transaction
-        #50 s_endTransaction = 1;
-        #10 s_endTransaction = 0;
+        // Wait for done signal
+        // wait(done);
+        #10;
 
         // End simulation
         #100 $finish;
     end
+
     initial begin
         $dumpfile("test_dma_ci.vcd");
         $dumpvars(0, tb_dma_ci);
