@@ -67,12 +67,14 @@ wire [3:0] sync_s_dma_byte_enable;
 wire [31:0] sync_s_dma_address;
 wire sync_switch_ready;
 
+wire s_reset, s_nreset;
+assign s_nreset = JRSTN & ~system_reset;
+assign s_reset = ~s_nreset;
 assign rgbRow = 4'b0000;
 // assign red = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign blue = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign green = {~s_dma_cur_state, ~granted, ~s_dma_data_ready ,~(sync_switch_ready & s_ipcore_switch_ready), ~request};
-assign green = {~s_status_reg_out[5:0], ~s_ready_to_switch, ~s_dma_cur_state};
-
+assign green = {~s_status_reg_out[5:0], ~s_ipcore_switch_ready, ~JRSTN, ~system_reset, ~s_nreset};
 // instantiate the ipcore module
 ipcore ipcore (
     .JTCK(JTCK),
@@ -118,13 +120,13 @@ pingpongbuffer pingpongbuffer_inst (
     .dataOutA(s_pp_dataOut_ipcore),
     .dataOutB(s_pp_dataOut_dma),
     .switch(s_pp_switch_ipcore),
-    .reset(JRSTN | ~system_reset)
+    .reset(s_nreset)
 );
 
 // Instantiate the DMA module
 DMA dma_inst (
     .clock(system_clock),
-    .reset(JRSTN | ~system_reset),
+    .reset(s_nreset),
     .ipcore_dataReady(sync_s_dma_data_ready),
     .ipcore_readReady(sync_s_dma_readReady),
     .ipcore_byteEnable(sync_s_dma_byte_enable),
@@ -164,7 +166,7 @@ DMA dma_inst (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_data_ready),
-        .reset(~JRSTN| system_reset),
+        .reset(s_reset),
         .Q(sync_s_dma_data_ready)
     );
 
@@ -172,7 +174,7 @@ DMA dma_inst (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_readReady),
-        .reset(~JRSTN| system_reset),
+        .reset(s_reset),
         .Q(sync_s_dma_readReady)
     );
 
@@ -182,7 +184,7 @@ DMA dma_inst (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_byte_enable),
-        .reset(~JRSTN| system_reset),
+        .reset(s_reset),
         .Q(sync_s_dma_byte_enable)
     );
 
@@ -192,7 +194,7 @@ DMA dma_inst (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_address),
-        .reset(~JRSTN| system_reset),
+        .reset(s_reset),
         .Q(sync_s_dma_address)
     );
 
@@ -200,7 +202,7 @@ DMA dma_inst (
         .clockIn(system_clock),
         .clockOut(JTCK),
         .D(s_ipcore_switch_ready),
-        .reset(~JRSTN| system_reset),
+        .reset(s_reset),
         .Q(sync_switch_ready)
     );
 

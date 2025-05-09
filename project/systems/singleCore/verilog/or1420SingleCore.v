@@ -453,13 +453,13 @@ module or1420SingleCore ( input wire         clock12MHz,
     *
     */
 
-    dma_ci #(.custominstructionid(8'd3)) dmaController
+    dma_ci #(8'd3) dmaController
            (.start(s_cpu1CiStart),
             .clock(s_systemClock),
             .reset(s_cpuReset),
-            .valuea(s_cpu1CiDataA),
-            .valueb(s_cpu1CiDataB),
-            .iseid(s_cpu1CiN),
+            .valueA(s_cpu1CiDataA),
+            .valueB(s_cpu1CiDataB),
+            .iseId(s_cpu1CiN),
             .done(s_dmaciDone),
             .result(s_dmaciResult));
 
@@ -649,6 +649,7 @@ module or1420SingleCore ( input wire         clock12MHz,
       .green(s_green),
       .rgbRow(rgbRow),
       .system_clock(s_systemClock),
+      .system_reset(s_reset),
       .address_dataOUT(s_jtagAddressData),
       .byte_enableOUT(s_jtagByteEnable),
       .busrt_sizeOUT(s_jtagBurstSize),
