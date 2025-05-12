@@ -74,7 +74,7 @@ assign rgbRow = 4'b0000;
 // assign red = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign blue = {~s_dma_cur_state, ~granted, ~s_dma_data_ready, ~(sync_switch_ready & s_ipcore_switch_ready), ~request};
 // assign green = {~s_dma_cur_state, ~granted, ~s_dma_data_ready ,~(sync_switch_ready & s_ipcore_switch_ready), ~request};
-assign green = {~s_status_reg_out[5:0], ~s_ipcore_switch_ready, ~JRSTN, ~system_reset, ~s_nreset};
+assign green = {~s_dma_cur_state, ~s_ipcore_switch_ready, ~sync_switch_ready, ~s_dma_data_ready, ~sync_s_dma_data_ready, ~s_reset};
 // instantiate the ipcore module
 ipcore ipcore (
     .JTCK(JTCK),

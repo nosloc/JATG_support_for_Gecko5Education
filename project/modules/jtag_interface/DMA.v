@@ -44,7 +44,7 @@ module DMA #(
 
 
     // Write states
-    localparam fsm_idle = 0;
+    localparam fsm_idle = 15;
     localparam fsm_write_request = 1;
     localparam fsm_write_sending_handshake = 2;
     localparam fsm_sending_data = 3;
@@ -55,6 +55,7 @@ module DMA #(
     localparam fsm_read_sending_handshake = 8;
     localparam fsm_reading_data = 9;
     localparam fsm_writting_buffer = 10;
+    localparam fsm_test = 14;
 
     reg [3:0] cur_state, nxt_state;
     reg [31:0] buffer_data;
@@ -79,24 +80,26 @@ module DMA #(
             nxt_state = fsm_idle;
         end else begin
             case(cur_state)
-                fsm_idle: nxt_state = (ipcore_dataReady) ? fsm_asking_for_buffer : (ipcore_readReady) ? fsm_read_request : fsm_idle;
-                fsm_asking_for_buffer: nxt_state = fsm_reading_from_buffer;
-                fsm_reading_from_buffer: nxt_state = (s_reading_from_buffer_done) ? fsm_write_request : fsm_reading_from_buffer;
-                fsm_write_request: nxt_state = (granted == 1'b1) ? fsm_write_sending_handshake : fsm_write_request;
-                fsm_write_sending_handshake: nxt_state = fsm_sending_data;
-                fsm_sending_data: nxt_state = (busyIN)? fsm_sending_data : fsm_end_transaction; 
-                fsm_end_transaction: nxt_state = fsm_idle;
+                // fsm_idle:                       nxt_state <= (ipcore_dataReady == 1'b1) ? fsm_asking_for_buffer : 
+                //                                             (ipcore_readReady == 1'b1) ? fsm_read_request : fsm_idle;
+                fsm_idle:                       nxt_state <= (ipcore_dataReady == 1'b1) ? fsm_test :  fsm_idle;
+                fsm_asking_for_buffer:          nxt_state <= fsm_reading_from_buffer;
+                fsm_reading_from_buffer:        nxt_state <= (s_reading_from_buffer_done == 1'b1) ? fsm_write_request : fsm_reading_from_buffer;
+                fsm_write_request:              nxt_state <= (granted == 1'b1) ? fsm_write_sending_handshake : fsm_write_request;
+                fsm_write_sending_handshake:    nxt_state <= fsm_sending_data;
+                fsm_sending_data:               nxt_state <= (busyIN == 1'b1)? fsm_sending_data : fsm_end_transaction; 
+                fsm_end_transaction:            nxt_state <= fsm_idle;
 
-                fsm_read_request: nxt_state = (granted) ? fsm_read_sending_handshake : fsm_read_request;
-                fsm_read_sending_handshake: nxt_state = fsm_reading_data;
-                fsm_reading_data: nxt_state = (end_transactionIN) ? fsm_writting_buffer : fsm_reading_data;
-                fsm_writting_buffer: nxt_state = fsm_end_transaction;
-                default: nxt_state = fsm_idle;
+                fsm_read_request:               nxt_state = (granted == 1'b1) ? fsm_read_sending_handshake : fsm_read_request;
+                fsm_read_sending_handshake:     nxt_state = fsm_reading_data;
+                fsm_reading_data:               nxt_state = (end_transactionIN == 1'b1) ? fsm_writting_buffer : fsm_reading_data;
+                fsm_writting_buffer:            nxt_state = fsm_end_transaction;
+                default: nxt_state =            fsm_test;
             endcase
         end
     end
 
-    always @(posedge clock or negedge reset) begin 
+    always @(posedge clock) begin 
         if (~reset) begin
             buffer_data <= 32'h0;
             s_address <= 32'h0;
@@ -131,7 +134,7 @@ module DMA #(
     assign bufferAddress = 32'h0;
     assign dataIn = (cur_state == fsm_writting_buffer) ? buffer_data : 32'h0;
     assign writeEnable = (cur_state == fsm_writting_buffer) ? 1'b1 : 1'b0;
-    assign s_reading_from_buffer_done = 1'b1;
+    assign s_reading_from_buffer_done = 1'b0;
     // assign s_address = (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) ? ipcore_address_to_read : 
     //                            (reset == 1'b0 || cur_state == fsm_end_transaction) ? 32'h0 : s_address;
     // assign s_byte_enable = (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) ? ipcore_byteEnable : 
