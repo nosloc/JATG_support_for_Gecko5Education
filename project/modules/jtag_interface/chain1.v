@@ -28,7 +28,6 @@ module chain1(
 );
 
 
-reg [31:0] data_reg;
 reg [7:0] remaining_size_reg;
 reg [7:0] pp_address_reg;
 wire is_operation_running;
@@ -45,7 +44,6 @@ assign n_reset = JRSTN;
 reg [31:0] address_reg;
 reg [3:0] byte_enable_reg;
 reg [7:0] busrt_size_reg;
-reg [7:0] block_size_reg;
 
 reg [35:0] shadow_reg;
 reg [35:0] shift_reg;
@@ -55,6 +53,10 @@ reg update_reg;
 
 reg [5:0] status_next;
 reg [5:0] status_reg;
+
+reg [31:0] data_reg;
+reg [7:0] block_size_reg;
+reg write_to_buffer;
 
 localparam IDLE =                       0;
 localparam write_FILL_BUFFER =          1;
@@ -72,13 +74,15 @@ localparam read_STORE_BUFFER_ANSWER =   10;
 
 reg [4:0] chain1_cur_state;
 reg [4:0] chain1_nxt_state;
-assign status_reg_out = status_reg;
+assign status_reg_out = block_size_reg[5:0];
 
 // The status register is used to indicate the current state of the operation
 assign is_operation_running = (status_reg[3] == 1'b1 | status_reg[4] == 1'b1) ? 1'b1 : 1'b0;
 
 
 assign JTD1 = shift_reg[0];
+assign buffer_full = (block_size_reg == 8'b11111111) ? 1'b1 : 1'b0;
+
 
 always @(posedge JTCK) begin
     if (n_reset == 0) begin
@@ -119,6 +123,9 @@ always @(posedge JTCK) begin
         busrt_size_reg <= 8'b0;
         remaining_size_reg <= 8'b0;
         status_reg <= 6'b0;
+        block_size_reg <= 8'b0;
+        data_reg <= 32'b0;
+        write_to_buffer <= 1'b0;
     end
     else if (update_reg == 1'b1) begin
 
@@ -135,9 +142,22 @@ always @(posedge JTCK) begin
 
         busrt_size_reg <= (updated_data_reg[3:0] == 4'b0011) ? updated_data_reg[11:4] : busrt_size_reg;
 
+        block_size_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? block_size_reg + 1 : block_size_reg;
+
+        write_to_buffer <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? 1'b1 : 1'b0;
+
+        data_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? updated_data_reg[35:4] : data_reg;
     end
 end
 
+assign pp_address = (write_to_buffer == 1'b1) ? {1'b0, block_size_reg}: 9'b0;
+assign pp_writeEnable = (write_to_buffer == 1'b1) ? 1'b1 : 1'b0;
+assign pp_dataIn = (write_to_buffer == 1'b1) ? data_reg : 32'b0;
+//     assign pp_switch = (chain1_cur_state == write_SWITCH_BUFFER | chain1_cur_state == read_SWITCH_BUFFER) ? 1'b1 : 1'b0;
+//     assign dma_address = (chain1_cur_state == write_LAUNCH_WRITE | chain1_cur_state == read_LAUNCH_READ) ? address_reg : 32'b0;
+//     assign dma_data_ready = (chain1_cur_state == write_LAUNCH_WRITE) ? 1'b1 : 1'b0;
+//     assign dma_byte_enable = (chain1_cur_state == write_LAUNCH_WRITE | chain1_cur_state == read_LAUNCH_READ) ? byte_enable_reg : 4'b0;
+//     assign dma_readReady = (chain1_cur_state == read_LAUNCH_READ) ? 1'b1 : 1'b0;
 // always @(posedge JTCK or negedge JRSTN) begin
 //     if (JRSTN == 0) begin
 //         shift_reg <= 34'b0;

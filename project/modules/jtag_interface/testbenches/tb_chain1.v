@@ -74,33 +74,38 @@ module tb_chain1;
         JRTI1 = 1;
         #8;
 
-        // Send an instruction to the DUT
-        sendInstruction(36'b010101010101010101010101010101010001);
-        $display("Value of address reg: %b", dut.address_reg);
+        // // Send an instruction to the DUT
+        // sendInstruction(36'b010101010101010101010101010101010001);
+        // $display("Value of address reg: %b", dut.address_reg);
 
-        sendInstruction(36'b11100010);
-        $display("Value of byte enable reg: %b", dut.byte_enable_reg);
+        // sendInstruction(36'b11100010);
+        // $display("Value of byte enable reg: %b", dut.byte_enable_reg);
 
-        sendInstruction(36'b10101010011);
-        // sendInstruction(36'b00011);
-        $display("Value of busrt size reg: %b", dut.busrt_size_reg);
+        // sendInstruction(36'b10101010011);
+        // // sendInstruction(36'b00011);
+        // $display("Value of busrt size reg: %b", dut.busrt_size_reg);
 
-        $display("Value of status reg: %b", dut.status_reg);
-        #4;
+        // $display("Value of status reg: %b", dut.status_reg);
+        // #4;
 
 
-        // try to read the address register 
-        sendInstruction(36'b100);
-        #12;
-        sendInstruction(36'b0);
+        // // try to read the address register 
+        // sendInstruction(36'b100);
+        // #12;
+        // sendInstruction(36'b0);
 
-        // try to read the byte enable register and the busrt size register
-        sendInstruction(36'b101);
-        #12;
-        sendInstruction(36'b110);
-        #12;
-        sendInstruction(36'b000);
+        // // try to read the byte enable register and the busrt size register
+        // sendInstruction(36'b101);
+        // #12;
+        // sendInstruction(36'b110);
+        // #12;
+        // sendInstruction(36'b000);
 
+        // Try to write in the buffer
+        sendInstruction(36'hABCDEF8);
+        sendInstruction(36'h1ABCDEF8);
+        sendInstruction(36'h2ABCDEF8);
+        sendInstruction(36'h0);
 
         // // Send a read instruction
         // sendInstruction(36'b1001);
