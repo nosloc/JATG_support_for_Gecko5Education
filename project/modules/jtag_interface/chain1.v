@@ -112,7 +112,7 @@ always @(posedge JTCK) begin
 end
 
 always @(posedge JTCK) begin
-    if (n_reset == 0) begin
+    if (n_reset == 0 || updated_data_reg[3:0] == 4'b1111) begin
         shadow_reg <= 36'b0;
         address_reg <= 32'b0;
         byte_enable_reg <= 4'b1111;
