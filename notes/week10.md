@@ -20,3 +20,14 @@ Objective : Make the Ipcore working for sure
 | empty | 1011 | launch the read operation |
 | empty | 1111 | reset the registers |
 
+## The ipcore 
+
+THe ipcore now has multiple registers:
+
+- shift register: where the data is shifted in 
+- address_reg: store the DMA start address
+- burst_size_reg: store the burst size that want to be used
+- Byte_enable_reg: storet the byte enable that will be used by default it is 0xF
+- shadow_reg: the next value the ipcore will shift out
+- updated_data_reg: the value of the shift register the last time JUPDATE was one
+
