@@ -1,4 +1,4 @@
-`timescale 1ps/1ps;
+`timescale 1ns/1ps;
 
 module tb_chain1;
     
@@ -78,25 +78,36 @@ module tb_chain1;
         sendInstruction(36'b010101010101010101010101010101010001);
         $display("Value of address reg: %b", dut.address_reg);
 
-        sendInstruction(36'b11110010);
+        sendInstruction(36'b11100010);
         $display("Value of byte enable reg: %b", dut.byte_enable_reg);
 
-        // sendInstruction(36'b10101010011);
-        sendInstruction(36'b00011);
+        sendInstruction(36'b10101010011);
+        // sendInstruction(36'b00011);
         $display("Value of busrt size reg: %b", dut.busrt_size_reg);
 
         $display("Value of status reg: %b", dut.status_reg);
         #4;
-        sendInstruction(36'hF8);
 
-        #80;
 
-        // Send a read instruction
-        sendInstruction(36'b1001);
-        #20
+        // try to read the address register 
+        sendInstruction(36'b100);
+        #12;
+        sendInstruction(36'b0);
 
-        // Read the data from the buffer
-        sendInstruction(36'b1010);
+        // try to read the byte enable register and the busrt size register
+        sendInstruction(36'b101);
+        #12;
+        sendInstruction(36'b110);
+        #12;
+        sendInstruction(36'b000);
+
+
+        // // Send a read instruction
+        // sendInstruction(36'b1001);
+        // #20
+
+        // // Read the data from the buffer
+        // sendInstruction(36'b1010);
         #160;
         $finish;
     end
