@@ -1,5 +1,5 @@
 $date
-	Thu May  8 21:49:08 2025
+	Mon May 12 21:27:05 2025
 $end
 $version
 	Icarus Verilog
@@ -57,148 +57,150 @@ $var wire 1 9 errorIN $end
 $var wire 1 : granted $end
 $var wire 10 @ red [9:0] $end
 $var wire 4 A rgbRow [3:0] $end
-$var wire 9 B s_pp_address_dma [8:0] $end
+$var wire 1 B s_nreset $end
+$var wire 9 C s_pp_address_dma [8:0] $end
+$var wire 1 D s_reset $end
 $var wire 1 < system_clock $end
-$var wire 1 C system_reset $end
-$var wire 1 D sync_switch_ready $end
-$var wire 1 E sync_s_dma_readReady $end
-$var wire 1 F sync_s_dma_data_ready $end
-$var wire 4 G sync_s_dma_byte_enable [3:0] $end
-$var wire 32 H sync_s_dma_address [31:0] $end
-$var wire 6 I s_status_reg_out [5:0] $end
-$var wire 1 J s_pp_writeEnable_ipcore $end
-$var wire 1 K s_pp_writeEnable_dma $end
-$var wire 1 L s_pp_switch_ipcore $end
-$var wire 32 M s_pp_dataOut_ipcore [31:0] $end
-$var wire 32 N s_pp_dataOut_dma [31:0] $end
-$var wire 32 O s_pp_dataIn_ipcore [31:0] $end
-$var wire 32 P s_pp_dataIn_dma [31:0] $end
-$var wire 9 Q s_pp_address_ipcore [8:0] $end
-$var wire 1 R s_ipcore_switch_ready $end
-$var wire 1 S s_dma_readReady $end
-$var wire 1 T s_dma_data_ready $end
-$var wire 4 U s_dma_cur_state [3:0] $end
-$var wire 4 V s_dma_byte_enable [3:0] $end
-$var wire 32 W s_dma_address [31:0] $end
+$var wire 1 E system_reset $end
+$var wire 1 F sync_switch_ready $end
+$var wire 1 G sync_s_dma_readReady $end
+$var wire 1 H sync_s_dma_data_ready $end
+$var wire 4 I sync_s_dma_byte_enable [3:0] $end
+$var wire 32 J sync_s_dma_address [31:0] $end
+$var wire 6 K s_status_reg_out [5:0] $end
+$var wire 1 L s_pp_writeEnable_ipcore $end
+$var wire 1 M s_pp_writeEnable_dma $end
+$var wire 1 N s_pp_switch_ipcore $end
+$var wire 32 O s_pp_dataOut_ipcore [31:0] $end
+$var wire 32 P s_pp_dataOut_dma [31:0] $end
+$var wire 32 Q s_pp_dataIn_ipcore [31:0] $end
+$var wire 32 R s_pp_dataIn_dma [31:0] $end
+$var wire 9 S s_pp_address_ipcore [8:0] $end
+$var wire 1 T s_ipcore_switch_ready $end
+$var wire 1 U s_dma_readReady $end
+$var wire 1 V s_dma_data_ready $end
+$var wire 4 W s_dma_cur_state [3:0] $end
+$var wire 4 X s_dma_byte_enable [3:0] $end
+$var wire 32 Y s_dma_address [31:0] $end
 $var wire 1 " request $end
 $var wire 1 # read_n_writeOUT $end
-$var wire 10 X green [9:0] $end
+$var wire 10 Z green [9:0] $end
 $var wire 1 $ end_transactionOUT $end
 $var wire 1 % data_validOUT $end
-$var wire 4 Y byte_enableOUT [3:0] $end
+$var wire 4 [ byte_enableOUT [3:0] $end
 $var wire 1 ' busyOUT $end
-$var wire 8 Z busrt_sizeOUT [7:0] $end
+$var wire 8 \ busrt_sizeOUT [7:0] $end
 $var wire 1 ) begin_transactionOUT $end
-$var wire 32 [ address_dataOUT [31:0] $end
+$var wire 32 ] address_dataOUT [31:0] $end
 $var wire 1 + JTDO1 $end
 $scope module clock_synchronizer_address $end
 $var wire 1 2 clockIn $end
 $var wire 1 < clockOut $end
-$var wire 1 \ reset $end
-$var wire 32 ] Q [31:0] $end
-$var wire 32 ^ D [31:0] $end
-$var parameter 32 _ WIDTH $end
+$var wire 1 D reset $end
+$var wire 32 ^ Q [31:0] $end
+$var wire 32 _ D [31:0] $end
+$var parameter 32 ` WIDTH $end
 $scope begin sync_logic[0] $end
-$var parameter 2 ` i $end
-$upscope $end
-$scope begin sync_logic[1] $end
 $var parameter 2 a i $end
 $upscope $end
-$scope begin sync_logic[2] $end
-$var parameter 3 b i $end
+$scope begin sync_logic[1] $end
+$var parameter 2 b i $end
 $upscope $end
-$scope begin sync_logic[3] $end
+$scope begin sync_logic[2] $end
 $var parameter 3 c i $end
 $upscope $end
-$scope begin sync_logic[4] $end
-$var parameter 4 d i $end
+$scope begin sync_logic[3] $end
+$var parameter 3 d i $end
 $upscope $end
-$scope begin sync_logic[5] $end
+$scope begin sync_logic[4] $end
 $var parameter 4 e i $end
 $upscope $end
-$scope begin sync_logic[6] $end
+$scope begin sync_logic[5] $end
 $var parameter 4 f i $end
 $upscope $end
-$scope begin sync_logic[7] $end
+$scope begin sync_logic[6] $end
 $var parameter 4 g i $end
 $upscope $end
-$scope begin sync_logic[8] $end
-$var parameter 5 h i $end
+$scope begin sync_logic[7] $end
+$var parameter 4 h i $end
 $upscope $end
-$scope begin sync_logic[9] $end
+$scope begin sync_logic[8] $end
 $var parameter 5 i i $end
 $upscope $end
-$scope begin sync_logic[10] $end
+$scope begin sync_logic[9] $end
 $var parameter 5 j i $end
 $upscope $end
-$scope begin sync_logic[11] $end
+$scope begin sync_logic[10] $end
 $var parameter 5 k i $end
 $upscope $end
-$scope begin sync_logic[12] $end
+$scope begin sync_logic[11] $end
 $var parameter 5 l i $end
 $upscope $end
-$scope begin sync_logic[13] $end
+$scope begin sync_logic[12] $end
 $var parameter 5 m i $end
 $upscope $end
-$scope begin sync_logic[14] $end
+$scope begin sync_logic[13] $end
 $var parameter 5 n i $end
 $upscope $end
-$scope begin sync_logic[15] $end
+$scope begin sync_logic[14] $end
 $var parameter 5 o i $end
 $upscope $end
-$scope begin sync_logic[16] $end
-$var parameter 6 p i $end
+$scope begin sync_logic[15] $end
+$var parameter 5 p i $end
 $upscope $end
-$scope begin sync_logic[17] $end
+$scope begin sync_logic[16] $end
 $var parameter 6 q i $end
 $upscope $end
-$scope begin sync_logic[18] $end
+$scope begin sync_logic[17] $end
 $var parameter 6 r i $end
 $upscope $end
-$scope begin sync_logic[19] $end
+$scope begin sync_logic[18] $end
 $var parameter 6 s i $end
 $upscope $end
-$scope begin sync_logic[20] $end
+$scope begin sync_logic[19] $end
 $var parameter 6 t i $end
 $upscope $end
-$scope begin sync_logic[21] $end
+$scope begin sync_logic[20] $end
 $var parameter 6 u i $end
 $upscope $end
-$scope begin sync_logic[22] $end
+$scope begin sync_logic[21] $end
 $var parameter 6 v i $end
 $upscope $end
-$scope begin sync_logic[23] $end
+$scope begin sync_logic[22] $end
 $var parameter 6 w i $end
 $upscope $end
-$scope begin sync_logic[24] $end
+$scope begin sync_logic[23] $end
 $var parameter 6 x i $end
 $upscope $end
-$scope begin sync_logic[25] $end
+$scope begin sync_logic[24] $end
 $var parameter 6 y i $end
 $upscope $end
-$scope begin sync_logic[26] $end
+$scope begin sync_logic[25] $end
 $var parameter 6 z i $end
 $upscope $end
-$scope begin sync_logic[27] $end
+$scope begin sync_logic[26] $end
 $var parameter 6 { i $end
 $upscope $end
-$scope begin sync_logic[28] $end
+$scope begin sync_logic[27] $end
 $var parameter 6 | i $end
 $upscope $end
-$scope begin sync_logic[29] $end
+$scope begin sync_logic[28] $end
 $var parameter 6 } i $end
 $upscope $end
-$scope begin sync_logic[30] $end
+$scope begin sync_logic[29] $end
 $var parameter 6 ~ i $end
 $upscope $end
-$scope begin sync_logic[31] $end
+$scope begin sync_logic[30] $end
 $var parameter 6 !" i $end
+$upscope $end
+$scope begin sync_logic[31] $end
+$var parameter 6 "" i $end
 $upscope $end
 $upscope $end
 $scope module clock_synchronizer_byteEnable $end
 $var wire 1 2 clockIn $end
 $var wire 1 < clockOut $end
-$var wire 1 "" reset $end
+$var wire 1 D reset $end
 $var wire 4 #" Q [3:0] $end
 $var wire 4 $" D [3:0] $end
 $var parameter 32 %" WIDTH $end
@@ -218,35 +220,32 @@ $upscope $end
 $scope module clock_synchronizer_dataREady $end
 $var wire 1 2 clockIn $end
 $var wire 1 < clockOut $end
-$var wire 1 *" reset $end
-$var wire 1 F Q $end
-$var wire 1 T D $end
-$var parameter 32 +" WIDTH $end
-$scope begin sync_logic[0] $end
-$var parameter 2 ," i $end
-$upscope $end
+$var wire 1 E reset $end
+$var wire 1 *" s_reset0 $end
+$var wire 3 +" s_d [2:0] $end
+$var wire 1 H Q $end
+$var wire 1 V D $end
+$var reg 3 ," s_states [2:0] $end
 $upscope $end
 $scope module clock_synchronizer_readReady $end
 $var wire 1 2 clockIn $end
 $var wire 1 < clockOut $end
-$var wire 1 -" reset $end
-$var wire 1 E Q $end
-$var wire 1 S D $end
-$var parameter 32 ." WIDTH $end
-$scope begin sync_logic[0] $end
-$var parameter 2 /" i $end
-$upscope $end
+$var wire 1 D reset $end
+$var wire 1 -" s_reset0 $end
+$var wire 3 ." s_d [2:0] $end
+$var wire 1 G Q $end
+$var wire 1 U D $end
+$var reg 3 /" s_states [2:0] $end
 $upscope $end
 $scope module clock_synchronizer_switch $end
 $var wire 1 < clockIn $end
 $var wire 1 2 clockOut $end
-$var wire 1 0" reset $end
-$var wire 1 D Q $end
-$var wire 1 R D $end
-$var parameter 32 1" WIDTH $end
-$scope begin sync_logic[0] $end
-$var parameter 2 2" i $end
-$upscope $end
+$var wire 1 D reset $end
+$var wire 1 0" s_reset0 $end
+$var wire 3 1" s_d [2:0] $end
+$var wire 1 F Q $end
+$var wire 1 T D $end
+$var reg 3 2" s_states [2:0] $end
 $upscope $end
 $scope module dma_inst $end
 $var wire 32 3" address_dataIN [31:0] $end
@@ -259,33 +258,34 @@ $var wire 1 9 errorIN $end
 $var wire 1 : granted $end
 $var wire 32 5" ipcore_address_to_read [31:0] $end
 $var wire 4 6" ipcore_byteEnable [3:0] $end
-$var wire 1 F ipcore_dataReady $end
-$var wire 1 E ipcore_readReady $end
-$var wire 1 7" reset $end
-$var wire 1 8" s_reading_from_buffer_done $end
-$var wire 1 K writeEnable $end
-$var wire 4 9" s_dma_cur_state [3:0] $end
+$var wire 1 H ipcore_dataReady $end
+$var wire 1 G ipcore_readReady $end
+$var wire 1 B reset $end
+$var wire 1 7" s_reading_from_buffer_done $end
+$var wire 1 M writeEnable $end
+$var wire 4 8" s_dma_cur_state [3:0] $end
 $var wire 1 " request $end
 $var wire 1 # read_n_writeOUT $end
-$var wire 1 R ipcore_switch_ready $end
+$var wire 1 T ipcore_switch_ready $end
 $var wire 1 $ end_transactionOUT $end
 $var wire 1 % data_validOUT $end
-$var wire 32 :" dataOut [31:0] $end
-$var wire 32 ;" dataIn [31:0] $end
-$var wire 4 <" byte_enableOUT [3:0] $end
+$var wire 32 9" dataOut [31:0] $end
+$var wire 32 :" dataIn [31:0] $end
+$var wire 4 ;" byte_enableOUT [3:0] $end
 $var wire 1 ' busyOUT $end
-$var wire 8 =" busrt_sizeOUT [7:0] $end
+$var wire 8 <" busrt_sizeOUT [7:0] $end
 $var wire 1 ) begin_transactionOUT $end
-$var wire 32 >" address_dataOUT [31:0] $end
-$var parameter 32 ?" Base $end
-$var parameter 32 @" fsm_asking_for_buffer $end
-$var parameter 32 A" fsm_end_transaction $end
-$var parameter 32 B" fsm_idle $end
-$var parameter 32 C" fsm_read_request $end
-$var parameter 32 D" fsm_read_sending_handshake $end
-$var parameter 32 E" fsm_reading_data $end
-$var parameter 32 F" fsm_reading_from_buffer $end
-$var parameter 32 G" fsm_sending_data $end
+$var wire 32 =" address_dataOUT [31:0] $end
+$var parameter 32 >" Base $end
+$var parameter 32 ?" fsm_asking_for_buffer $end
+$var parameter 32 @" fsm_end_transaction $end
+$var parameter 32 A" fsm_idle $end
+$var parameter 32 B" fsm_read_request $end
+$var parameter 32 C" fsm_read_sending_handshake $end
+$var parameter 32 D" fsm_reading_data $end
+$var parameter 32 E" fsm_reading_from_buffer $end
+$var parameter 32 F" fsm_sending_data $end
+$var parameter 32 G" fsm_test $end
 $var parameter 32 H" fsm_write_request $end
 $var parameter 32 I" fsm_write_sending_handshake $end
 $var parameter 32 J" fsm_writting_buffer $end
@@ -310,13 +310,13 @@ $var wire 1 P" switch_ready $end
 $var wire 6 Q" s_status_reg_out [5:0] $end
 $var wire 1 R" s_JTDI_2 $end
 $var wire 1 S" s_JTDI_1 $end
-$var wire 1 J pp_writeEnable $end
-$var wire 1 L pp_switch $end
+$var wire 1 L pp_writeEnable $end
+$var wire 1 N pp_switch $end
 $var wire 32 T" pp_dataOut [31:0] $end
 $var wire 32 U" pp_dataIn [31:0] $end
 $var wire 9 V" pp_address [8:0] $end
-$var wire 1 S dma_readReady $end
-$var wire 1 T dma_data_ready $end
+$var wire 1 U dma_readReady $end
+$var wire 1 V dma_data_ready $end
 $var wire 4 W" dma_byte_enable [3:0] $end
 $var wire 32 X" dma_address [31:0] $end
 $var wire 1 + JTD1 $end
@@ -331,14 +331,14 @@ $var wire 1 4 JUPDATE $end
 $var wire 1 Y" s_ready_to_switch $end
 $var wire 1 P" switch_ready $end
 $var wire 6 Z" status_reg_out [5:0] $end
-$var wire 1 J pp_writeEnable $end
-$var wire 1 L pp_switch $end
+$var wire 1 L pp_writeEnable $end
+$var wire 1 N pp_switch $end
 $var wire 32 [" pp_dataOut [31:0] $end
 $var wire 32 \" pp_dataIn [31:0] $end
 $var wire 9 ]" pp_address [8:0] $end
 $var wire 1 ^" is_operation_running $end
-$var wire 1 S dma_readReady $end
-$var wire 1 T dma_data_ready $end
+$var wire 1 U dma_readReady $end
+$var wire 1 V dma_data_ready $end
 $var wire 4 _" dma_byte_enable [3:0] $end
 $var wire 32 `" dma_address [31:0] $end
 $var wire 1 + JTD1 $end
@@ -376,31 +376,31 @@ $var wire 1 2 clockA $end
 $var wire 1 < clockB $end
 $var wire 32 |" dataInA [31:0] $end
 $var wire 32 }" dataInB [31:0] $end
-$var wire 1 ~" reset $end
-$var wire 1 L switch $end
-$var wire 1 J writeEnableA $end
-$var wire 1 K writeEnableB $end
-$var wire 9 !# s_addressB [8:0] $end
-$var wire 9 "# s_addressA [8:0] $end
-$var wire 32 ## dataOutB [31:0] $end
-$var wire 32 $# dataOutA [31:0] $end
-$var reg 1 %# switch_reg $end
+$var wire 1 B reset $end
+$var wire 1 N switch $end
+$var wire 1 L writeEnableA $end
+$var wire 1 M writeEnableB $end
+$var wire 9 ~" s_addressB [8:0] $end
+$var wire 9 !# s_addressA [8:0] $end
+$var wire 32 "# dataOutB [31:0] $end
+$var wire 32 ## dataOutA [31:0] $end
+$var reg 1 $# switch_reg $end
 $scope module ssram $end
-$var wire 9 &# addressA [8:0] $end
-$var wire 9 '# addressB [8:0] $end
+$var wire 9 %# addressA [8:0] $end
+$var wire 9 &# addressB [8:0] $end
 $var wire 1 2 clockA $end
 $var wire 1 < clockB $end
-$var wire 32 (# dataInA [31:0] $end
-$var wire 32 )# dataInB [31:0] $end
-$var wire 1 J writeEnableA $end
-$var wire 1 K writeEnableB $end
-$var reg 32 *# dataOutA [31:0] $end
-$var reg 32 +# dataOutB [31:0] $end
+$var wire 32 '# dataInA [31:0] $end
+$var wire 32 (# dataInB [31:0] $end
+$var wire 1 L writeEnableA $end
+$var wire 1 M writeEnableB $end
+$var reg 32 )# dataOutA [31:0] $end
+$var reg 32 *# dataOutB [31:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $scope task sendInstruction $end
-$var reg 36 ,# instruction [35:0] $end
+$var reg 36 +# instruction [35:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
@@ -420,75 +420,69 @@ b0 a"
 b1010 J"
 b10 I"
 b1 H"
-b11 G"
-b101 F"
-b1001 E"
-b1000 D"
-b111 C"
-b0 B"
-b100 A"
-b110 @"
-b1000000000000000000000000000000 ?"
-b0 2"
-b1 1"
-b0 /"
-b1 ."
-b0 ,"
-b1 +"
+b1110 G"
+b11 F"
+b101 E"
+b1001 D"
+b1000 C"
+b111 B"
+b1111 A"
+b100 @"
+b110 ?"
+b1000000000000000000000000000000 >"
 b11 )"
 b10 ("
 b1 '"
 b0 &"
 b100 %"
-b11111 !"
-b11110 ~
-b11101 }
-b11100 |
-b11011 {
-b11010 z
-b11001 y
-b11000 x
-b10111 w
-b10110 v
-b10101 u
-b10100 t
-b10011 s
-b10010 r
-b10001 q
-b10000 p
-b1111 o
-b1110 n
-b1101 m
-b1100 l
-b1011 k
-b1010 j
-b1001 i
-b1000 h
-b111 g
-b110 f
-b101 e
-b100 d
-b11 c
-b10 b
-b1 a
-b0 `
-b100000 _
+b11111 ""
+b11110 !"
+b11101 ~
+b11100 }
+b11011 |
+b11010 {
+b11001 z
+b11000 y
+b10111 x
+b10110 w
+b10101 v
+b10100 u
+b10011 t
+b10010 s
+b10001 r
+b10000 q
+b1111 p
+b1110 o
+b1101 n
+b1100 m
+b1011 l
+b1010 k
+b1001 j
+b1000 i
+b111 h
+b110 g
+b101 f
+b100 e
+b11 d
+b10 c
+b1 b
+b0 a
+b100000 `
 $end
 #0
 $dumpvars
-bx ,#
 bx +#
 bx *#
 bx )#
 bx (#
-bx00000000 '#
-bx &#
-x%#
-bx $#
+bx '#
+bx00000000 &#
+bx %#
+x$#
 bx ##
 bx "#
-bx00000000 !#
-1~"
+bx !#
+bx00000000 ~"
 bx }"
 bx |"
 b0 {"
@@ -526,56 +520,61 @@ bx Q"
 xP"
 bx O"
 bx N"
-b0 M"
+b1110 M"
 bx L"
 bx K"
-bx >"
-b0 ="
-bx <"
+bx ="
+b0 <"
 bx ;"
 bx :"
 bx 9"
-18"
+bx 8"
 17"
 bx 6"
 bx 5"
 b0 4"
 b0 3"
-00"
-0-"
-0*"
+bx 2"
+bx 1"
+x0"
+bx /"
+bx ."
+x-"
+bx ,"
+bx +"
+x*"
 bx $"
 bx #"
-0""
+bx _
 bx ^
 bx ]
-0\
+b0 \
 bx [
-b0 Z
+b0xxxxxxxx1 Z
 bx Y
-b0xxxxxx X
+bx X
 bx W
-bx V
-bx U
+xV
+xU
 xT
-xS
-xR
-b0xxxxxxxx Q
+b0xxxxxxxx S
+bx R
+bx Q
 bx P
 bx O
-bx N
-bx M
+xN
+xM
 xL
-xK
-xJ
+bx K
+bx J
 bx I
-bx H
-bx G
+xH
+xG
 xF
-xE
-xD
-0C
-b0 B
+0E
+0D
+b0 C
+1B
 b0 A
 bz @
 bz ?
@@ -611,156 +610,102 @@ x"
 z!
 $end
 #1
+b0 p"
+b1x1xxx1 Z
 0$
+0Y"
+0P"
 b0 &
-b0 Y
-b0 <"
+b0 [
+b0 ;"
 0)
 0"
-1R
-bx00 U
-bx00 9"
-b0 P
-b0 ;"
+0T
+b110x W
+b110x 8"
+b0 R
+b0 :"
 b0 }"
-b0 )#
-0K
+b0 (#
+0M
 b0 *
-b0 [
-b0 >"
+b0 ]
+b0 ="
 0#
 0%
-b0xxx M"
-b0 L"
+b1110 L"
 1<
 #2
-b0 p"
+b1x1x1x1 Z
+bx00000000 !#
+bx00000000 %#
+b0 S
+b0 V"
+b0 ]"
+b0 z"
+0N
+b0 Y
+b0 _
+b0 X"
+b0 `"
+b0 X
+b0 $"
+b0 W"
+b0 _"
+bx00000 K
+bx00000 Q"
+bx00000 Z"
+0L
+b0 Q
+b0 U"
+b0 \"
+b0 |"
+b0 '#
+0V
+0U
+b0 o"
 0t"
 0u"
 0s"
 0<
 12
 #3
-x$
-bx &
-bx Y
-bx <"
-x)
-x"
-xR
-bx U
-bx 9"
-bx *
-bx [
-bx >"
-x%
-b0 M"
-b0xxx L"
 1<
 #4
 0<
 02
 #5
-b0 *
-b0 [
-b0 >"
-0$
-b0 &
-b0 Y
-b0 <"
-0)
-0"
-1R
-bx00 U
-bx00 9"
-0%
-b0xxx M"
-b0 L"
 1<
 #6
-bx00000000 "#
-bx00000000 &#
-b0x11111 X
-b0 Q
-b0 V"
-b0 ]"
-b0 z"
-0L
-b0 W
-b0 ^
-b0 X"
-b0 `"
-b0 V
-b0 $"
-b0 W"
-b0 _"
-bx00000 I
-bx00000 Q"
-bx00000 Z"
-0J
-b0 O
-b0 U"
-b0 \"
-b0 |"
-b0 (#
-0T
-0S
-b0 o"
 0<
 12
 #7
-x$
-bx &
-bx Y
-bx <"
-x)
-x"
-xR
-bx U
-bx 9"
-bx *
-bx [
-bx >"
-x%
-b0 M"
-b0xxx L"
 1<
 #8
-0$
-b0 H
-b0 ]
+b0 J
+b0 ^
 b0 5"
 0^"
-0)
-0"
-1R
-b100000000 !#
-b100000000 '#
-b0 *
-b0 [
-b0 >"
-0%
-b0 U
-b0 9"
-b0 G
+b0 ."
+b0 I
 b0 #"
 b0 6"
-0Y"
-0P"
-b0 "#
-b0 &#
-b0 &
-b0 Y
-b0 <"
+b0 1"
+b100000000 ~"
+b100000000 &#
+b0 +"
+b1100 W
+b1100 8"
+0G
 0F
-0E
-0D
+b0 !#
+b0 %#
+0H
 0+
-0%#
-b0 L"
-b0 O"
-b0 N"
-b0 K"
+b0 /"
+b0 2"
+0$#
+b0 ,"
 b0 v"
 b0 r"
 b0 w"
@@ -769,18 +714,27 @@ b0 n"
 b0 l"
 b0 y"
 b0 x"
-0~"
-07"
-1*"
+b1111110 Z
 1-"
-1""
-1\
 10"
-1C
+1D
+1*"
+0B
+1E
 0<
 02
 0.
 #9
+b1111 M"
+b101110 Z
+b1 1"
+1T
+b1110 W
+b1110 8"
+b1111 L"
+b0 O"
+b0 N"
+b0 K"
 1<
 #10
 0<
@@ -798,20 +752,24 @@ b0 x"
 #15
 1<
 #16
-0*"
+b101111 Z
 0-"
-0""
-0\
 00"
-1~"
-17"
-0C
+0D
+1B
+0*"
+0E
 0<
 02
 1.
 #17
+b11 1"
+b1 2"
 1<
 #18
+b101 1"
+10"
+b10 2"
 0<
 12
 #19
@@ -822,24 +780,34 @@ b0 x"
 #21
 1<
 #22
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #23
+b11 1"
+b101 2"
 1<
 #24
 0<
 02
 0/
-b10101010101010101010101010101010001 ,#
+b10101010101010101010101010101010001 +#
 #25
 1<
 #26
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #27
@@ -850,12 +818,18 @@ b10101010101010101010101010101010001 ,#
 #29
 1<
 #30
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #31
+b11 1"
+b101 2"
 1<
 #32
 0S"
@@ -865,9 +839,13 @@ b10101010101010101010101010101010001 ,#
 #33
 1<
 #34
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #35
@@ -882,13 +860,19 @@ b0 =
 #37
 1<
 #38
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100000000000000000000000000000000000 x"
 0<
 12
 #39
+b11 1"
+b101 2"
 1<
 #40
 0S"
@@ -899,9 +883,13 @@ b1 =
 #41
 1<
 #42
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10000000000000000000000000000000000 x"
 0<
 12
@@ -914,13 +902,19 @@ b10 =
 #45
 1<
 #46
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1000000000000000000000000000000000 x"
 0<
 12
 #47
+b11 1"
+b101 2"
 1<
 #48
 0<
@@ -929,9 +923,13 @@ b11 =
 #49
 1<
 #50
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100000000000000000000000000000000 x"
 0<
 12
@@ -946,13 +944,19 @@ b100 =
 #53
 1<
 #54
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100010000000000000000000000000000000 x"
 0<
 12
 #55
+b11 1"
+b101 2"
 1<
 #56
 0S"
@@ -963,9 +967,13 @@ b101 =
 #57
 1<
 #58
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10001000000000000000000000000000000 x"
 0<
 12
@@ -980,13 +988,19 @@ b110 =
 #61
 1<
 #62
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101000100000000000000000000000000000 x"
 0<
 12
 #63
+b11 1"
+b101 2"
 1<
 #64
 0S"
@@ -997,9 +1011,13 @@ b111 =
 #65
 1<
 #66
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10100010000000000000000000000000000 x"
 0<
 12
@@ -1014,13 +1032,19 @@ b1000 =
 #69
 1<
 #70
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010001000000000000000000000000000 x"
 0<
 12
 #71
+b11 1"
+b101 2"
 1<
 #72
 0S"
@@ -1031,9 +1055,13 @@ b1001 =
 #73
 1<
 #74
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101000100000000000000000000000000 x"
 0<
 12
@@ -1048,13 +1076,19 @@ b1010 =
 #77
 1<
 #78
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010100010000000000000000000000000 x"
 0<
 12
 #79
+b11 1"
+b101 2"
 1<
 #80
 0S"
@@ -1065,9 +1099,13 @@ b1011 =
 #81
 1<
 #82
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010001000000000000000000000000 x"
 0<
 12
@@ -1082,13 +1120,19 @@ b1100 =
 #85
 1<
 #86
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101000100000000000000000000000 x"
 0<
 12
 #87
+b11 1"
+b101 2"
 1<
 #88
 0S"
@@ -1099,9 +1143,13 @@ b1101 =
 #89
 1<
 #90
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010100010000000000000000000000 x"
 0<
 12
@@ -1116,13 +1164,19 @@ b1110 =
 #93
 1<
 #94
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010001000000000000000000000 x"
 0<
 12
 #95
+b11 1"
+b101 2"
 1<
 #96
 0S"
@@ -1133,9 +1187,13 @@ b1111 =
 #97
 1<
 #98
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101000100000000000000000000 x"
 0<
 12
@@ -1150,13 +1208,19 @@ b10000 =
 #101
 1<
 #102
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010100010000000000000000000 x"
 0<
 12
 #103
+b11 1"
+b101 2"
 1<
 #104
 0S"
@@ -1167,9 +1231,13 @@ b10001 =
 #105
 1<
 #106
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010001000000000000000000 x"
 0<
 12
@@ -1184,13 +1252,19 @@ b10010 =
 #109
 1<
 #110
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101000100000000000000000 x"
 0<
 12
 #111
+b11 1"
+b101 2"
 1<
 #112
 0S"
@@ -1201,9 +1275,13 @@ b10011 =
 #113
 1<
 #114
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010100010000000000000000 x"
 0<
 12
@@ -1218,13 +1296,19 @@ b10100 =
 #117
 1<
 #118
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010001000000000000000 x"
 0<
 12
 #119
+b11 1"
+b101 2"
 1<
 #120
 0S"
@@ -1235,9 +1319,13 @@ b10101 =
 #121
 1<
 #122
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010101000100000000000000 x"
 0<
 12
@@ -1252,13 +1340,19 @@ b10110 =
 #125
 1<
 #126
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010100010000000000000 x"
 0<
 12
 #127
+b11 1"
+b101 2"
 1<
 #128
 0S"
@@ -1269,9 +1363,13 @@ b10111 =
 #129
 1<
 #130
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010101010001000000000000 x"
 0<
 12
@@ -1286,13 +1384,19 @@ b11000 =
 #133
 1<
 #134
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010101000100000000000 x"
 0<
 12
 #135
+b11 1"
+b101 2"
 1<
 #136
 0S"
@@ -1303,9 +1407,13 @@ b11001 =
 #137
 1<
 #138
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010101010100010000000000 x"
 0<
 12
@@ -1320,13 +1428,19 @@ b11010 =
 #141
 1<
 #142
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010101010001000000000 x"
 0<
 12
 #143
+b11 1"
+b101 2"
 1<
 #144
 0S"
@@ -1337,9 +1451,13 @@ b11011 =
 #145
 1<
 #146
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010101010101000100000000 x"
 0<
 12
@@ -1354,13 +1472,19 @@ b11100 =
 #149
 1<
 #150
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010101010100010000000 x"
 0<
 12
 #151
+b11 1"
+b101 2"
 1<
 #152
 0S"
@@ -1371,9 +1495,13 @@ b11101 =
 #153
 1<
 #154
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010101010101010001000000 x"
 0<
 12
@@ -1388,13 +1516,19 @@ b11110 =
 #157
 1<
 #158
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010101010101000100000 x"
 0<
 12
 #159
+b11 1"
+b101 2"
 1<
 #160
 0S"
@@ -1405,9 +1539,13 @@ b11111 =
 #161
 1<
 #162
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010101010101010100010000 x"
 0<
 12
@@ -1422,13 +1560,19 @@ b100000 =
 #165
 1<
 #166
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010101010101010001000 x"
 0<
 12
 #167
+b11 1"
+b101 2"
 1<
 #168
 0S"
@@ -1439,9 +1583,13 @@ b100001 =
 #169
 1<
 #170
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101010101010101010101010101000100 x"
 0<
 12
@@ -1456,13 +1604,19 @@ b100010 =
 #173
 1<
 #174
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010101010101010101010101010100010 x"
 0<
 12
 #175
+b11 1"
+b101 2"
 1<
 #176
 0S"
@@ -1473,10 +1627,14 @@ b100011 =
 #177
 1<
 #178
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b10101010101010101010101010101010001 x"
 0<
 12
@@ -1492,12 +1650,18 @@ b100100 =
 #181
 1<
 #182
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #183
+b11 1"
+b101 2"
 1<
 #184
 0<
@@ -1505,9 +1669,13 @@ b100100 =
 #185
 1<
 #186
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #187
@@ -1519,14 +1687,20 @@ b100100 =
 #189
 1<
 #190
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1 y"
 b1010101010101010101010101010101 l"
 0<
 12
 #191
+b11 1"
+b101 2"
 1<
 #192
 0<
@@ -1536,9 +1710,13 @@ b1010101010101010101010101010101 l"
 #193
 1<
 #194
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #195
@@ -1547,16 +1725,22 @@ b1010101010101010101010101010101 l"
 0<
 02
 0/
-b11110010 ,#
+b11110010 +#
 #197
 1<
 #198
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #199
+b11 1"
+b101 2"
 1<
 #200
 0<
@@ -1564,9 +1748,13 @@ b11110010 ,#
 #201
 1<
 #202
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #203
@@ -1579,13 +1767,19 @@ b11110010 ,#
 #205
 1<
 #206
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1 x"
 0<
 12
 #207
+b11 1"
+b101 2"
 1<
 #208
 0<
@@ -1595,10 +1789,14 @@ b0 =
 #209
 1<
 #210
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b0 x"
 0<
 12
@@ -1613,13 +1811,19 @@ b1 =
 #213
 1<
 #214
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100000000000000000000000000000000000 x"
 0<
 12
 #215
+b11 1"
+b101 2"
 1<
 #216
 0S"
@@ -1630,9 +1834,13 @@ b10 =
 #217
 1<
 #218
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10000000000000000000000000000000000 x"
 0<
 12
@@ -1645,13 +1853,19 @@ b11 =
 #221
 1<
 #222
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1000000000000000000000000000000000 x"
 0<
 12
 #223
+b11 1"
+b101 2"
 1<
 #224
 1S"
@@ -1662,9 +1876,13 @@ b100 =
 #225
 1<
 #226
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100100000000000000000000000000000000 x"
 0<
 12
@@ -1677,13 +1895,19 @@ b101 =
 #229
 1<
 #230
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110010000000000000000000000000000000 x"
 0<
 12
 #231
+b11 1"
+b101 2"
 1<
 #232
 0<
@@ -1692,9 +1916,13 @@ b110 =
 #233
 1<
 #234
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111001000000000000000000000000000000 x"
 0<
 12
@@ -1707,13 +1935,19 @@ b111 =
 #237
 1<
 #238
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111100100000000000000000000000000000 x"
 0<
 12
 #239
+b11 1"
+b101 2"
 1<
 #240
 0S"
@@ -1724,9 +1958,13 @@ b1000 =
 #241
 1<
 #242
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11110010000000000000000000000000000 x"
 0<
 12
@@ -1739,13 +1977,19 @@ b1001 =
 #245
 1<
 #246
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1111001000000000000000000000000000 x"
 0<
 12
 #247
+b11 1"
+b101 2"
 1<
 #248
 0<
@@ -1754,9 +1998,13 @@ b1010 =
 #249
 1<
 #250
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111100100000000000000000000000000 x"
 0<
 12
@@ -1769,13 +2017,19 @@ b1011 =
 #253
 1<
 #254
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11110010000000000000000000000000 x"
 0<
 12
 #255
+b11 1"
+b101 2"
 1<
 #256
 0<
@@ -1784,9 +2038,13 @@ b1100 =
 #257
 1<
 #258
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1111001000000000000000000000000 x"
 0<
 12
@@ -1799,13 +2057,19 @@ b1101 =
 #261
 1<
 #262
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111100100000000000000000000000 x"
 0<
 12
 #263
+b11 1"
+b101 2"
 1<
 #264
 0<
@@ -1814,9 +2078,13 @@ b1110 =
 #265
 1<
 #266
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11110010000000000000000000000 x"
 0<
 12
@@ -1829,13 +2097,19 @@ b1111 =
 #269
 1<
 #270
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1111001000000000000000000000 x"
 0<
 12
 #271
+b11 1"
+b101 2"
 1<
 #272
 0<
@@ -1844,9 +2118,13 @@ b10000 =
 #273
 1<
 #274
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111100100000000000000000000 x"
 0<
 12
@@ -1859,13 +2137,19 @@ b10001 =
 #277
 1<
 #278
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11110010000000000000000000 x"
 0<
 12
 #279
+b11 1"
+b101 2"
 1<
 #280
 0<
@@ -1874,9 +2158,13 @@ b10010 =
 #281
 1<
 #282
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1111001000000000000000000 x"
 0<
 12
@@ -1889,13 +2177,19 @@ b10011 =
 #285
 1<
 #286
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111100100000000000000000 x"
 0<
 12
 #287
+b11 1"
+b101 2"
 1<
 #288
 0<
@@ -1904,9 +2198,13 @@ b10100 =
 #289
 1<
 #290
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11110010000000000000000 x"
 0<
 12
@@ -1919,13 +2217,19 @@ b10101 =
 #293
 1<
 #294
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1111001000000000000000 x"
 0<
 12
 #295
+b11 1"
+b101 2"
 1<
 #296
 0<
@@ -1934,9 +2238,13 @@ b10110 =
 #297
 1<
 #298
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111100100000000000000 x"
 0<
 12
@@ -1949,13 +2257,19 @@ b10111 =
 #301
 1<
 #302
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11110010000000000000 x"
 0<
 12
 #303
+b11 1"
+b101 2"
 1<
 #304
 0<
@@ -1964,9 +2278,13 @@ b11000 =
 #305
 1<
 #306
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1111001000000000000 x"
 0<
 12
@@ -1979,13 +2297,19 @@ b11001 =
 #309
 1<
 #310
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111100100000000000 x"
 0<
 12
 #311
+b11 1"
+b101 2"
 1<
 #312
 0<
@@ -1994,9 +2318,13 @@ b11010 =
 #313
 1<
 #314
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11110010000000000 x"
 0<
 12
@@ -2009,13 +2337,19 @@ b11011 =
 #317
 1<
 #318
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1111001000000000 x"
 0<
 12
 #319
+b11 1"
+b101 2"
 1<
 #320
 0<
@@ -2024,9 +2358,13 @@ b11100 =
 #321
 1<
 #322
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111100100000000 x"
 0<
 12
@@ -2039,13 +2377,19 @@ b11101 =
 #325
 1<
 #326
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11110010000000 x"
 0<
 12
 #327
+b11 1"
+b101 2"
 1<
 #328
 0<
@@ -2054,9 +2398,13 @@ b11110 =
 #329
 1<
 #330
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1111001000000 x"
 0<
 12
@@ -2069,13 +2417,19 @@ b11111 =
 #333
 1<
 #334
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111100100000 x"
 0<
 12
 #335
+b11 1"
+b101 2"
 1<
 #336
 0<
@@ -2084,9 +2438,13 @@ b100000 =
 #337
 1<
 #338
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11110010000 x"
 0<
 12
@@ -2099,13 +2457,19 @@ b100001 =
 #341
 1<
 #342
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1111001000 x"
 0<
 12
 #343
+b11 1"
+b101 2"
 1<
 #344
 0<
@@ -2114,9 +2478,13 @@ b100010 =
 #345
 1<
 #346
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111100100 x"
 0<
 12
@@ -2129,13 +2497,19 @@ b100011 =
 #349
 1<
 #350
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11110010 x"
 0<
 12
 #351
+b11 1"
+b101 2"
 1<
 #352
 zS"
@@ -2147,9 +2521,13 @@ b100100 =
 #353
 1<
 #354
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #355
@@ -2160,12 +2538,18 @@ b100100 =
 #357
 1<
 #358
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #359
+b11 1"
+b101 2"
 1<
 #360
 0<
@@ -2174,9 +2558,13 @@ b100100 =
 #361
 1<
 #362
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11 y"
 b1111 n"
 0<
@@ -2191,24 +2579,34 @@ b1111 n"
 #365
 1<
 #366
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #367
+b11 1"
+b101 2"
 1<
 #368
 0<
 02
 0/
-b11 ,#
+b11 +#
 #369
 1<
 #370
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #371
@@ -2219,12 +2617,18 @@ b11 ,#
 #373
 1<
 #374
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #375
+b11 1"
+b101 2"
 1<
 #376
 0S"
@@ -2234,10 +2638,14 @@ b11 ,#
 #377
 1<
 #378
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b11 x"
 0<
 12
@@ -2253,13 +2661,19 @@ b0 =
 #381
 1<
 #382
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100000000000000000000000000000000001 x"
 0<
 12
 #383
+b11 1"
+b101 2"
 1<
 #384
 0<
@@ -2268,10 +2682,14 @@ b1 =
 #385
 1<
 #386
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b110000000000000000000000000000000000 x"
 0<
 12
@@ -2286,13 +2704,19 @@ b10 =
 #389
 1<
 #390
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11000000000000000000000000000000000 x"
 0<
 12
 #391
+b11 1"
+b101 2"
 1<
 #392
 0<
@@ -2301,9 +2725,13 @@ b11 =
 #393
 1<
 #394
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1100000000000000000000000000000000 x"
 0<
 12
@@ -2316,13 +2744,19 @@ b100 =
 #397
 1<
 #398
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110000000000000000000000000000000 x"
 0<
 12
 #399
+b11 1"
+b101 2"
 1<
 #400
 0<
@@ -2331,9 +2765,13 @@ b101 =
 #401
 1<
 #402
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11000000000000000000000000000000 x"
 0<
 12
@@ -2346,13 +2784,19 @@ b110 =
 #405
 1<
 #406
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1100000000000000000000000000000 x"
 0<
 12
 #407
+b11 1"
+b101 2"
 1<
 #408
 0<
@@ -2361,9 +2805,13 @@ b111 =
 #409
 1<
 #410
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b110000000000000000000000000000 x"
 0<
 12
@@ -2376,13 +2824,19 @@ b1000 =
 #413
 1<
 #414
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11000000000000000000000000000 x"
 0<
 12
 #415
+b11 1"
+b101 2"
 1<
 #416
 0<
@@ -2391,9 +2845,13 @@ b1001 =
 #417
 1<
 #418
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1100000000000000000000000000 x"
 0<
 12
@@ -2406,13 +2864,19 @@ b1010 =
 #421
 1<
 #422
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110000000000000000000000000 x"
 0<
 12
 #423
+b11 1"
+b101 2"
 1<
 #424
 0<
@@ -2421,9 +2885,13 @@ b1011 =
 #425
 1<
 #426
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11000000000000000000000000 x"
 0<
 12
@@ -2436,13 +2904,19 @@ b1100 =
 #429
 1<
 #430
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1100000000000000000000000 x"
 0<
 12
 #431
+b11 1"
+b101 2"
 1<
 #432
 0<
@@ -2451,9 +2925,13 @@ b1101 =
 #433
 1<
 #434
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b110000000000000000000000 x"
 0<
 12
@@ -2466,13 +2944,19 @@ b1110 =
 #437
 1<
 #438
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11000000000000000000000 x"
 0<
 12
 #439
+b11 1"
+b101 2"
 1<
 #440
 0<
@@ -2481,9 +2965,13 @@ b1111 =
 #441
 1<
 #442
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1100000000000000000000 x"
 0<
 12
@@ -2496,13 +2984,19 @@ b10000 =
 #445
 1<
 #446
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110000000000000000000 x"
 0<
 12
 #447
+b11 1"
+b101 2"
 1<
 #448
 0<
@@ -2511,9 +3005,13 @@ b10001 =
 #449
 1<
 #450
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11000000000000000000 x"
 0<
 12
@@ -2526,13 +3024,19 @@ b10010 =
 #453
 1<
 #454
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1100000000000000000 x"
 0<
 12
 #455
+b11 1"
+b101 2"
 1<
 #456
 0<
@@ -2541,9 +3045,13 @@ b10011 =
 #457
 1<
 #458
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b110000000000000000 x"
 0<
 12
@@ -2556,13 +3064,19 @@ b10100 =
 #461
 1<
 #462
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11000000000000000 x"
 0<
 12
 #463
+b11 1"
+b101 2"
 1<
 #464
 0<
@@ -2571,9 +3085,13 @@ b10101 =
 #465
 1<
 #466
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1100000000000000 x"
 0<
 12
@@ -2586,13 +3104,19 @@ b10110 =
 #469
 1<
 #470
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110000000000000 x"
 0<
 12
 #471
+b11 1"
+b101 2"
 1<
 #472
 0<
@@ -2601,9 +3125,13 @@ b10111 =
 #473
 1<
 #474
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11000000000000 x"
 0<
 12
@@ -2616,13 +3144,19 @@ b11000 =
 #477
 1<
 #478
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1100000000000 x"
 0<
 12
 #479
+b11 1"
+b101 2"
 1<
 #480
 0<
@@ -2631,9 +3165,13 @@ b11001 =
 #481
 1<
 #482
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b110000000000 x"
 0<
 12
@@ -2646,13 +3184,19 @@ b11010 =
 #485
 1<
 #486
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11000000000 x"
 0<
 12
 #487
+b11 1"
+b101 2"
 1<
 #488
 0<
@@ -2661,9 +3205,13 @@ b11011 =
 #489
 1<
 #490
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1100000000 x"
 0<
 12
@@ -2676,13 +3224,19 @@ b11100 =
 #493
 1<
 #494
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110000000 x"
 0<
 12
 #495
+b11 1"
+b101 2"
 1<
 #496
 0<
@@ -2691,9 +3245,13 @@ b11101 =
 #497
 1<
 #498
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11000000 x"
 0<
 12
@@ -2706,13 +3264,19 @@ b11110 =
 #501
 1<
 #502
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1100000 x"
 0<
 12
 #503
+b11 1"
+b101 2"
 1<
 #504
 0<
@@ -2721,9 +3285,13 @@ b11111 =
 #505
 1<
 #506
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b110000 x"
 0<
 12
@@ -2736,13 +3304,19 @@ b100000 =
 #509
 1<
 #510
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11000 x"
 0<
 12
 #511
+b11 1"
+b101 2"
 1<
 #512
 0<
@@ -2751,9 +3325,13 @@ b100001 =
 #513
 1<
 #514
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1100 x"
 0<
 12
@@ -2766,13 +3344,19 @@ b100010 =
 #517
 1<
 #518
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110 x"
 0<
 12
 #519
+b11 1"
+b101 2"
 1<
 #520
 0<
@@ -2781,10 +3365,14 @@ b100011 =
 #521
 1<
 #522
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b11 x"
 0<
 12
@@ -2800,12 +3388,18 @@ b100100 =
 #525
 1<
 #526
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #527
+b11 1"
+b101 2"
 1<
 #528
 0<
@@ -2813,9 +3407,13 @@ b100100 =
 #529
 1<
 #530
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #531
@@ -2827,13 +3425,19 @@ b100100 =
 #533
 1<
 #534
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111 y"
 0<
 12
 #535
+b11 1"
+b101 2"
 1<
 #536
 0<
@@ -2843,9 +3447,13 @@ b111 y"
 #537
 1<
 #538
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #539
@@ -2854,16 +3462,22 @@ b111 y"
 0<
 02
 0/
-b0 ,#
+b0 +#
 #541
 1<
 #542
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #543
+b11 1"
+b101 2"
 1<
 #544
 0<
@@ -2871,9 +3485,13 @@ b0 ,#
 #545
 1<
 #546
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #547
@@ -2886,13 +3504,19 @@ b0 ,#
 #549
 1<
 #550
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111 x"
 0<
 12
 #551
+b11 1"
+b101 2"
 1<
 #552
 0<
@@ -2902,9 +3526,13 @@ b0 =
 #553
 1<
 #554
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11 x"
 0<
 12
@@ -2917,13 +3545,19 @@ b1 =
 #557
 1<
 #558
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1 x"
 0<
 12
 #559
+b11 1"
+b101 2"
 1<
 #560
 0<
@@ -2932,10 +3566,14 @@ b10 =
 #561
 1<
 #562
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b0 x"
 0<
 12
@@ -2948,12 +3586,18 @@ b11 =
 #565
 1<
 #566
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #567
+b11 1"
+b101 2"
 1<
 #568
 0<
@@ -2962,9 +3606,13 @@ b100 =
 #569
 1<
 #570
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #571
@@ -2976,12 +3624,18 @@ b101 =
 #573
 1<
 #574
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #575
+b11 1"
+b101 2"
 1<
 #576
 0<
@@ -2990,9 +3644,13 @@ b110 =
 #577
 1<
 #578
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #579
@@ -3004,12 +3662,18 @@ b111 =
 #581
 1<
 #582
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #583
+b11 1"
+b101 2"
 1<
 #584
 0<
@@ -3018,9 +3682,13 @@ b1000 =
 #585
 1<
 #586
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #587
@@ -3032,12 +3700,18 @@ b1001 =
 #589
 1<
 #590
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #591
+b11 1"
+b101 2"
 1<
 #592
 0<
@@ -3046,9 +3720,13 @@ b1010 =
 #593
 1<
 #594
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #595
@@ -3060,12 +3738,18 @@ b1011 =
 #597
 1<
 #598
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #599
+b11 1"
+b101 2"
 1<
 #600
 0<
@@ -3074,9 +3758,13 @@ b1100 =
 #601
 1<
 #602
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #603
@@ -3088,12 +3776,18 @@ b1101 =
 #605
 1<
 #606
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #607
+b11 1"
+b101 2"
 1<
 #608
 0<
@@ -3102,9 +3796,13 @@ b1110 =
 #609
 1<
 #610
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #611
@@ -3116,12 +3814,18 @@ b1111 =
 #613
 1<
 #614
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #615
+b11 1"
+b101 2"
 1<
 #616
 0<
@@ -3130,9 +3834,13 @@ b10000 =
 #617
 1<
 #618
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #619
@@ -3144,12 +3852,18 @@ b10001 =
 #621
 1<
 #622
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #623
+b11 1"
+b101 2"
 1<
 #624
 0<
@@ -3158,9 +3872,13 @@ b10010 =
 #625
 1<
 #626
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #627
@@ -3172,12 +3890,18 @@ b10011 =
 #629
 1<
 #630
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #631
+b11 1"
+b101 2"
 1<
 #632
 0<
@@ -3186,9 +3910,13 @@ b10100 =
 #633
 1<
 #634
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #635
@@ -3200,12 +3928,18 @@ b10101 =
 #637
 1<
 #638
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #639
+b11 1"
+b101 2"
 1<
 #640
 0<
@@ -3214,9 +3948,13 @@ b10110 =
 #641
 1<
 #642
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #643
@@ -3228,12 +3966,18 @@ b10111 =
 #645
 1<
 #646
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #647
+b11 1"
+b101 2"
 1<
 #648
 0<
@@ -3242,9 +3986,13 @@ b11000 =
 #649
 1<
 #650
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #651
@@ -3256,12 +4004,18 @@ b11001 =
 #653
 1<
 #654
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #655
+b11 1"
+b101 2"
 1<
 #656
 0<
@@ -3270,9 +4024,13 @@ b11010 =
 #657
 1<
 #658
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #659
@@ -3284,12 +4042,18 @@ b11011 =
 #661
 1<
 #662
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #663
+b11 1"
+b101 2"
 1<
 #664
 0<
@@ -3298,9 +4062,13 @@ b11100 =
 #665
 1<
 #666
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #667
@@ -3312,12 +4080,18 @@ b11101 =
 #669
 1<
 #670
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #671
+b11 1"
+b101 2"
 1<
 #672
 0<
@@ -3326,9 +4100,13 @@ b11110 =
 #673
 1<
 #674
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #675
@@ -3340,12 +4118,18 @@ b11111 =
 #677
 1<
 #678
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #679
+b11 1"
+b101 2"
 1<
 #680
 0<
@@ -3354,9 +4138,13 @@ b100000 =
 #681
 1<
 #682
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #683
@@ -3368,12 +4156,18 @@ b100001 =
 #685
 1<
 #686
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #687
+b11 1"
+b101 2"
 1<
 #688
 0<
@@ -3382,9 +4176,13 @@ b100010 =
 #689
 1<
 #690
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #691
@@ -3396,12 +4194,18 @@ b100011 =
 #693
 1<
 #694
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #695
+b11 1"
+b101 2"
 1<
 #696
 zS"
@@ -3413,9 +4217,13 @@ b100100 =
 #697
 1<
 #698
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #699
@@ -3426,12 +4234,18 @@ b100100 =
 #701
 1<
 #702
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #703
+b11 1"
+b101 2"
 1<
 #704
 0<
@@ -3440,9 +4254,13 @@ b100100 =
 #705
 1<
 #706
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #707
@@ -3455,24 +4273,34 @@ b100100 =
 #709
 1<
 #710
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #711
+b11 1"
+b101 2"
 1<
 #712
 0<
 02
 0/
-b1010101111001101111011111000 ,#
+b1010101111001101111011111000 +#
 #713
 1<
 #714
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #715
@@ -3483,12 +4311,18 @@ b1010101111001101111011111000 ,#
 #717
 1<
 #718
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #719
+b11 1"
+b101 2"
 1<
 #720
 0S"
@@ -3498,10 +4332,14 @@ b1010101111001101111011111000 ,#
 #721
 1<
 #722
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b111 x"
 0<
 12
@@ -3515,13 +4353,19 @@ b0 =
 #725
 1<
 #726
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11 x"
 0<
 12
 #727
+b11 1"
+b101 2"
 1<
 #728
 0<
@@ -3530,9 +4374,13 @@ b1 =
 #729
 1<
 #730
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1 x"
 0<
 12
@@ -3545,14 +4393,20 @@ b10 =
 #733
 1<
 #734
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 0+
+b100 2"
 b0 x"
 0<
 12
 #735
+b11 1"
+b101 2"
 1<
 #736
 1S"
@@ -3563,9 +4417,13 @@ b11 =
 #737
 1<
 #738
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100000000000000000000000000000000000 x"
 0<
 12
@@ -3578,13 +4436,19 @@ b100 =
 #741
 1<
 #742
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110000000000000000000000000000000000 x"
 0<
 12
 #743
+b11 1"
+b101 2"
 1<
 #744
 0<
@@ -3593,9 +4457,13 @@ b101 =
 #745
 1<
 #746
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111000000000000000000000000000000000 x"
 0<
 12
@@ -3608,13 +4476,19 @@ b110 =
 #749
 1<
 #750
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111100000000000000000000000000000000 x"
 0<
 12
 #751
+b11 1"
+b101 2"
 1<
 #752
 0<
@@ -3623,9 +4497,13 @@ b111 =
 #753
 1<
 #754
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111110000000000000000000000000000000 x"
 0<
 12
@@ -3640,13 +4518,19 @@ b1000 =
 #757
 1<
 #758
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11111000000000000000000000000000000 x"
 0<
 12
 #759
+b11 1"
+b101 2"
 1<
 #760
 1S"
@@ -3657,9 +4541,13 @@ b1001 =
 #761
 1<
 #762
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101111100000000000000000000000000000 x"
 0<
 12
@@ -3672,13 +4560,19 @@ b1010 =
 #765
 1<
 #766
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b110111110000000000000000000000000000 x"
 0<
 12
 #767
+b11 1"
+b101 2"
 1<
 #768
 0<
@@ -3687,9 +4581,13 @@ b1011 =
 #769
 1<
 #770
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111011111000000000000000000000000000 x"
 0<
 12
@@ -3702,13 +4600,19 @@ b1100 =
 #773
 1<
 #774
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111101111100000000000000000000000000 x"
 0<
 12
 #775
+b11 1"
+b101 2"
 1<
 #776
 0S"
@@ -3719,9 +4623,13 @@ b1101 =
 #777
 1<
 #778
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b11110111110000000000000000000000000 x"
 0<
 12
@@ -3736,13 +4644,19 @@ b1110 =
 #781
 1<
 #782
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101111011111000000000000000000000000 x"
 0<
 12
 #783
+b11 1"
+b101 2"
 1<
 #784
 0<
@@ -3751,9 +4665,13 @@ b1111 =
 #785
 1<
 #786
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b110111101111100000000000000000000000 x"
 0<
 12
@@ -3768,13 +4686,19 @@ b10000 =
 #789
 1<
 #790
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11011110111110000000000000000000000 x"
 0<
 12
 #791
+b11 1"
+b101 2"
 1<
 #792
 0<
@@ -3783,9 +4707,13 @@ b10001 =
 #793
 1<
 #794
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1101111011111000000000000000000000 x"
 0<
 12
@@ -3800,13 +4728,19 @@ b10010 =
 #797
 1<
 #798
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100110111101111100000000000000000000 x"
 0<
 12
 #799
+b11 1"
+b101 2"
 1<
 #800
 0<
@@ -3815,9 +4749,13 @@ b10011 =
 #801
 1<
 #802
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b110011011110111110000000000000000000 x"
 0<
 12
@@ -3830,13 +4768,19 @@ b10100 =
 #805
 1<
 #806
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b111001101111011111000000000000000000 x"
 0<
 12
 #807
+b11 1"
+b101 2"
 1<
 #808
 0<
@@ -3845,9 +4789,13 @@ b10101 =
 #809
 1<
 #810
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b111100110111101111100000000000000000 x"
 0<
 12
@@ -3862,13 +4810,19 @@ b10110 =
 #813
 1<
 #814
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b11110011011110111110000000000000000 x"
 0<
 12
 #815
+b11 1"
+b101 2"
 1<
 #816
 1S"
@@ -3879,9 +4833,13 @@ b10111 =
 #817
 1<
 #818
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101111001101111011111000000000000000 x"
 0<
 12
@@ -3896,13 +4854,19 @@ b11000 =
 #821
 1<
 #822
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10111100110111101111100000000000000 x"
 0<
 12
 #823
+b11 1"
+b101 2"
 1<
 #824
 1S"
@@ -3913,9 +4877,13 @@ b11001 =
 #825
 1<
 #826
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101011110011011110111110000000000000 x"
 0<
 12
@@ -3930,13 +4898,19 @@ b11010 =
 #829
 1<
 #830
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10101111001101111011111000000000000 x"
 0<
 12
 #831
+b11 1"
+b101 2"
 1<
 #832
 1S"
@@ -3947,9 +4921,13 @@ b11011 =
 #833
 1<
 #834
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101010111100110111101111100000000000 x"
 0<
 12
@@ -3964,13 +4942,19 @@ b11100 =
 #837
 1<
 #838
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10101011110011011110111110000000000 x"
 0<
 12
 #839
+b11 1"
+b101 2"
 1<
 #840
 0<
@@ -3979,9 +4963,13 @@ b11101 =
 #841
 1<
 #842
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1010101111001101111011111000000000 x"
 0<
 12
@@ -3994,13 +4982,19 @@ b11110 =
 #845
 1<
 #846
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101010111100110111101111100000000 x"
 0<
 12
 #847
+b11 1"
+b101 2"
 1<
 #848
 0<
@@ -4009,9 +5003,13 @@ b11111 =
 #849
 1<
 #850
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101011110011011110111110000000 x"
 0<
 12
@@ -4024,13 +5022,19 @@ b100000 =
 #853
 1<
 #854
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1010101111001101111011111000000 x"
 0<
 12
 #855
+b11 1"
+b101 2"
 1<
 #856
 0<
@@ -4039,9 +5043,13 @@ b100001 =
 #857
 1<
 #858
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101010111100110111101111100000 x"
 0<
 12
@@ -4054,13 +5062,19 @@ b100010 =
 #861
 1<
 #862
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10101011110011011110111110000 x"
 0<
 12
 #863
+b11 1"
+b101 2"
 1<
 #864
 0<
@@ -4069,9 +5083,13 @@ b100011 =
 #865
 1<
 #866
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1010101111001101111011111000 x"
 0<
 12
@@ -4087,12 +5105,18 @@ b100100 =
 #869
 1<
 #870
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #871
+b11 1"
+b101 2"
 1<
 #872
 0<
@@ -4100,9 +5124,13 @@ b100100 =
 #873
 1<
 #874
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #875
@@ -4115,16 +5143,22 @@ b100100 =
 1<
 #878
 b1 p"
+b100111 Z
 1^"
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 1s"
 b1111 y"
 b101010111100110111101111 q"
 0<
 12
 #879
+b11 1"
+b101 2"
 1<
 #880
 0<
@@ -4135,19 +5169,22 @@ b101010111100110111101111 q"
 1<
 #882
 b10 p"
-b0x11110 X
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-bx00001 I
+bx00001 K
 bx00001 Q"
 bx00001 Z"
-1J
-b101010111100110111101111 O
+1L
+b101010111100110111101111 Q
 b101010111100110111101111 U"
 b101010111100110111101111 \"
 b101010111100110111101111 |"
-b101010111100110111101111 (#
-0D
+b101010111100110111101111 '#
+0F
+b10 2"
 b1 o"
 0s"
 0<
@@ -4161,23 +5198,28 @@ b1 o"
 1<
 #886
 b11 p"
-b0x11101 X
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-bx00010 I
+bx00010 K
 bx00010 Q"
 bx00010 Z"
-0J
-b0 O
+0L
+b0 Q
 b0 U"
 b0 \"
 b0 |"
-b0 (#
-1D
+b0 '#
+1F
+b100 2"
 b10 o"
 0<
 12
 #887
+b11 1"
+b101 2"
 1<
 #888
 0<
@@ -4186,20 +5228,23 @@ b10 o"
 1<
 #890
 b100 p"
-b0x11100 X
-1L
+b101111 Z
+1N
+b101 1"
+10"
 0Y"
 0P"
-bx00011 I
+bx00011 K
 bx00011 Q"
 bx00011 Z"
-0D
+0F
+b10 2"
 b11 o"
-b101010111100110111101111 M
+b101010111100110111101111 O
 b101010111100110111101111 T"
 b101010111100110111101111 ["
-b101010111100110111101111 $#
-b101010111100110111101111 *#
+b101010111100110111101111 ##
+b101010111100110111101111 )#
 0<
 12
 #891
@@ -4211,36 +5256,42 @@ b101010111100110111101111 *#
 1<
 #894
 b0 p"
-b0x11011 X
-0L
-b1010101010101010101010101010101 W
-b1010101010101010101010101010101 ^
+b100011 Z
+b1 +"
+0N
+b1010101010101010101010101010101 Y
+b1010101010101010101010101010101 _
 b1010101010101010101010101010101 X"
 b1010101010101010101010101010101 `"
-b1111 V
+b1111 X
 b1111 $"
 b1111 W"
 b1111 _"
+b1 1"
+00"
 1Y"
 1P"
-bx00100 I
+bx00100 K
 bx00100 Q"
 bx00100 Z"
-1T
-b0 !#
-b0 '#
-1D
-b100000000 "#
-b100000000 &#
+1V
+b0 ~"
+b0 &#
+1F
+b100000000 !#
+b100000000 %#
+b100 2"
 b100 o"
-1%#
+1$#
 0<
 12
 #895
-b101010111100110111101111 N
-b101010111100110111101111 :"
-b101010111100110111101111 ##
-b101010111100110111101111 +#
+b11 1"
+b101 2"
+b101010111100110111101111 P
+b101010111100110111101111 9"
+b101010111100110111101111 "#
+b101010111100110111101111 *#
 1<
 #896
 0<
@@ -4248,67 +5299,89 @@ b101010111100110111101111 +#
 #897
 1<
 #898
+b101111 Z
 0^"
-b0x11111 X
-b0 W
-b0 ^
+b0 Y
+b0 _
 b0 X"
 b0 `"
-b0 V
+b0 X
 b0 $"
 b0 W"
 b0 _"
+b11 +"
+b101 1"
+10"
 0Y"
 0P"
-bx00000 I
+bx00000 K
 bx00000 Q"
 bx00000 Z"
-0T
-0D
+0V
+0F
+b1 ,"
+b10 2"
 b111 y"
 b0 o"
-bx M
+bx O
 bx T"
 bx ["
-bx $#
-bx *#
+bx ##
+bx )#
 0<
 12
 #899
+b100 +"
+1*"
+b10 ,"
 1<
 #900
 0<
 02
 #901
-b1010101010101010101010101010101 H
-b1010101010101010101010101010101 ]
+b110 M"
+b1101 Z
+b1010101010101010101010101010101 J
+b1010101010101010101010101010101 ^
 b1010101010101010101010101010101 5"
-b1111 G
+b1111 I
 b1111 #"
 b1111 6"
-b110 M"
-1F
+b0 +"
+0*"
+b1111 W
+b1111 8"
+1H
+b100 ,"
 1<
 #902
+b101 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #903
-b0 H
-b0 ]
+b101 M"
+b1110111 Z
+b0 J
+b0 ^
 b0 5"
 0Y"
 0P"
-0R
-b0 G
+0T
+b0 I
 b0 #"
 b0 6"
-b110 U
-b110 9"
-0F
-b101 M"
+b11 1"
+b1100 W
+b1100 8"
+0H
+b0 ,"
+b101 2"
 b1010101010101010101010101010101 N"
 b1111 O"
 b110 L"
@@ -4317,17 +5390,25 @@ b110 L"
 0<
 02
 #905
-b101 U
-b101 9"
 b1 M"
+b10110111 Z
+b1010 W
+b1010 8"
 b101 L"
 1<
 #906
-0D
+b10111111 Z
+b100 1"
+10"
+0F
+b10 2"
 0<
 12
 #907
+b110111111 Z
 1"
+b10 W
+b10 8"
 b101010111100110111101111 K"
 b1 L"
 1<
@@ -4337,7 +5418,11 @@ b1 L"
 #909
 1<
 #910
-1D
+b110110111 Z
+b0 1"
+00"
+1F
+b100 2"
 0<
 12
 #911
@@ -4348,7 +5433,9 @@ b1 L"
 #913
 1<
 #914
-0D
+b110111111 Z
+0F
+b0 2"
 0<
 12
 #915
@@ -4479,35 +5566,37 @@ b10 M"
 02
 1:
 #965
+b11 M"
+b101111111 Z
 b1111 &
-b1111 Y
-b1111 <"
+b1111 [
+b1111 ;"
 1)
 0"
-b110 U
-b110 9"
+b100 W
+b100 8"
 b1010101010101010101010101010101 *
-b1010101010101010101010101010101 [
-b1010101010101010101010101010101 >"
-b11 M"
+b1010101010101010101010101010101 ]
+b1010101010101010101010101010101 ="
 b10 L"
 1<
 #966
 0<
 12
 #967
+b100 M"
+b100111111 Z
 1$
 b0 &
-b0 Y
-b0 <"
+b0 [
+b0 ;"
 0)
-b111 U
-b111 9"
+b110 W
+b110 8"
 b101010111100110111101111 *
-b101010111100110111101111 [
-b101010111100110111101111 >"
+b101010111100110111101111 ]
+b101010111100110111101111 ="
 1%
-b100 M"
 b11 L"
 1<
 #968
@@ -4515,15 +5604,17 @@ b11 L"
 02
 0:
 #969
+b1111 M"
+b11101111 Z
+b1 1"
 b0 *
-b0 [
-b0 >"
+b0 ]
+b0 ="
 0$
-1R
-b100 U
-b100 9"
+1T
+b1000 W
+b1000 8"
 0%
-b0 M"
 b100 L"
 b11111111111111111111111111111111 ;
 1<
@@ -4531,12 +5622,15 @@ b11111111111111111111111111111111 ;
 0<
 12
 #971
-b0 U
-b0 9"
+b101111 Z
+b11 1"
+b1110 W
+b1110 8"
+b1 2"
 b0 O"
 b0 N"
 b0 K"
-b0 L"
+b1111 L"
 1<
 #972
 0<
@@ -4544,6 +5638,9 @@ b0 L"
 #973
 1<
 #974
+b101 1"
+10"
+b10 2"
 0<
 12
 #975
@@ -4554,12 +5651,18 @@ b0 L"
 #977
 1<
 #978
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #979
+b11 1"
+b101 2"
 1<
 #980
 0<
@@ -4567,9 +5670,13 @@ b0 L"
 #981
 1<
 #982
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #983
@@ -4580,24 +5687,34 @@ b0 L"
 #985
 1<
 #986
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #987
+b11 1"
+b101 2"
 1<
 #988
 0<
 02
 0/
-b1001 ,#
+b1001 +#
 #989
 1<
 #990
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #991
@@ -4608,12 +5725,18 @@ b1001 ,#
 #993
 1<
 #994
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #995
+b11 1"
+b101 2"
 1<
 #996
 0S"
@@ -4623,10 +5746,14 @@ b1001 ,#
 #997
 1<
 #998
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b111 x"
 0<
 12
@@ -4642,13 +5769,19 @@ b0 =
 #1001
 1<
 #1002
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100000000000000000000000000000000011 x"
 0<
 12
 #1003
+b11 1"
+b101 2"
 1<
 #1004
 0S"
@@ -4659,9 +5792,13 @@ b1 =
 #1005
 1<
 #1006
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10000000000000000000000000000000001 x"
 0<
 12
@@ -4674,14 +5811,20 @@ b10 =
 #1009
 1<
 #1010
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 0+
+b100 2"
 b1000000000000000000000000000000000 x"
 0<
 12
 #1011
+b11 1"
+b101 2"
 1<
 #1012
 1S"
@@ -4692,9 +5835,13 @@ b11 =
 #1013
 1<
 #1014
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100100000000000000000000000000000000 x"
 0<
 12
@@ -4709,13 +5856,19 @@ b100 =
 #1017
 1<
 #1018
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10010000000000000000000000000000000 x"
 0<
 12
 #1019
+b11 1"
+b101 2"
 1<
 #1020
 0<
@@ -4724,9 +5877,13 @@ b101 =
 #1021
 1<
 #1022
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1001000000000000000000000000000000 x"
 0<
 12
@@ -4739,13 +5896,19 @@ b110 =
 #1025
 1<
 #1026
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100100000000000000000000000000000 x"
 0<
 12
 #1027
+b11 1"
+b101 2"
 1<
 #1028
 0<
@@ -4754,9 +5917,13 @@ b111 =
 #1029
 1<
 #1030
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10010000000000000000000000000000 x"
 0<
 12
@@ -4769,13 +5936,19 @@ b1000 =
 #1033
 1<
 #1034
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1001000000000000000000000000000 x"
 0<
 12
 #1035
+b11 1"
+b101 2"
 1<
 #1036
 0<
@@ -4784,9 +5957,13 @@ b1001 =
 #1037
 1<
 #1038
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100100000000000000000000000000 x"
 0<
 12
@@ -4799,13 +5976,19 @@ b1010 =
 #1041
 1<
 #1042
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10010000000000000000000000000 x"
 0<
 12
 #1043
+b11 1"
+b101 2"
 1<
 #1044
 0<
@@ -4814,9 +5997,13 @@ b1011 =
 #1045
 1<
 #1046
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1001000000000000000000000000 x"
 0<
 12
@@ -4829,13 +6016,19 @@ b1100 =
 #1049
 1<
 #1050
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100100000000000000000000000 x"
 0<
 12
 #1051
+b11 1"
+b101 2"
 1<
 #1052
 0<
@@ -4844,9 +6037,13 @@ b1101 =
 #1053
 1<
 #1054
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10010000000000000000000000 x"
 0<
 12
@@ -4859,13 +6056,19 @@ b1110 =
 #1057
 1<
 #1058
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1001000000000000000000000 x"
 0<
 12
 #1059
+b11 1"
+b101 2"
 1<
 #1060
 0<
@@ -4874,9 +6077,13 @@ b1111 =
 #1061
 1<
 #1062
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100100000000000000000000 x"
 0<
 12
@@ -4889,13 +6096,19 @@ b10000 =
 #1065
 1<
 #1066
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10010000000000000000000 x"
 0<
 12
 #1067
+b11 1"
+b101 2"
 1<
 #1068
 0<
@@ -4904,9 +6117,13 @@ b10001 =
 #1069
 1<
 #1070
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1001000000000000000000 x"
 0<
 12
@@ -4919,13 +6136,19 @@ b10010 =
 #1073
 1<
 #1074
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100100000000000000000 x"
 0<
 12
 #1075
+b11 1"
+b101 2"
 1<
 #1076
 0<
@@ -4934,9 +6157,13 @@ b10011 =
 #1077
 1<
 #1078
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10010000000000000000 x"
 0<
 12
@@ -4949,13 +6176,19 @@ b10100 =
 #1081
 1<
 #1082
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1001000000000000000 x"
 0<
 12
 #1083
+b11 1"
+b101 2"
 1<
 #1084
 0<
@@ -4964,9 +6197,13 @@ b10101 =
 #1085
 1<
 #1086
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100100000000000000 x"
 0<
 12
@@ -4979,13 +6216,19 @@ b10110 =
 #1089
 1<
 #1090
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10010000000000000 x"
 0<
 12
 #1091
+b11 1"
+b101 2"
 1<
 #1092
 0<
@@ -4994,9 +6237,13 @@ b10111 =
 #1093
 1<
 #1094
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1001000000000000 x"
 0<
 12
@@ -5009,13 +6256,19 @@ b11000 =
 #1097
 1<
 #1098
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100100000000000 x"
 0<
 12
 #1099
+b11 1"
+b101 2"
 1<
 #1100
 0<
@@ -5024,9 +6277,13 @@ b11001 =
 #1101
 1<
 #1102
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10010000000000 x"
 0<
 12
@@ -5039,13 +6296,19 @@ b11010 =
 #1105
 1<
 #1106
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1001000000000 x"
 0<
 12
 #1107
+b11 1"
+b101 2"
 1<
 #1108
 0<
@@ -5054,9 +6317,13 @@ b11011 =
 #1109
 1<
 #1110
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100100000000 x"
 0<
 12
@@ -5069,13 +6336,19 @@ b11100 =
 #1113
 1<
 #1114
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10010000000 x"
 0<
 12
 #1115
+b11 1"
+b101 2"
 1<
 #1116
 0<
@@ -5084,9 +6357,13 @@ b11101 =
 #1117
 1<
 #1118
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1001000000 x"
 0<
 12
@@ -5099,13 +6376,19 @@ b11110 =
 #1121
 1<
 #1122
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b100100000 x"
 0<
 12
 #1123
+b11 1"
+b101 2"
 1<
 #1124
 0<
@@ -5114,9 +6397,13 @@ b11111 =
 #1125
 1<
 #1126
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10010000 x"
 0<
 12
@@ -5129,13 +6416,19 @@ b100000 =
 #1129
 1<
 #1130
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1001000 x"
 0<
 12
 #1131
+b11 1"
+b101 2"
 1<
 #1132
 0<
@@ -5144,9 +6437,13 @@ b100001 =
 #1133
 1<
 #1134
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b100100 x"
 0<
 12
@@ -5159,13 +6456,19 @@ b100010 =
 #1137
 1<
 #1138
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10010 x"
 0<
 12
 #1139
+b11 1"
+b101 2"
 1<
 #1140
 0<
@@ -5174,10 +6477,14 @@ b100011 =
 #1141
 1<
 #1142
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b1001 x"
 0<
 12
@@ -5193,12 +6500,18 @@ b100100 =
 #1145
 1<
 #1146
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1147
+b11 1"
+b101 2"
 1<
 #1148
 0<
@@ -5206,9 +6519,13 @@ b100100 =
 #1149
 1<
 #1150
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1151
@@ -5221,15 +6538,21 @@ b100100 =
 1<
 #1154
 b101 p"
+b100111 Z
 1^"
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 1u"
 b10111 y"
 0<
 12
 #1155
+b11 1"
+b101 2"
 1<
 #1156
 0<
@@ -5240,22 +6563,26 @@ b10111 y"
 1<
 #1158
 b110 p"
-b0x11010 X
-b1010101010101010101010101010101 W
-b1010101010101010101010101010101 ^
+b101111 Z
+b1 ."
+b1010101010101010101010101010101 Y
+b1010101010101010101010101010101 _
 b1010101010101010101010101010101 X"
 b1010101010101010101010101010101 `"
-b1111 V
+b1111 X
 b1111 $"
 b1111 W"
 b1111 _"
+b101 1"
+10"
 0Y"
 0P"
-bx00101 I
+bx00101 K
 bx00101 Q"
 bx00101 Z"
-1S
-0D
+1U
+0F
+b10 2"
 b101 o"
 0u"
 0<
@@ -5269,65 +6596,82 @@ b101 o"
 1<
 #1162
 b1000 p"
-b0x11001 X
-b0 W
-b0 ^
+b100111 Z
+b0 Y
+b0 _
 b0 X"
 b0 `"
-b0 V
+b0 X
 b0 $"
 b0 W"
 b0 _"
+b11 ."
+b1 1"
+00"
 1Y"
 1P"
-bx00110 I
+bx00110 K
 bx00110 Q"
 bx00110 Z"
-0S
-1D
+0U
+1F
+b1 /"
+b100 2"
 b110 o"
 0<
 12
 #1163
+b100 ."
+1-"
+b11 1"
+b10 /"
+b101 2"
 1<
 #1164
 0<
 02
 #1165
-b1010101010101010101010101010101 H
-b1010101010101010101010101010101 ]
+b111 M"
+b1010101010101010101010101010101 J
+b1010101010101010101010101010101 ^
 b1010101010101010101010101010101 5"
-b1111 G
+b1111 I
 b1111 #"
 b1111 6"
-b111 M"
-1E
+b0 ."
+0-"
+1G
+b100 /"
 1<
 #1166
 b1001 p"
-b0x10111 X
-1L
+b101111 Z
+1N
+b101 1"
+10"
 0Y"
 0P"
-bx01000 I
+bx01000 K
 bx01000 Q"
 bx01000 Z"
-0D
+0F
+b10 2"
 b1000 o"
 0<
 12
 #1167
-b0 H
-b0 ]
+b111111 Z
+b100 1"
+b0 J
+b0 ^
 b0 5"
 1"
-0R
-b0 G
+0T
+b0 I
 b0 #"
 b0 6"
-b111 U
-b111 9"
-0E
+0G
+b0 /"
 b1010101010101010101010101010101 N"
 b1111 O"
 b111 L"
@@ -5339,25 +6683,28 @@ b111 L"
 1<
 #1170
 b1010 p"
-b0x10110 X
-0L
-bx01001 I
+b110111 Z
+0N
+b0 1"
+00"
+bx01001 K
 bx01001 Q"
 bx01001 Z"
-b100000000 !#
-b100000000 '#
-1D
-b0 "#
-b0 &#
+b100000000 ~"
+b100000000 &#
+1F
+b0 !#
+b0 %#
+b100 2"
 b1001 o"
-0%#
+0$#
 0<
 12
 #1171
-bx N
-bx :"
-bx ##
-bx +#
+bx P
+bx 9"
+bx "#
+bx *#
 1<
 #1172
 b1000 M"
@@ -5369,45 +6716,48 @@ b11111111111111111111111111111111 3"
 17
 1:
 #1173
+b111110111 Z
 b1010101010101010101010101010101 *
-b1010101010101010101010101010101 [
-b1010101010101010101010101010101 >"
+b1010101010101010101010101010101 ]
+b1010101010101010101010101010101 ="
 b1111 &
-b1111 Y
-b1111 <"
+b1111 [
+b1111 ;"
 1)
 0"
-b100 U
-b100 9"
+b0 W
+b0 8"
 1#
 b1001 M"
 b1000 L"
 1<
 #1174
 b111 p"
-b0x10101 X
-bx01010 I
+b111111111 Z
+bx01010 K
 bx01010 Q"
 bx01010 Z"
-0D
+0F
+b0 2"
 b1010 o"
-b101010111100110111101111 M
+b101010111100110111101111 O
 b101010111100110111101111 T"
 b101010111100110111101111 ["
-b101010111100110111101111 $#
-b101010111100110111101111 *#
+b101010111100110111101111 ##
+b101010111100110111101111 )#
 0<
 12
 #1175
+b110111111 Z
 b0 *
-b0 [
-b0 >"
+b0 ]
+b0 ="
 b0 &
-b0 Y
-b0 <"
+b0 [
+b0 ;"
 0)
-b101 U
-b101 9"
+b10 W
+b10 8"
 0#
 b1001 L"
 1<
@@ -5417,20 +6767,20 @@ b1010 M"
 02
 18
 #1177
-b110 U
-b110 9"
-b11111111111111111111111111111111 P
-b11111111111111111111111111111111 ;"
+b101111111 Z
+b100 W
+b100 8"
+b11111111111111111111111111111111 R
+b11111111111111111111111111111111 :"
 b11111111111111111111111111111111 }"
-b11111111111111111111111111111111 )#
-1K
+b11111111111111111111111111111111 (#
+1M
 b100 M"
 b11111111111111111111111111111111 K"
 b1010 L"
 1<
 #1178
-b0x11000 X
-bx00111 I
+bx00111 K
 bx00111 Q"
 bx00111 Z"
 b110111 y"
@@ -5439,33 +6789,41 @@ b111 o"
 0<
 12
 #1179
-1R
-b100 U
-b100 9"
-b0 P
-b0 ;"
+b1111 M"
+b11101111 Z
+b1 1"
+1T
+b1000 W
+b1000 8"
+b0 R
+b0 :"
 b0 }"
-b0 )#
-0K
-b0 M"
+b0 (#
+0M
 b100 L"
 1<
 #1180
 0<
 02
 #1181
-b0 U
-b0 9"
+b101111 Z
+b11 1"
+b1110 W
+b1110 8"
+b1 2"
+b11111111111111111111111111111111 P
+b11111111111111111111111111111111 9"
+b11111111111111111111111111111111 "#
+b11111111111111111111111111111111 *#
 b0 O"
 b0 N"
 b0 K"
-b0 L"
-b11111111111111111111111111111111 N
-b11111111111111111111111111111111 :"
-b11111111111111111111111111111111 ##
-b11111111111111111111111111111111 +#
+b1111 L"
 1<
 #1182
+b101 1"
+10"
+b10 2"
 0<
 12
 #1183
@@ -5476,12 +6834,18 @@ b11111111111111111111111111111111 +#
 #1185
 1<
 #1186
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1187
+b11 1"
+b101 2"
 1<
 #1188
 0<
@@ -5489,9 +6853,13 @@ b11111111111111111111111111111111 +#
 #1189
 1<
 #1190
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1191
@@ -5502,24 +6870,34 @@ b11111111111111111111111111111111 +#
 #1193
 1<
 #1194
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1195
+b11 1"
+b101 2"
 1<
 #1196
 0<
 02
 0/
-b1010 ,#
+b1010 +#
 #1197
 1<
 #1198
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1199
@@ -5530,12 +6908,18 @@ b1010 ,#
 #1201
 1<
 #1202
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1203
+b11 1"
+b101 2"
 1<
 #1204
 0S"
@@ -5546,9 +6930,13 @@ b1010 ,#
 1<
 #1206
 b0 p"
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 1t"
 b111000000000101010111100110111101111 x"
 0<
@@ -5563,14 +6951,17 @@ b0 =
 #1209
 1<
 #1210
+b100111 Z
 0^"
-b0x11111 X
+b1 1"
+00"
 1Y"
 1P"
-bx00000 I
+bx00000 K
 bx00000 Q"
 bx00000 Z"
-1D
+1F
+b100 2"
 b11100000000010101011110011011110111 x"
 b111 y"
 b0 o"
@@ -5578,6 +6969,8 @@ b0 o"
 0<
 12
 #1211
+b11 1"
+b101 2"
 1<
 #1212
 1S"
@@ -5588,9 +6981,13 @@ b1 =
 #1213
 1<
 #1214
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101110000000001010101111001101111011 x"
 0<
 12
@@ -5605,13 +7002,19 @@ b10 =
 #1217
 1<
 #1218
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10111000000000101010111100110111101 x"
 0<
 12
 #1219
+b11 1"
+b101 2"
 1<
 #1220
 1S"
@@ -5622,10 +7025,14 @@ b11 =
 #1221
 1<
 #1222
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b101011100000000010101011110011011110 x"
 0<
 12
@@ -5640,14 +7047,20 @@ b100 =
 #1225
 1<
 #1226
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 1+
+b100 2"
 b10101110000000001010101111001101111 x"
 0<
 12
 #1227
+b11 1"
+b101 2"
 1<
 #1228
 0<
@@ -5656,9 +7069,13 @@ b101 =
 #1229
 1<
 #1230
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1010111000000000101010111100110111 x"
 0<
 12
@@ -5671,13 +7088,19 @@ b110 =
 #1233
 1<
 #1234
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101011100000000010101011110011011 x"
 0<
 12
 #1235
+b11 1"
+b101 2"
 1<
 #1236
 0<
@@ -5686,9 +7109,13 @@ b111 =
 #1237
 1<
 #1238
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101110000000001010101111001101 x"
 0<
 12
@@ -5701,14 +7128,20 @@ b1000 =
 #1241
 1<
 #1242
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 0+
+b100 2"
 b1010111000000000101010111100110 x"
 0<
 12
 #1243
+b11 1"
+b101 2"
 1<
 #1244
 0<
@@ -5717,10 +7150,14 @@ b1001 =
 #1245
 1<
 #1246
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b101011100000000010101011110011 x"
 0<
 12
@@ -5733,13 +7170,19 @@ b1010 =
 #1249
 1<
 #1250
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10101110000000001010101111001 x"
 0<
 12
 #1251
+b11 1"
+b101 2"
 1<
 #1252
 0<
@@ -5748,10 +7191,14 @@ b1011 =
 #1253
 1<
 #1254
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b1010111000000000101010111100 x"
 0<
 12
@@ -5764,13 +7211,19 @@ b1100 =
 #1257
 1<
 #1258
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101011100000000010101011110 x"
 0<
 12
 #1259
+b11 1"
+b101 2"
 1<
 #1260
 0<
@@ -5779,10 +7232,14 @@ b1101 =
 #1261
 1<
 #1262
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 1+
+b10 2"
 b10101110000000001010101111 x"
 0<
 12
@@ -5795,13 +7252,19 @@ b1110 =
 #1265
 1<
 #1266
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1010111000000000101010111 x"
 0<
 12
 #1267
+b11 1"
+b101 2"
 1<
 #1268
 0<
@@ -5810,9 +7273,13 @@ b1111 =
 #1269
 1<
 #1270
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101011100000000010101011 x"
 0<
 12
@@ -5825,13 +7292,19 @@ b10000 =
 #1273
 1<
 #1274
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10101110000000001010101 x"
 0<
 12
 #1275
+b11 1"
+b101 2"
 1<
 #1276
 0<
@@ -5840,10 +7313,14 @@ b10001 =
 #1277
 1<
 #1278
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b1010111000000000101010 x"
 0<
 12
@@ -5856,14 +7333,20 @@ b10010 =
 #1281
 1<
 #1282
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 1+
+b100 2"
 b101011100000000010101 x"
 0<
 12
 #1283
+b11 1"
+b101 2"
 1<
 #1284
 0<
@@ -5872,10 +7355,14 @@ b10011 =
 #1285
 1<
 #1286
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b10101110000000001010 x"
 0<
 12
@@ -5888,14 +7375,20 @@ b10100 =
 #1289
 1<
 #1290
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 1+
+b100 2"
 b1010111000000000101 x"
 0<
 12
 #1291
+b11 1"
+b101 2"
 1<
 #1292
 0<
@@ -5904,10 +7397,14 @@ b10101 =
 #1293
 1<
 #1294
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b101011100000000010 x"
 0<
 12
@@ -5920,14 +7417,20 @@ b10110 =
 #1297
 1<
 #1298
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 1+
+b100 2"
 b10101110000000001 x"
 0<
 12
 #1299
+b11 1"
+b101 2"
 1<
 #1300
 0<
@@ -5936,10 +7439,14 @@ b10111 =
 #1301
 1<
 #1302
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b1010111000000000 x"
 0<
 12
@@ -5952,13 +7459,19 @@ b11000 =
 #1305
 1<
 #1306
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101011100000000 x"
 0<
 12
 #1307
+b11 1"
+b101 2"
 1<
 #1308
 0<
@@ -5967,9 +7480,13 @@ b11001 =
 #1309
 1<
 #1310
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101110000000 x"
 0<
 12
@@ -5982,13 +7499,19 @@ b11010 =
 #1313
 1<
 #1314
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b1010111000000 x"
 0<
 12
 #1315
+b11 1"
+b101 2"
 1<
 #1316
 0<
@@ -5997,9 +7520,13 @@ b11011 =
 #1317
 1<
 #1318
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101011100000 x"
 0<
 12
@@ -6012,13 +7539,19 @@ b11100 =
 #1321
 1<
 #1322
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10101110000 x"
 0<
 12
 #1323
+b11 1"
+b101 2"
 1<
 #1324
 0<
@@ -6027,9 +7560,13 @@ b11101 =
 #1325
 1<
 #1326
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b1010111000 x"
 0<
 12
@@ -6042,13 +7579,19 @@ b11110 =
 #1329
 1<
 #1330
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b101011100 x"
 0<
 12
 #1331
+b11 1"
+b101 2"
 1<
 #1332
 0<
@@ -6057,9 +7600,13 @@ b11111 =
 #1333
 1<
 #1334
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b10101110 x"
 0<
 12
@@ -6072,14 +7619,20 @@ b100000 =
 #1337
 1<
 #1338
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
 1+
+b100 2"
 b1010111 x"
 0<
 12
 #1339
+b11 1"
+b101 2"
 1<
 #1340
 0<
@@ -6088,9 +7641,13 @@ b100001 =
 #1341
 1<
 #1342
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 b101011 x"
 0<
 12
@@ -6103,13 +7660,19 @@ b100010 =
 #1345
 1<
 #1346
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 b10101 x"
 0<
 12
 #1347
+b11 1"
+b101 2"
 1<
 #1348
 0<
@@ -6118,10 +7681,14 @@ b100011 =
 #1349
 1<
 #1350
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
 0+
+b10 2"
 b1010 x"
 0<
 12
@@ -6137,12 +7704,18 @@ b100100 =
 #1353
 1<
 #1354
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1355
+b11 1"
+b101 2"
 1<
 #1356
 0<
@@ -6150,9 +7723,13 @@ b100100 =
 #1357
 1<
 #1358
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1359
@@ -6164,12 +7741,18 @@ b100100 =
 #1361
 1<
 #1362
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1363
+b11 1"
+b101 2"
 1<
 #1364
 0<
@@ -6179,9 +7762,13 @@ b100100 =
 #1365
 1<
 #1366
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1367
@@ -6192,12 +7779,18 @@ b100100 =
 #1369
 1<
 #1370
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1371
+b11 1"
+b101 2"
 1<
 #1372
 0<
@@ -6205,9 +7798,13 @@ b100100 =
 #1373
 1<
 #1374
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1375
@@ -6218,12 +7815,18 @@ b100100 =
 #1377
 1<
 #1378
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1379
+b11 1"
+b101 2"
 1<
 #1380
 0<
@@ -6231,9 +7834,13 @@ b100100 =
 #1381
 1<
 #1382
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1383
@@ -6244,12 +7851,18 @@ b100100 =
 #1385
 1<
 #1386
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1387
+b11 1"
+b101 2"
 1<
 #1388
 0<
@@ -6257,9 +7870,13 @@ b100100 =
 #1389
 1<
 #1390
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1391
@@ -6270,12 +7887,18 @@ b100100 =
 #1393
 1<
 #1394
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1395
+b11 1"
+b101 2"
 1<
 #1396
 0<
@@ -6283,9 +7906,13 @@ b100100 =
 #1397
 1<
 #1398
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1399
@@ -6296,12 +7923,18 @@ b100100 =
 #1401
 1<
 #1402
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1403
+b11 1"
+b101 2"
 1<
 #1404
 0<
@@ -6309,9 +7942,13 @@ b100100 =
 #1405
 1<
 #1406
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1407
@@ -6322,12 +7959,18 @@ b100100 =
 #1409
 1<
 #1410
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1411
+b11 1"
+b101 2"
 1<
 #1412
 0<
@@ -6335,9 +7978,13 @@ b100100 =
 #1413
 1<
 #1414
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1415
@@ -6348,12 +7995,18 @@ b100100 =
 #1417
 1<
 #1418
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1419
+b11 1"
+b101 2"
 1<
 #1420
 0<
@@ -6361,9 +8014,13 @@ b100100 =
 #1421
 1<
 #1422
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1423
@@ -6374,12 +8031,18 @@ b100100 =
 #1425
 1<
 #1426
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1427
+b11 1"
+b101 2"
 1<
 #1428
 0<
@@ -6387,9 +8050,13 @@ b100100 =
 #1429
 1<
 #1430
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1431
@@ -6400,12 +8067,18 @@ b100100 =
 #1433
 1<
 #1434
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1435
+b11 1"
+b101 2"
 1<
 #1436
 0<
@@ -6413,9 +8086,13 @@ b100100 =
 #1437
 1<
 #1438
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1439
@@ -6426,12 +8103,18 @@ b100100 =
 #1441
 1<
 #1442
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1443
+b11 1"
+b101 2"
 1<
 #1444
 0<
@@ -6439,9 +8122,13 @@ b100100 =
 #1445
 1<
 #1446
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1447
@@ -6452,12 +8139,18 @@ b100100 =
 #1449
 1<
 #1450
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1451
+b11 1"
+b101 2"
 1<
 #1452
 0<
@@ -6465,9 +8158,13 @@ b100100 =
 #1453
 1<
 #1454
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1455
@@ -6478,12 +8175,18 @@ b100100 =
 #1457
 1<
 #1458
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1459
+b11 1"
+b101 2"
 1<
 #1460
 0<
@@ -6491,9 +8194,13 @@ b100100 =
 #1461
 1<
 #1462
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1463
@@ -6504,12 +8211,18 @@ b100100 =
 #1465
 1<
 #1466
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1467
+b11 1"
+b101 2"
 1<
 #1468
 0<
@@ -6517,9 +8230,13 @@ b100100 =
 #1469
 1<
 #1470
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1471
@@ -6530,12 +8247,18 @@ b100100 =
 #1473
 1<
 #1474
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1475
+b11 1"
+b101 2"
 1<
 #1476
 0<
@@ -6543,9 +8266,13 @@ b100100 =
 #1477
 1<
 #1478
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1479
@@ -6556,12 +8283,18 @@ b100100 =
 #1481
 1<
 #1482
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1483
+b11 1"
+b101 2"
 1<
 #1484
 0<
@@ -6569,9 +8302,13 @@ b100100 =
 #1485
 1<
 #1486
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1487
@@ -6582,12 +8319,18 @@ b100100 =
 #1489
 1<
 #1490
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1491
+b11 1"
+b101 2"
 1<
 #1492
 0<
@@ -6595,9 +8338,13 @@ b100100 =
 #1493
 1<
 #1494
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1495
@@ -6608,12 +8355,18 @@ b100100 =
 #1497
 1<
 #1498
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1499
+b11 1"
+b101 2"
 1<
 #1500
 0<
@@ -6621,9 +8374,13 @@ b100100 =
 #1501
 1<
 #1502
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1503
@@ -6634,12 +8391,18 @@ b100100 =
 #1505
 1<
 #1506
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1507
+b11 1"
+b101 2"
 1<
 #1508
 0<
@@ -6647,9 +8410,13 @@ b100100 =
 #1509
 1<
 #1510
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1511
@@ -6660,12 +8427,18 @@ b100100 =
 #1513
 1<
 #1514
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1515
+b11 1"
+b101 2"
 1<
 #1516
 0<
@@ -6673,9 +8446,13 @@ b100100 =
 #1517
 1<
 #1518
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1519
@@ -6686,12 +8463,18 @@ b100100 =
 #1521
 1<
 #1522
+b100111 Z
+b1 1"
+00"
 1Y"
 1P"
-1D
+1F
+b100 2"
 0<
 12
 #1523
+b11 1"
+b101 2"
 1<
 #1524
 0<
@@ -6699,9 +8482,13 @@ b100100 =
 #1525
 1<
 #1526
+b101111 Z
+b101 1"
+10"
 0Y"
 0P"
-0D
+0F
+b10 2"
 0<
 12
 #1527

@@ -44,11 +44,27 @@ Connect this component to the rest of the design :
 
 After adding the component we need to change the script to load all used verilog file and update the lpf to handle the led array
 
+## Creating the ci for the DRAM : 
+
+The way i implemented it is by simply linking all the signals of the DMA to interanl signal of the custum instructions
+Verify in a testbench that everything is working correctly
+But a compilation error in the tollchain used tried to fixe it but i didn't manage it
+
+## Continue debugging on the board 
+
+1. Solve a big issue with the reset signals that were not correctly mapped and caused an issue 
+2. Still can't make it work on the board ...
+3. Clock syncrhonizer issue that i don't know why : 
+   1. Even when the signal is up the synchronized version is never up, My idea was that it was too fast to be noticeable but even the state of the DMA didn't not change 
+   2. even when the signal is low the output signal still bounce from low to high
+4. The DMA state does not update as expected
+5. The IPcore is actually working on the board
+
 
 ## Issue:
 
 1. The bus arbitrer is always busy so DMA can't access it 
-2.
+
 ## Questions :
 
 1. Do you have any idea of when will be the final presentation ?

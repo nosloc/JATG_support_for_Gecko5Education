@@ -166,7 +166,7 @@ DMA dma_inst (
         .clockIn(JTCK),
         .clockOut(system_clock),
         .D(s_dma_data_ready),
-        .reset(s_reset),
+        .reset(system_reset),
         .Q(sync_s_dma_data_ready)
     );
 
