@@ -9,6 +9,7 @@ module tb_chain1;
     reg JUPDATE;
     reg JRSTN;
     reg JCE1;
+    reg s_dma_busy;
     wire JTD1;
 
     // Instantiate the DUT (Device Under Test)
@@ -22,7 +23,8 @@ module tb_chain1;
         .JCE1(JCE1),
         .JTD1(JTD1),
         .pp_dataOut(32'hFFFFFFFF),
-        .switch_ready(1'b1)
+        .DMA_busy(s_dma_busy),
+        .DMA_block_size_IN(8'b1)
     );
 
     // Clock generation
@@ -64,6 +66,7 @@ module tb_chain1;
         JUPDATE = 0;
         JRSTN = 1;
         JCE1 = 0;
+        s_dma_busy = 1;
 
         // Reset the DUT
         #8;
@@ -73,20 +76,6 @@ module tb_chain1;
         #8;
         JRTI1 = 1;
         #8;
-
-        // // Send an instruction to the DUT
-        // sendInstruction(36'b010101010101010101010101010101010001);
-        // $display("Value of address reg: %b", dut.address_reg);
-
-        // sendInstruction(36'b11100010);
-        // $display("Value of byte enable reg: %b", dut.byte_enable_reg);
-
-        // sendInstruction(36'b10101010011);
-        // // sendInstruction(36'b00011);
-        // $display("Value of busrt size reg: %b", dut.busrt_size_reg);
-
-        // $display("Value of status reg: %b", dut.status_reg);
-        // #4;
 
 
         // // try to read the address register 
@@ -101,26 +90,43 @@ module tb_chain1;
         // #12;
         // sendInstruction(36'b000);
 
-        // Try to write in the buffer
+        // // Try to write in the buffer
+        // sendInstruction(36'hABCDEF8);
+        // sendInstruction(36'h1ABCDEF8);
+        // sendInstruction(36'h2ABCDEF8);
+        // sendInstruction(36'h0);
+
+
+        // //Try to read from the buffer
+
+        // sendInstruction(36'b1001);
+        // #8;       
+        // sendInstruction(36'b1001);
+        // #8;       
+        // sendInstruction(36'b1001);
+
+
+
+        // Try to send a burst of data
+
+        // set the burst size to 1
+        sendInstruction(36'h13);
+
+        // set the address to 0x55555555
+        sendInstruction(36'h555555551);
+
+        // Write some data in the buffer
         sendInstruction(36'hABCDEF8);
         sendInstruction(36'h1ABCDEF8);
         sendInstruction(36'h2ABCDEF8);
-        sendInstruction(36'h0);
 
+        // launch write operation
+        sendInstruction(36'b1010);
+        #20;
+        s_dma_busy = 0;
 
-        //Try to read from the buffer
+        sendInstruction(36'b1011);
 
-        sendInstruction(36'b1001);
-        #8;       
-        sendInstruction(36'b1001);
-        #8;       
-        sendInstruction(36'b1001);
-        // // Send a read instruction
-        // sendInstruction(36'b1001);
-        // #20
-
-        // // Read the data from the buffer
-        // sendInstruction(36'b1010);
         #160;
         $finish;
     end
