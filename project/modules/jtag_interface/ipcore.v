@@ -49,11 +49,13 @@ chain1 instruction_chain1 (
     .pp_dataIn(pp_dataIn),
     .pp_dataOut(pp_dataOut),
     .pp_switch(pp_switch),
-    .dma_address(dma_address),
-    .dma_data_ready(dma_data_ready),
-    .dma_byte_enable(dma_byte_enable),
-    .dma_readReady(dma_readReady),
-    .switch_ready(switch_ready),
+     .DMA_address(s_dma_address),
+    .DMA_launch_read(),
+    .DMA_launch_write(),
+    .DMA_burst_size_OUT(),
+    .DMA_byte_enable(s_dma_byte_enable),
+    .DMA_busy(1'b0), // assume the DMA is not busy
+    .DMA_block_size_IN(8'h10),
     .status_reg_out(s_status_reg_out)
 );
 

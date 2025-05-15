@@ -125,7 +125,7 @@ module tb_chain1;
         #20;
         s_dma_busy = 0;
 
-        sendInstruction(36'b1011);
+        sendInstruction(36'b1100);
 
         #160;
         $finish;
