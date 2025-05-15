@@ -107,6 +107,14 @@ module tb_chain1;
         sendInstruction(36'h2ABCDEF8);
         sendInstruction(36'h0);
 
+
+        //Try to read from the buffer
+
+        sendInstruction(36'b1001);
+        #8;       
+        sendInstruction(36'b1001);
+        #8;       
+        sendInstruction(36'b1001);
         // // Send a read instruction
         // sendInstruction(36'b1001);
         // #20

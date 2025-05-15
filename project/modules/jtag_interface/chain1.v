@@ -56,32 +56,32 @@ reg [5:0] status_reg;
 
 reg [31:0] data_reg;
 reg [7:0] block_size_reg;
+
 reg write_to_buffer;
+reg write_operation_in_progress;
 
-localparam IDLE =                       0;
-localparam write_FILL_BUFFER =          1;
-localparam write_WAIT_FOR_SWITCH =      2;
-localparam write_SWITCH_BUFFER =        3;
-localparam write_LAUNCH_WRITE =         4;
-localparam read_LAUNCH_READ =           5;
-localparam read_WAIT_FOR_SWITCH =       6;
-localparam read_DATA_READY_TO_READ =    7;
-localparam read_SWITCH_BUFFER =         8;
-localparam read_ASK_BUFFER =            9;
-localparam read_STORE_BUFFER_ANSWER =   10;
+reg [7:0] buffer_read_reg;
+reg read_buffer;
+reg read_operation_in_progress;
 
+localparam IDLE =                      0;
+localparam ASK_FOR_BUFFER =            1;
+localparam READ_BUFFER =               2; 
 
 
 reg [4:0] chain1_cur_state;
 reg [4:0] chain1_nxt_state;
-assign status_reg_out = block_size_reg[5:0];
+assign status_reg_out = {chain1_cur_state[1:0], block_size_reg[3:0]};
 
 // The status register is used to indicate the current state of the operation
 assign is_operation_running = (status_reg[3] == 1'b1 | status_reg[4] == 1'b1) ? 1'b1 : 1'b0;
 
 
 assign JTD1 = shift_reg[0];
+assign operation_in_progress = write_operation_in_progress | read_operation_in_progress;
+
 assign buffer_full = (block_size_reg == 8'b11111111) ? 1'b1 : 1'b0;
+assign read_complete = (buffer_read_reg == block_size_reg) ? 1'b1 : 1'b0;
 
 
 always @(posedge JTCK) begin
@@ -126,6 +126,11 @@ always @(posedge JTCK) begin
         block_size_reg <= 8'b0;
         data_reg <= 32'b0;
         write_to_buffer <= 1'b0;
+        write_operation_in_progress <= 1'b0;
+        read_operation_in_progress <= 1'b0;
+        buffer_read_reg <= 8'b0;
+        read_buffer <= 1'b0;
+        data_reg <= 32'b0;
     end
     else if (update_reg == 1'b1) begin
 
@@ -147,10 +152,53 @@ always @(posedge JTCK) begin
         write_to_buffer <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? 1'b1 : 1'b0;
 
         data_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? updated_data_reg[35:4] : data_reg;
+
+        write_operation_in_progress <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? 1'b1 : write_operation_in_progress;
+
+        read_operation_in_progress <= (updated_data_reg[3:0] == 4'b1001) ? 1'b1 : read_operation_in_progress;
+
+        buffer_read_reg <= (updated_data_reg[3:0] == 4'b1001 && read_complete == 1'b0) ? buffer_read_reg + 1 : buffer_read_reg;
+
+        read_buffer <= (updated_data_reg[3:0] == 4'b1001 && read_complete == 1'b0) ? 1'b1 : 1'b0;
+
+    end
+    else begin
+        shadow_reg <= (chain1_cur_state == READ_BUFFER) ? data_reg : shadow_reg;
+
+        data_reg <= (chain1_cur_state == READ_BUFFER) ? pp_dataOut : data_reg;
+
+        read_buffer <= (chain1_cur_state == READ_BUFFER) ? 1'b0 : read_buffer;
     end
 end
 
-assign pp_address = (write_to_buffer == 1'b1) ? {1'b0, block_size_reg}: 9'b0;
+always @(posedge JTCK) begin
+    if (n_reset == 0) begin
+        chain1_cur_state <= IDLE;
+    end
+    else begin
+        chain1_cur_state <= chain1_nxt_state;
+    end
+end
+
+always @(*) begin
+    case (chain1_cur_state)
+        IDLE: begin
+            chain1_nxt_state <= (read_buffer == 1'b1) ? ASK_FOR_BUFFER : IDLE;
+        end
+        ASK_FOR_BUFFER: begin
+            chain1_nxt_state <= READ_BUFFER;
+        end
+        READ_BUFFER: begin
+            chain1_nxt_state <= (JUPDATE == 1'b1) ? IDLE : READ_BUFFER;
+        end
+        default: begin 
+            chain1_nxt_state <= IDLE;
+        end
+    endcase
+end
+
+assign pp_address = (write_to_buffer == 1'b1) ? {1'b0, block_size_reg}: 
+                    (chain1_cur_state != IDLE) ? {1'b0, buffer_read_reg} : 9'b0;
 assign pp_writeEnable = (write_to_buffer == 1'b1) ? 1'b1 : 1'b0;
 assign pp_dataIn = (write_to_buffer == 1'b1) ? data_reg : 32'b0;
 //     assign pp_switch = (chain1_cur_state == write_SWITCH_BUFFER | chain1_cur_state == read_SWITCH_BUFFER) ? 1'b1 : 1'b0;
