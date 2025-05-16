@@ -20,6 +20,7 @@ module ipcore(
     output wire pp_switch,
 
     //DMA connections
+    input wire system_clk,
     output wire [31:0] dma_address,
     output wire dma_data_ready,
     output wire [3:0] dma_byte_enable,
@@ -49,6 +50,7 @@ chain1 instruction_chain1 (
     .pp_dataIn(pp_dataIn),
     .pp_dataOut(pp_dataOut),
     .pp_switch(pp_switch),
+    .system_clk(system_clk),
      .DMA_address(s_dma_address),
     .DMA_launch_read(),
     .DMA_launch_write(),

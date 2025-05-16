@@ -10,6 +10,7 @@ module tb_chain1;
     reg JRSTN;
     reg JCE1;
     reg s_dma_busy;
+    reg system_clk;
     wire JTD1;
 
     // Instantiate the DUT (Device Under Test)
@@ -24,15 +25,18 @@ module tb_chain1;
         .JTD1(JTD1),
         .pp_dataOut(32'hFFFFFFFF),
         .DMA_busy(s_dma_busy),
-        .DMA_block_size_IN(8'b1)
+        .DMA_block_size_IN(8'b1),
+        .system_clk(system_clk)
     );
 
     // Clock generation
     initial begin
         JTCK = 0; // Initialize JTCK
+        system_clk = 0; // Initialize system clock
     end
 
     always #2 JTCK = ~JTCK;
+    always #10 system_clk = ~system_clk;
 
     integer i;
     task sendInstruction(input [35:0] instruction);

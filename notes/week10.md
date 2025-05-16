@@ -87,3 +87,79 @@ The 0x9 instruction read the buffer from the address 0x0 and increment after eac
 ## Reset instruction
 
 the 0xf instruction will simply reset all the buffer of the ipcore.
+
+## Launch the DMA
+
+In order to luanch a new instruction to the DMA those steps are followed implemented using a FSM:
+
+1. Wait for the DMA to be not busy
+2. Switch the buffer to retreive the value written by the DMA and get the corresponding block size
+3. Launch the actual DMA instruction with signals such as DMA_launch_read, or DMA_launch_write
+4. End the transaction to set back the signals to zero 
+
+This instruction needs at least 4 clock cycles before actaully launching th DMA and 6 to correctly reset all signals
+
+The DMA can read the registers since they are mapped to its input signals.
+
+### Example of a write
+
+Here we assume the DMA to be ready
+
+```shell
+// Select the 0x32 chain and set up the registers 
+// Write in the buffer
+> drscan ecp5.tap 37 0x123456788
+0000000007
+> drscan ecp5.tap 37 0x12345678 
+0000000007
+> drscan ecp5.tap 37 0x1234568  
+0000000007
+> drscan ecp5.tap 37 0x123458 
+0000000007
+> drscan ecp5.tap 37 0x12348 
+0000000007
+> drscan ecp5.tap 37 0x1238 
+0000000007
+> drscan ecp5.tap 37 0x128 
+0000000007
+// Launch the write instruction 
+> drscan ecp5.tap 37 0xA     
+0000000007
+> runtest 1
+> runtest 1
+> runtest 1
+> runtest 1
+> runtest 1
+> runtest 1
+```
+
+### Example of a read
+
+Here we assume the DMA to be ready
+
+```shell 
+// Select the 0x32 chain and set up the registers
+// Launch the read
+> drscan ecp5.tap 37 0xB
+0000000007
+> runtest 1
+> runtest 1
+> runtest 1
+> runtest 1
+> runtest 1
+> runtest 1
+// Switch the buffer when DMA is done
+> drscan ecp5.tap 37 0xC
+// Read the buffer
+> drscan ecp5.tap 37 0x9
+0000000007
+> runtest 3
+> drscan ecp5.tap 37 0x0
+0012345678
+```
+
+### Switch the buffer 
+ 
+I also added an instruction that allow to switch the buffer when the DMA is ready to switch. It simply follow the path of launching a new instruction but does not send any starting signal to the DMA.
+
+## Synchronisation

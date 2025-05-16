@@ -94,6 +94,7 @@ ipcore ipcore (
     .pp_switch(s_pp_switch_ipcore), 
 
     // DMA connections
+    .system_clk(system_clock),
     .dma_address(s_dma_address),
     .dma_data_ready(s_dma_data_ready),
     .dma_byte_enable(s_dma_byte_enable),
