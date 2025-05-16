@@ -163,3 +163,9 @@ Here we assume the DMA to be ready
 I also added an instruction that allow to switch the buffer when the DMA is ready to switch. It simply follow the path of launching a new instruction but does not send any starting signal to the DMA.
 
 ## Synchronisation
+
+add the two synchronizers for both of the signal to launch the DMA
+
+## Question 
+
+1. What would be intersing to put in the status reg of the ipcore
