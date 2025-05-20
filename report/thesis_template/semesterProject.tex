@@ -76,97 +76,114 @@ The remainder of this report details the background of the project, the design d
 \chapter{Background}
 %%%%%%%%%%%%%%%%%%%%
 
-This section introduces the background of the project. It includes introduction on the GECKO5Education board, basic FPGA principles, the board’s initial system architecture, and the JTAG protocol.
-It also briefly covers the open-source toolchain used for development, simulation, and debugging.
-The background section introduces the necessary background to understand your
+This chapter provides the necessary context for the project.  
+It introduces the \boardName board, essential FPGA concepts,  
+the board’s initial architecture related to this project, and the JTAG protocol.  
+It also covers the open-source toolchain used for development,  
+simulation, and debugging.  
 
-\section{The \boardName board}
+\section{The \boardName Board}
 \label{sec:board}
 
-The \boardname board is a purpose-built FPGA development platform used primarily 
-for teaching digital systems design and computer architecture at EPFL.
-It is designed to provides strudents a hands-on experience. It features a Lattice ECP5 FPGA at its core. 
-But also includes a variety of peripherals and interfaces that are suitabble for system on chip experimetation.
-Among the main components, we can find: DRAM memory blocks, GPIOs such as push buttons and switches, a RGB LED matrix,
- and a UART interface for serial ommunication.
-The board also provides a JTAG port through the USB-C connector, although until now it was not used for any purpose because of
-the minimalistic implementation and the existence of the UART one.
+The \boardName board is an FPGA development platform primarily  
+used for teaching digital systems and computer architecture at EPFL.  
+It is designed to give students hands-on experience and features  
+a Lattice ECP5 FPGA at its core.  
+The board also includes various peripherals suitable for system-on-chip experimentation,  
+such as DRAM memory blocks, general-purpose I/Os (GPIOs) like push buttons and switches,  
+an RGB LED matrix, and a UART interface for serial communication.  
 
+Although the board provides a JTAG port through a USB-C connector,  
+it was previously unused due to its minimal implementation and  
+the availability of UART for communication.  
 
-\section{FPGA basics}
+\section{FPGA Basics}
 
-As explained in the \ref{sec:board} section, the \boardName board is based on a Lattice ECP5 FPGA.
-Unlike CPUs, which are used to execute softare, FPGAs are used to program and reprogram hardware logic. 
-They allow the implementation and execution of custom hardware designs, by using a hardware description language (HDL)
- Verilog in this project, that describes the structure and the implementation of the logic. The HDL code is then synthesized,
- placed, and routed to create a bitstream file that can be loaded into the FPGA.
-In this project the FPGA is used to improve an existing micro-controller architecture by adding components responsible for JTAG support.
+As mentioned in Section~\ref{sec:board}, the \boardName board is built around a Lattice ECP5 FPGA.  
+Unlike CPUs that execute software, FPGAs are reconfigurable hardware platforms  
+used to implement digital logic circuits.  
+They are programmed using hardware description languages (HDLs);  
+in this project, Verilog is used to describe the hardware's structure and behavior.  
+The HDL code is then synthesized, placed, and routed to produce a bitstream,  
+which is loaded into the FPGA.  
 
+In this project, the FPGA is used to enhance an existing microcontroller-based architecture  
+by adding components for JTAG support.  
 
 \section{Toolchain}
 
-This project relies on the open-source toolchain \texttt{oss-cad-suite}, which is a collection of tools for FPGA development.
-Simulation was performed using Icarus Verilog, while waveform visualization — essential for debugging and verification — was handled by GTKWave. 
-The design was synthesized and placed using Yosys and nextpnr-ecp5, then converted into a bitstream using ecppack. 
-To load the design onto the FPGA, openFPGALoader was used.
-Additionally \texttt{openOCD} (Open On-Chip Debugger) played a crucial role in interacting with the JTAG ports of the board throughout the project.
-It provides a telnet-accessible environment to issue low level JTAG commands, enabling direct manipulation of the JTAG interface's state and the corresponding
- input signal.
+The project uses the open-source \texttt{oss-cad-suite},  
+a comprehensive set of tools for FPGA development.  
+Icarus Verilog is used for simulation,  
+and GTKWave is employed for waveform visualization.  
+Yosys and nextpnr-ecp5 handle synthesis and placement,  
+while ecppack generates the bitstream.  
+The design is then loaded onto the FPGA using openFPGALoader.  
 
-\section{Initial system architecture}
+Additionally, \texttt{OpenOCD} (Open On-Chip Debugger) is used  
+to interact with the JTAG interface.  
+It provides a telnet-accessible environment to send low-level JTAG commands,  
+making it possible to control TAP states and directly drive input signals.  
 
-For the scope of this project we consider the core proccessing unit to be 
-an OpenRISC based micro-architecture where the OpenRISC 1000 ISA-based 5 stages pipelined processor is connected to other modules through a 32 bits shared bus architecture. 
-The default configuration includes a UART interface component, a memory controller, a camera interface, and other modules less relevant for this project.
-All this components are tied together by a shared bus architecture and a bus architecture. Moreover in the initial system architecture the bus architecture 
-has the ability to be extended with new components, which will be used in the second milestone of this project.
-However this architecture is not taken into account in the first milestone, where the JTAG interface is used to control the RGB LEDs, since they can be directly 
-mapped to the GPIOs of the board.
+\section{Initial System Architecture}
 
-\section{JTAG protocol}
+The default system architecture on the board is based on an OpenRISC microprocessor,  
+implementing the OpenRISC 1000 ISA in a 5-stage pipelined configuration.  
+It is connected to other modules via a 32-bit shared bus.  
+The default setup includes a UART module, an SDRAM memory controller,  
+a camera interface, and various GPIO components.  
 
-To conclude the background chapter, we will introduce the JTAG protocol, which is the core subject of this project.
+All modules are interconnected through the shared bus,  
+which is designed to be easily extensible—  
+an essential feature leveraged in the second milestone of this project.  
 
-The Joint Test Action Group (JTAG) protocol is an industry standard introduced in the 1990s as IEEE Standard 1149.1-1990,
- titled "Standard Test Access Port and Boundary-Scan Architecture."
-Originally, it was designed for testing and debugging printed circuit boards using techniques such as boundary-scan testing, 
-which allows for checking the interconnections between chips without requiring physical access to the pins.
+However, for the first milestone,  
+the JTAG interface is used only to control the RGB LEDs,  
+which are directly mapped to GPIOs.  
 
-Nowadays, JTAG continues to be used for testing and debugging, but it has also evolved to support a wider range of applications, 
-including in-system programming of flash memory, secure device provisioning, and system-level debugging in embedded and multi-core systems.
+\section{JTAG Protocol}
 
-The JTAG interface is standardized in IEEE 1149.1 and typically includes four mandatory signals and one optional signal:
+The JTAG protocol is the core focus of this project.  
+Defined by the IEEE 1149.1 standard,  
+JTAG (Joint Test Action Group) was introduced in the 1990s  
+to facilitate testing and debugging of printed circuit boards.  
+It uses boundary-scan techniques to check inter-chip connections  
+without requiring physical access to individual pins.  
 
-\begin{itemize}
-\item \textbf{TDI (Test Data In)} – Serial input data line.
-\item \textbf{TDO (Test Data Out)} – Serial output data line.
-\item \textbf{TCK (Test Clock)} – Clock signal that synchronizes data shifting.
-\item \textbf{TMS (Test Mode Select)} – Controls the state of the internal JTAG state machine.
-\item \textbf{(Optional) TRST (Test Reset)} – An optional reset line for the JTAG logic.
-\end{itemize}
+Today, JTAG is widely used for in-system programming, secure provisioning,  
+and system-level debugging in embedded systems.  
 
-These signals form a serial scan chain that enables test instructions and data to be shifted into and out of the device. 
-Internally, JTAG is managed by a TAP (Test Access Port) controller, which uses a finite state machine to control operations like data capture, shifting, and updating.
-
-To better understand the JTAG protocol, it's useful to consider several key states in the TAP state machine:
+The interface includes four required signals and one optional:  
 
 \begin{itemize}
-\item \textbf{Test-Logic Reset (TRST)}: Resets the TAP controller and internal JTAG logic.
-\item \textbf{Run-Test/Idle}: A waiting state where no data is being shifted.
-\item \textbf{Capture-IR}: Captures data into the instruction register.
-\item \textbf{Shift-IR}: Shifts instruction data in and out of the instruction register.
-\item \textbf{Update-IR}: Loads new instructions into the instruction register.
-\item \textbf{Capture-DR}: Captures data into a selected data register.
-\item \textbf{Shift-DR}: Shifts data in and out of the data register.
-\item \textbf{Update-DR}: Loads new data into the data register.
+    \item \textbf{TDI (Test Data In)} — Serial input line.  
+    \item \textbf{TDO (Test Data Out)} — Serial output line.  
+    \item \textbf{TCK (Test Clock)} — Synchronizes data shifting.  
+    \item \textbf{TMS (Test Mode Select)} — Drives the JTAG finite state machine.  
+    \item \textbf{TRST (Test Reset)} — Optional asynchronous reset line.  
 \end{itemize}
 
-The TAP controller transitions between these states based on the TMS signal, evaluated on the rising edge of TCK. 
-Therefore, by controlling TMS, TCK, and TDI, a user can navigate the TAP state machine, send specific instructions, and shift in data.
+JTAG communication is governed by the TAP (Test Access Port) controller,  
+which operates as a finite state machine.  
+Key states include:  
 
-Since the JTAG protocol is based on shift registers, the user can also read back data by shifting it out through TDO while new data is shifted in via TDI. 
-This enables bidirectional communication for testing, programming, and debugging at a low level and in our case, it allows us to control the LEDs and access the 
-memory and peripherals of the \boardName board.
+\begin{itemize}
+    \item \textbf{Test-Logic Reset} — Resets the TAP controller.  
+    \item \textbf{Run-Test/Idle} — Wait state for idle periods.  
+    \item \textbf{Capture-IR / Shift-IR / Update-IR} — Instruction register operations.  
+    \item \textbf{Capture-DR / Shift-DR / Update-DR} — Data register operations.  
+\end{itemize}
+
+The TAP state transitions are determined by the TMS input on rising edges of TCK.  
+By controlling TMS, TDI, and TCK, users can navigate the state machine,  
+shift in instructions, and exchange data.  
+
+Because JTAG relies on shift registers, it supports bidirectional communication:  
+data can be shifted in via TDI and read out via TDO simultaneously.  
+In this project, this mechanism is used to control LEDs  
+and access memory and peripheral modules on the \boardName board.  
+
+
 %%%%%%%%%%%%%%%%
 \chapter{Design}
 %%%%%%%%%%%%%%%%
