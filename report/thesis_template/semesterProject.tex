@@ -1,0 +1,245 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EPFL report package, main thesis file
+% Goal: provide formatting for theses and project reports
+% Author: Mathias Payer <mathias.payer@epfl.ch>
+%
+% To avoid any implication, this template is released into the
+% public domain / CC0, whatever is most convenient for the author
+% using this template.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,11pt,oneside]{report}
+% Options: MScThesis, BScThesis, MScProject, BScProject
+\usepackage[MScProject,lablogo]{EPFLreport}
+\usepackage{xspace}
+
+\title{JTAG support \\for Gecko5Education board}
+\author{Antoine Colson}
+\supervisor{Prof. Ties Jan Henderikus Kluter}
+
+\newcommand{\boardName}{Gecko5Education \xspace}
+
+\begin{document}
+\maketitle
+% \makededication
+% \makeacks
+
+% \begin{abstract}
+% The \sysname tool enables lateral decomposition of a multi-dimensional
+% flux compensator along the timing and space axes.
+
+% The abstract serves as an executive summary of your project.
+% Your abstract should cover at least the following topics, 1-2 sentences for
+% each: what area you are in, the problem you focus on, why existing work is
+% insufficient, what the high-level intuition of your work is, maybe a neat
+% design or implementation decision, and key results of your evaluation.
+% \end{abstract}
+
+% \begin{frenchabstract}
+% For a doctoral thesis, you have to provide a French translation of the
+% English abstract. For other projects this is optional.
+% \end{frenchabstract}
+
+\maketoc
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%
+
+    This project focuses on implementing and testing robust JTAG (Joint Test Action Group) communication 
+and control on the \boardName board. The goal is to develop 
+low-level infrastructure that enables JTAG-based access to internal system components, 
+such as memory and peripherals, paving the way for advanced debugging, testing, and programming capabilities.
+Several challenges arose from this project statement.
+First, the board was designed exclusively for educational use at EPFL, and as a result, it lacks official documentation which leaves its internals largely unexplored in this context. 
+Second, no prior work had been done on enabling JTAG access for the \boardName board; existing references focuse on different boards or architectures. 
+Finally, the built-in JTAG interface is extremely minimalistic, exposing only the bare features required by the standard, with only little support for custom extensions or advanced control.\\
+
+To address these challenges, the project was divided into two main milestones: 
+
+\begin{itemize}
+    \item Establish basics communication via the JTAG interface and demonstrate control by using 
+    on-board RGB LEDs.
+    \item Extend the JTA interface to suppoort memory accesses and peripherals control, by providing read and write
+    operations to any component on the bus architecture.
+\end{itemize}
+
+In summary, this project aimed to transform the previously underutilized JTAG interface of the \boardName board into a powerful low-level communication path
+that can later be used by EPFL students. 
+Both milestones were successfully completed: reliable communication with the board was achieved, 
+and the interface was extended to provide full memory and peripheral access. As a result, 
+software can now interact with the board through a high-level abstraction of the JTAG interface, hiding much of the underlying complexity.
+The remainder of this report details the background of the project, the design decisions made, the concrete implementation and the evaluation of the updated JTAG interface.
+
+
+%%%%%%%%%%%%%%%%%%%%
+\chapter{Background}
+%%%%%%%%%%%%%%%%%%%%
+
+This section introduces the background of the project. It includes introduction on the GECKO5Education board, basic FPGA principles, the board’s initial system architecture, and the JTAG protocol.
+It also briefly covers the open-source toolchain used for development, simulation, and debugging.
+The background section introduces the necessary background to understand your
+
+\section{The \boardName board}
+\label{sec:board}
+
+The \boardname board is a purpose-built FPGA development platform used primarily 
+for teaching digital systems design and computer architecture at EPFL.
+It is designed to provides strudents a hands-on experience. It features a Lattice ECP5 FPGA at its core. 
+But also includes a variety of peripherals and interfaces that are suitabble for system on chip experimetation.
+Among the main components, we can find: DRAM memory blocks, GPIOs such as push buttons and switches, a RGB LED matrix,
+ and a UART interface for serial ommunication.
+The board also provides a JTAG port through the USB-C connector, although until now it was not used for any purpose because of
+the minimalistic implementation and the existence of the UART one.
+
+
+\section{FPGA basics}
+
+As explained in the \ref{sec:board} section, the \boardName board is based on a Lattice ECP5 FPGA.
+Unlike CPUs, which are used to execute softare, FPGAs are used to program and reprogram hardware logic. 
+They allow the implementation and execution of custom hardware designs, by using a hardware description language (HDL)
+ Verilog in this project, that describes the structure and the implementation of the logic. The HDL code is then synthesized,
+ placed, and routed to create a bitstream file that can be loaded into the FPGA.
+In this project the FPGA is used to improve an existing micro-controller architecture by adding components responsible for JTAG support.
+
+
+\section{Toolchain}
+
+This project relies on the open-source toolchain \texttt{oss-cad-suite}, which is a collection of tools for FPGA development.
+Simulation was performed using Icarus Verilog, while waveform visualization — essential for debugging and verification — was handled by GTKWave. 
+The design was synthesized and placed using Yosys and nextpnr-ecp5, then converted into a bitstream using ecppack. 
+To load the design onto the FPGA, openFPGALoader was used.
+Additionally \texttt{openOCD} (Open On-Chip Debugger) played a crucial role in interacting with the JTAG ports of the board throughout the project.
+It provides a telnet-accessible environment to issue low level JTAG commands, enabling direct manipulation of the JTAG interface's state and the corresponding
+ input signal.
+
+\section{Initial system architecture}
+
+For the scope of this project we consider the core proccessing unit to be 
+an OpenRISC based micro-architecture where the OpenRISC 1000 ISA-based 5 stages pipelined processor is connected to other modules through a 32 bits shared bus architecture. 
+The default configuration includes a UART interface component, a memory controller, a camera interface, and other modules less relevant for this project.
+All this components are tied together by a shared bus architecture and a bus architecture. Moreover in the initial system architecture the bus architecture 
+has the ability to be extended with new components, which will be used in the second milestone of this project.
+However this architecture is not taken into account in the first milestone, where the JTAG interface is used to control the RGB LEDs, since they can be directly 
+mapped to the GPIOs of the board.
+
+\section{JTAG protocol}
+
+To conclude the background chapter, we will introduce the JTAG protocol, which is the core subject of this project.
+
+The Joint Test Action Group (JTAG) protocol is an industry standard introduced in the 1990s as IEEE Standard 1149.1-1990,
+ titled "Standard Test Access Port and Boundary-Scan Architecture."
+Originally, it was designed for testing and debugging printed circuit boards using techniques such as boundary-scan testing, 
+which allows for checking the interconnections between chips without requiring physical access to the pins.
+
+Nowadays, JTAG continues to be used for testing and debugging, but it has also evolved to support a wider range of applications, 
+including in-system programming of flash memory, secure device provisioning, and system-level debugging in embedded and multi-core systems.
+
+The JTAG interface is standardized in IEEE 1149.1 and typically includes four mandatory signals and one optional signal:
+
+\begin{itemize}
+\item \textbf{TDI (Test Data In)} – Serial input data line.
+\item \textbf{TDO (Test Data Out)} – Serial output data line.
+\item \textbf{TCK (Test Clock)} – Clock signal that synchronizes data shifting.
+\item \textbf{TMS (Test Mode Select)} – Controls the state of the internal JTAG state machine.
+\item \textbf{(Optional) TRST (Test Reset)} – An optional reset line for the JTAG logic.
+\end{itemize}
+
+These signals form a serial scan chain that enables test instructions and data to be shifted into and out of the device. 
+Internally, JTAG is managed by a TAP (Test Access Port) controller, which uses a finite state machine to control operations like data capture, shifting, and updating.
+
+To better understand the JTAG protocol, it's useful to consider several key states in the TAP state machine:
+
+\begin{itemize}
+\item \textbf{Test-Logic Reset (TRST)}: Resets the TAP controller and internal JTAG logic.
+\item \textbf{Run-Test/Idle}: A waiting state where no data is being shifted.
+\item \textbf{Capture-IR}: Captures data into the instruction register.
+\item \textbf{Shift-IR}: Shifts instruction data in and out of the instruction register.
+\item \textbf{Update-IR}: Loads new instructions into the instruction register.
+\item \textbf{Capture-DR}: Captures data into a selected data register.
+\item \textbf{Shift-DR}: Shifts data in and out of the data register.
+\item \textbf{Update-DR}: Loads new data into the data register.
+\end{itemize}
+
+The TAP controller transitions between these states based on the TMS signal, evaluated on the rising edge of TCK. 
+Therefore, by controlling TMS, TCK, and TDI, a user can navigate the TAP state machine, send specific instructions, and shift in data.
+
+Since the JTAG protocol is based on shift registers, the user can also read back data by shifting it out through TDO while new data is shifted in via TDI. 
+This enables bidirectional communication for testing, programming, and debugging at a low level and in our case, it allows us to control the LEDs and access the 
+memory and peripherals of the \boardName board.
+%%%%%%%%%%%%%%%%
+\chapter{Design}
+%%%%%%%%%%%%%%%%
+
+Introduce and discuss the design decisions that you made during this project.
+Highlight why individual decisions are important and/or necessary. Discuss
+how the design fits together.
+
+This section is usually 5-10 pages.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Implementation}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+The implementation covers some of the implementation details of your project.
+This is not intended to be a low level description of every line of code that
+you wrote but covers the implementation aspects of the projects.
+
+This section is usually 3-5 pages.
+
+
+%%%%%%%%%%%%%%%%%%%%
+\chapter{Evaluation}
+%%%%%%%%%%%%%%%%%%%%
+
+In the evaluation you convince the reader that your design works as intended.
+Describe the evaluation setup, the designed experiments, and how the
+experiments showcase the individual points you want to prove.
+
+This section is usually 5-10 pages.
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Related Work}
+%%%%%%%%%%%%%%%%%%%%%%
+
+The related work section covers closely related work. Here you can highlight
+the related work, how it solved the problem, and why it solved a different
+problem. Do not play down the importance of related work, all of these
+systems have been published and evaluated! Say what is different and how
+you overcome some of the weaknesses of related work by discussing the 
+trade-offs. Stay positive!
+
+This section is usually 3-5 pages.
+
+
+%%%%%%%%%%%%%%%%%%%%
+\chapter{Conclusion}
+%%%%%%%%%%%%%%%%%%%%
+
+In the conclusion you repeat the main result and finalize the discussion of
+your project. Mention the core results and why as well as how your system
+advances the status quo.
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\printbibliography
+
+% Appendices are optional
+% \appendix
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \chapter{How to make a transmogrifier}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% In case you ever need an (optional) appendix.
+%
+% You need the following items:
+% \begin{itemize}
+% \item A box
+% \item Crayons
+% \item A self-aware 5-year old
+% \end{itemize}
+
+\end{document}

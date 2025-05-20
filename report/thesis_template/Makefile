@@ -1,9 +1,9 @@
+name=semesterProject
 
-name=thesis
-
-all: *.tex *.bib 
-	rubber --pdf $(name).tex
+all: $(name).tex $(wildcard *.bib) $(wildcard *.tex)
+	rm -f $(name).pdf
+	latexmk -pdf $(name).tex
 
 clean:
-	rubber --clean --pdf $(name).tex
+	latexmk -c
 

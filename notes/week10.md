@@ -168,4 +168,7 @@ add the two synchronizers for both of the signal to launch the DMA
 
 ## Question 
 
-1. What would be intersing to put in the status reg of the ipcore
+1. What would be intersing to put in the status reg of the ipcore (operation running, status of the DMA)?
+2. Differrence between the design and the implementation in the report ?
+3. Should i explain the design before this week and why did we decided to change it, what about the presentation ?
+4. In the report in the background is it meaning full to add all the tools i used ? 
