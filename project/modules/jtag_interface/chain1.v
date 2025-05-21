@@ -23,6 +23,7 @@ module chain1(
     output wire DMA_launch_read,
     output wire [3:0] DMA_byte_enable,
     output wire [7:0] DMA_burst_size_OUT,
+    output wire [7:0] DMA_block_size_OUT,
     input wire DMA_busy,
     input wire [7:0] DMA_block_size_IN,
 
@@ -50,6 +51,7 @@ reg [5:0] status_reg;
 
 reg [31:0] data_reg;
 reg [7:0] block_size_reg;
+reg [7:0] block_size_reg_shadow;
 
 reg write_to_buffer;
 reg write_operation_in_progress;
@@ -73,6 +75,9 @@ localparam END_INSTRUCTION =           6;
 
 reg [2:0] chain1_cur_state;
 reg [2:0] chain1_nxt_state;
+
+reg write_launched;
+reg read_launched;
 
 assign status_reg_out = {chain1_cur_state, write_launched, read_launched, pp_switch};
 
@@ -136,6 +141,7 @@ always @(posedge JTCK) begin
         launch_read <= 1'b0;
         launch_write <= 1'b0;
         only_switch <= 1'b0;
+        block_size_reg_shadow <= 8'b0;
     end
     else if (update_reg == 1'b1) begin
 
@@ -153,7 +159,9 @@ always @(posedge JTCK) begin
         busrt_size_reg <= (updated_data_reg[3:0] == 4'b0011) ? updated_data_reg[11:4] : busrt_size_reg;
 
         block_size_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? block_size_reg + 1 :
-                          (updated_data_reg[3:0] == 4'b1011) updated_data_reg[11:4] : block_size_reg;
+                          (updated_data_reg[3:0] == 4'b1011) ? updated_data_reg[11:4] : block_size_reg;
+
+        block_size_reg_shadow <= block_size_reg;
 
         write_to_buffer <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? 1'b1 : 1'b0;
 
@@ -236,8 +244,8 @@ always @(*) begin
     endcase
 end
 
-assign pp_address = (write_to_buffer == 1'b1) ? {1'b0, block_size_reg}: 
-                    (chain1_cur_state != IDLE) ? {1'b0, buffer_read_reg} : 9'b0;
+assign pp_address = (write_to_buffer == 1'b1) ? {1'b0, block_size_reg - 1'b1} : 
+                    (chain1_cur_state != IDLE) ? {1'b0, buffer_read_reg - 1'b1} : 9'b0;
 assign pp_writeEnable = (write_to_buffer == 1'b1) ? 1'b1 : 1'b0;
 assign pp_dataIn = (write_to_buffer == 1'b1) ? data_reg : 32'b0;
 assign pp_switch = (chain1_cur_state == SWITCH_BUFFER) ? 1'b1 : 1'b0;
@@ -247,11 +255,10 @@ assign DMA_burst_size_OUT = busrt_size_reg;
 assign DMA_byte_enable = byte_enable_reg;
 assign s_launch_write = (chain1_cur_state == LAUNCH_DMA) ? launch_write: 1'b0;
 assign s_launch_read = (chain1_cur_state == LAUNCH_DMA) ? launch_read : 1'b0;
+assign DMA_block_size_OUT = block_size_reg_shadow;
 
 // temporal assignement for dubugging purposes
 
-reg write_launched;
-reg read_launched;
 
 always @(posedge system_clk) begin
     if (n_reset == 0) begin

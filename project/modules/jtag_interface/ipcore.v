@@ -19,17 +19,19 @@ module ipcore(
     input wire [31:0] pp_dataOut,
     output wire pp_switch,
 
-    //DMA connections
+    /// Connection with the DMA
     input wire system_clk,
-    output wire [31:0] dma_address,
-    output wire dma_data_ready,
-    output wire [3:0] dma_byte_enable,
-    output wire dma_readReady,
-    input wire switch_ready,
+    output wire [31:0] DMA_address,
+    output wire DMA_launch_write,
+    output wire DMA_launch_read,
+    output wire [3:0] DMA_byte_enable,
+    output wire [7:0] DMA_burst_size_OUT,
+    input wire DMA_busy,
+    input wire [7:0] DMA_block_size_IN,
+    output wire [7:0] DMA_block_size_OUT,
 
-    // Visual clues
-    output wire [5:0] s_status_reg_out
-
+    // Visual Clues 
+    output wire [5:0] status_reg_out
 );
 
 wire s_JTDI_1, s_JTDI_2;
@@ -51,14 +53,15 @@ chain1 instruction_chain1 (
     .pp_dataOut(pp_dataOut),
     .pp_switch(pp_switch),
     .system_clk(system_clk),
-     .DMA_address(s_dma_address),
-    .DMA_launch_read(),
-    .DMA_launch_write(),
-    .DMA_burst_size_OUT(),
-    .DMA_byte_enable(s_dma_byte_enable),
-    .DMA_busy(1'b0), // assume the DMA is not busy
-    .DMA_block_size_IN(8'h10),
-    .status_reg_out(s_status_reg_out)
+    .DMA_address(DMA_address),
+    .DMA_launch_read(DMA_launch_read),
+    .DMA_launch_write(DMA_launch_write),
+    .DMA_burst_size_OUT(DMA_burst_size_OUT),
+    .DMA_byte_enable(DMA_byte_enable),
+    .DMA_busy(DMA_busy), // assume the DMA is not busy
+    .DMA_block_size_IN(DMA_block_size_IN),
+    .DMA_block_size_OUT(DMA_block_size_OUT),
+    .status_reg_out(status_reg_out)
 );
 
 

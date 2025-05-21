@@ -186,12 +186,14 @@ module DMA #(
 
     // words written update 
 
+    wire s_actual_busrt_size;
+    assign s_actual_busrt_size = bus_burst_size_reg + 8'h1;
     always @(posedge clock) begin
         if (n_reset == 1'b0) begin
             words_written_reg <= 9'h0;
         end else if (cur_state == fsm_set_up_transaction) begin
-            if (updated_block_size_reg > bus_burst_size_reg) begin
-                words_written_reg <= bus_burst_size_reg;
+            if (updated_block_size_reg > s_actual_busrt_size) begin
+                words_written_reg <= s_actual_busrt_size;
             end else begin
                 words_written_reg <= updated_block_size_reg;
             end
@@ -206,122 +208,4 @@ module DMA #(
 
     assign s_dma_cur_state = {cur_state[3:0]};
 
-
-    // // Write states
-    // localparam fsm_idle = 15;
-    // localparam fsm_write_request = 1;
-    // localparam fsm_write_sending_handshake = 2;
-    // localparam fsm_sending_data = 3;
-    // localparam fsm_end_transaction = 4;
-    // localparam fsm_reading_from_buffer = 5;
-    // localparam fsm_asking_for_buffer = 6;
-    // localparam fsm_read_request = 7;
-    // localparam fsm_read_sending_handshake = 8;
-    // localparam fsm_reading_data = 9;
-    // localparam fsm_writting_buffer = 10;
-    // localparam fsm_test = 14;
-
-    // reg [3:0] cur_state, nxt_state;
-    // reg [31:0] buffer_data;
-    // wire s_reading_from_buffer_done;
-    // reg [31:0] s_address;
-    // reg [3:0] s_byte_enable;
-
-    // assign s_dma_cur_state = {cur_state[2:0], ipcore_dataReady};
-
-
-    // // always @(posedge clock or negedge reset) begin
-    // //     if (~reset) begin
-    // //         cur_state <= fsm_idle;
-    // //     end else begin
-    // //         cur_state <= nxt_state;
-    // //     end
-    // // end
-
-
-    // always @(*) begin
-    //     if (errorIN) begin
-    //         nxt_state = fsm_idle;
-    //     end else begin
-    //         case(cur_state)
-    //             fsm_idle:                       nxt_state <= (ipcore_dataReady == 1'b1) ? fsm_asking_for_buffer : 
-    //                                                         (ipcore_readReady == 1'b1) ? fsm_read_request : fsm_idle;
-    //             fsm_asking_for_buffer:          nxt_state <= fsm_reading_from_buffer;
-    //             fsm_reading_from_buffer:        nxt_state <= (s_reading_from_buffer_done == 1'b1) ? fsm_write_request : fsm_reading_from_buffer;
-    //             fsm_write_request:              nxt_state <= (granted == 1'b1) ? fsm_write_sending_handshake : fsm_write_request;
-    //             fsm_write_sending_handshake:    nxt_state <= fsm_sending_data;
-    //             fsm_sending_data:               nxt_state <= (busyIN == 1'b1)? fsm_sending_data : fsm_end_transaction; 
-    //             fsm_end_transaction:            nxt_state <= fsm_idle;
-
-    //             fsm_read_request:               nxt_state = (granted == 1'b1) ? fsm_read_sending_handshake : fsm_read_request;
-    //             fsm_read_sending_handshake:     nxt_state = fsm_reading_data;
-    //             fsm_reading_data:               nxt_state = (end_transactionIN == 1'b1) ? fsm_writting_buffer : fsm_reading_data;
-    //             fsm_writting_buffer:            nxt_state = fsm_end_transaction;
-    //             default:                        nxt_state = fsm_test;
-    //         endcase
-    //     end
-    // end
-
-    // always @(posedge clock) begin 
-    //     if (~reset) begin
-    //         buffer_data <= 32'h0;
-    //         s_address <= 32'h0;
-    //         s_byte_enable <= 4'h0;
-    //         cur_state <= fsm_idle;
-    //     end
-    //     else begin 
-    //         cur_state <= nxt_state;
-    //         if (cur_state == fsm_reading_from_buffer) begin
-    //             buffer_data <= dataOut;
-    //         end else if (cur_state == fsm_reading_data && data_validIN == 1'b1) begin
-    //             buffer_data <= address_dataIN;
-    //         end else if (cur_state == fsm_end_transaction || errorIN == 1'b1) begin
-    //             buffer_data <= 32'h0;
-    //         end
-    //         if (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) begin
-    //             s_byte_enable <= ipcore_byteEnable;
-    //             s_address <= ipcore_address_to_read;
-    //         end else if (cur_state == fsm_end_transaction) begin
-    //             s_address <= 32'h0;
-    //             s_byte_enable <= 4'h0;
-    //         end
-    //     end
-    // end
-
-    // // assign buffer_data = (cur_state == fsm_reading_from_buffer) ? dataOut : 
-    // //                      (cur_state == fsm_reading_data && data_validIN == 1'b1) ? address_dataIN :
-    // //                      (cur_state == fsm_end_transaction || errorIN == 1'b1 || reset == 1'b0) ? 32'h0 : buffer_data;
-
-
-    // // Buffer interface set to read at the same location
-    // assign bufferAddress = 32'h0;
-    // assign dataIn = (cur_state == fsm_writting_buffer) ? buffer_data : 32'h0;
-    // assign writeEnable = (cur_state == fsm_writting_buffer) ? 1'b1 : 1'b0;
-    // assign s_reading_from_buffer_done = 1'b1;
-    // // assign s_address = (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) ? ipcore_address_to_read : 
-    // //                            (reset == 1'b0 || cur_state == fsm_end_transaction) ? 32'h0 : s_address;
-    // // assign s_byte_enable = (cur_state == fsm_idle && (ipcore_readReady || ipcore_dataReady)) ? ipcore_byteEnable : 
-    // //                            (reset == 1'b0 || cur_state == fsm_end_transaction) ? 4'h0 : s_byte_enable;
-
-    // assign address_dataOUT = (cur_state == fsm_write_sending_handshake ) ? s_address: 
-    //                          (cur_state == fsm_read_sending_handshake) ? s_address:
-    //                          (cur_state == fsm_sending_data) ? buffer_data : 32'h0; //for now only 1 byte
-    // assign byte_enableOUT = (cur_state == fsm_write_sending_handshake || cur_state == fsm_read_sending_handshake) ? s_byte_enable : 4'h0; 
-    // assign busrt_sizeOUT = (cur_state == fsm_write_sending_handshake) ? 8'h0 : 8'h0; //for now only 1 word
-    // assign read_n_writeOUT = (cur_state == fsm_read_sending_handshake) ? 1'b1 : 1'b0; 
-    // assign begin_transactionOUT = ((cur_state == fsm_write_sending_handshake) || (cur_state == fsm_read_sending_handshake)) ? 1'b1 : 1'b0;
-
-    // assign end_transactionOUT = ((cur_state == fsm_sending_data && busyIN == 1'b0) || errorIN == 1'b1) ? 1'b1 : 1'b0;
-
-    // assign data_validOUT = (cur_state == fsm_sending_data) ? 1'b1 : 1'b0;
-
-    // assign busyOUT = (cur_state == fsm_sending_data) ? 1'b0 : 1'b0; //for now always 0
-
-    // assign request = (cur_state == fsm_write_request || cur_state == fsm_read_request) ? 1'b1 : 1'b0;
-
-    // assign ipcore_switch_ready = (cur_state == fsm_idle |
-    //                                 // cur_state == fsm_write_request |
-    //                                 // cur_state == fsm_write_sending_handshake |
-    //                                 // cur_state == fsm_sending_data |
-    //                                 cur_state == fsm_end_transaction) ? 1'b1 : 1'b0;
 endmodule

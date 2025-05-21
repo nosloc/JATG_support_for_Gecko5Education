@@ -46,17 +46,19 @@ wire [31:0] s_pp_dataIn_ipcore;
 wire [31:0] s_pp_dataOut_ipcore;
 wire s_pp_switch_ipcore;
 
-wire [31:0] s_dma_address;
-wire s_dma_data_ready;
-wire [3:0] s_dma_byte_enable;
-wire s_dma_readReady;
+wire [31:0] s_DMA_address;
+wire s_DMA_launch_write;
+wire s_DMA_launch_read;
+wire [3:0] s_DMA_byte_enable;
+wire [7:0] s_DMA_burst_size_OUT;
+wire [7:0] s_DMA_block_size_IN;
+wire [7:0] s_DMA_block_size_OUT;
+wire s_DMA_busy;
 
 wire [8:0] s_pp_address_dma;
 wire s_pp_writeEnable_dma;
 wire [31:0] s_pp_dataIn_dma;
 wire [31:0] s_pp_dataOut_dma;
-
-wire s_ipcore_switch_ready;
 
 wire [5:0] s_status_reg_out;
 wire [3:0] s_dma_cur_state;
@@ -95,14 +97,17 @@ ipcore ipcore (
 
     // DMA connections
     .system_clk(system_clock),
-    .dma_address(s_dma_address),
-    .dma_data_ready(s_dma_data_ready),
-    .dma_byte_enable(s_dma_byte_enable),
-    .dma_readReady(s_dma_readReady),
-    .switch_ready(sync_switch_ready & s_ipcore_switch_ready),
+    .DMA_address(s_DMA_address),
+    .DMA_launch_write(s_DMA_launch_write),
+    .DMA_launch_read(s_DMA_launch_read),
+    .DMA_byte_enable(s_DMA_byte_enable),
+    .DMA_burst_size_OUT(s_DMA_burst_size_OUT),
+    .DMA_busy(s_DMA_busy),
+    .DMA_block_size_IN(s_DMA_block_size_OUT),
+    .DMA_block_size_OUT(s_DMA_block_size_IN),
 
     // Visual clues
-    .s_status_reg_out(s_status_reg_out)
+    .status_reg_out(s_status_reg_out)
 );
 
 // Instantiate the Ping-Pong Buffer
@@ -124,25 +129,28 @@ pingpongbuffer pingpongbuffer_inst (
 // Instantiate the DMA module
 DMA dma_inst (
     .clock(system_clock),
-    .reset(s_nreset),
-    .ipcore_dataReady(sync_s_dma_data_ready),
-    .ipcore_readReady(sync_s_dma_readReady),
-    .ipcore_byteEnable(sync_s_dma_byte_enable),
-    .ipcore_address_to_read(sync_s_dma_address),
-    .ipcore_switch_ready(s_ipcore_switch_ready),
+    .n_reset(s_nreset),
+    .ipcore_launch_write(s_DMA_launch_write),
+    .ipcore_launch_read(s_DMA_launch_read),
+    .ipcore_byte_enable(s_DMA_byte_enable),
+    .ipcore_address(s_DMA_address),
+    .ipcore_burst_size(s_DMA_burst_size_OUT),
+    .ipcore_dma_busy(s_DMA_busy),
+    .ipcore_block_sizeIN(s_DMA_block_size_IN),
+    .ipcore_block_sizeOUT(s_DMA_block_size_OUT),
 
     // Buffer interface
-    .bufferAddress(s_pp_address_dma),
-    .dataIn(s_pp_dataIn_dma),
-    .writeEnable(s_pp_writeEnable_dma),
-    .dataOut(s_pp_dataOut_dma),
+    .pp_address(s_pp_address_dma),
+    .pp_dataIn(s_pp_dataIn_dma),
+    .pp_writeEnable(s_pp_writeEnable_dma),
+    .pp_dataOut(s_pp_dataOut_dma),
 
     // Bus interface
     .address_dataIN(address_dataIN),
     .end_transactionIN(end_transactionIN),
     .data_validIN(data_validIN),
     .busyIN(busyIN),
-    .errorIN(errorIN),
+    .bus_errorIN(errorIN),
     .address_dataOUT(address_dataOUT),
     .byte_enableOUT(byte_enableOUT),
     .busrt_sizeOUT(busrt_sizeOUT),
@@ -153,58 +161,10 @@ DMA dma_inst (
     .busyOUT(busyOUT),
 
     // Arbitrer interface
-    .request(request),
-    .granted(granted),
+    .requestTransaction(request),
+    .transactionGranted(granted),
 
     .s_dma_cur_state(s_dma_cur_state)
 );
-
-    // Synchronize the signals from the JTAG clock domain to the system clock domain
-    synchroFlop clock_synchronizer_dataREady (
-        .clockIn(JTCK),
-        .clockOut(system_clock),
-        .D(s_dma_data_ready),
-        .reset(system_reset),
-        .Q(sync_s_dma_data_ready)
-    );
-
-    synchroFlop clock_synchronizer_readReady (
-        .clockIn(JTCK),
-        .clockOut(system_clock),
-        .D(s_dma_readReady),
-        .reset(s_reset),
-        .Q(sync_s_dma_readReady)
-    );
-
-    clock_synchronizer #(
-        .WIDTH(4)
-    ) clock_synchronizer_byteEnable (
-        .clockIn(JTCK),
-        .clockOut(system_clock),
-        .D(s_dma_byte_enable),
-        .reset(s_reset),
-        .Q(sync_s_dma_byte_enable)
-    );
-
-    clock_synchronizer #(
-        .WIDTH(32)
-    ) clock_synchronizer_address (
-        .clockIn(JTCK),
-        .clockOut(system_clock),
-        .D(s_dma_address),
-        .reset(s_reset),
-        .Q(sync_s_dma_address)
-    );
-
-    synchroFlop clock_synchronizer_switch (
-        .clockIn(system_clock),
-        .clockOut(JTCK),
-        .D(s_ipcore_switch_ready),
-        .reset(s_reset),
-        .Q(sync_switch_ready)
-    );
-
-
-
 
 endmodule
