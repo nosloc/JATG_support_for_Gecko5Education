@@ -111,6 +111,7 @@ In this project, the FPGA is used to enhance an existing microcontroller-based a
 by adding components for JTAG support.  
 
 \section{Toolchain}
+\label{sec:toolchain}
 
 The project uses the open-source \texttt{oss-cad-suite},  
 a comprehensive set of tools for FPGA development.  
@@ -142,6 +143,7 @@ the JTAG interface is used only to control the RGB LEDs,
 which are directly mapped to GPIOs.  
 
 \section{JTAG Protocol}
+\label{sec:JTAG}
 
 The JTAG protocol is the core focus of this project.  
 Defined by the IEEE 1149.1 standard,  
@@ -187,6 +189,136 @@ and access memory and peripheral modules on the \boardName board.
 %%%%%%%%%%%%%%%%
 \chapter{Design}
 %%%%%%%%%%%%%%%%
+This chapter describes the design choices and mechanisms implemented to enable 
+JTAG-based control on the \boardName board.  
+We first present the existing JTAGG interface used throughout the whole project then the design for the milestone 1, which focuses on controlling the RGB LEDs.  
+Then we discuss the design for the milestone 2, which extends the JTAG interface to support memory and peripheral access.  
+
+\section{JTAG Interface Block: JTAGG}
+
+On the \boardName board, the JTAG interface is implemented using a Lattice ECP5 FPGA. This FPGA includes a built-in JTAG interface block that 
+can be instantiated and used in the desuign. This block is responsible for handling the JTAG protocol and provides the necessary signals for communication,
+while respecting the standard definition of JTAG.
+For the Lattice ECP5, the existing JATG interface block is called \texttt{JTAGG}, and provides the minimum required signals and 
+functionnalities to implement the JTAG protocol and letting the user defining two custom instructions \texttt{ER1} and \texttt{ER2}.
+Hence the JTAGG block provides the TDI, TDO, TCK, and TMS signals and is control by a TAP controller as described in Section~\ref{sec:JTAG}.
+On top of that it also provudes signals to let the user define two custom instructions, they are active when the values \texttt{0x32} and \texttt{0x38} are shifted into the instruction register respectively.
+The JATGG block therefore provides set of pins that can be used to create those two free instructions.
+Here is an explanation of the signals provided by the JTAGG block:
+
+\begin{itemize}
+    \item \textbf{Inputs:}
+    \begin{itemize}
+        \item \textbf{JTDO1}: If \texttt{ER1} instruction is shifted into the JTAG instruction register, 
+        TDO output will come from \texttt{JTDO1}.
+        
+        \item \textbf{JTDO2}: If \texttt{ER2} instruction is shifted into the JTAG instruction register, 
+        TDO output will come from \texttt{JTDO2}.
+        
+        \item \textbf{TCK*}: Clock used to clock the registers and the TAP controller, 
+        \emph{connected to the actual JTAG pins}.
+        
+        \item \textbf{TMS*}: Controls state switching for the TAP controller, 
+        \emph{connected to the actual JTAG pins}.
+        
+        \item \textbf{TDI*}: Test Data Input, 
+        \emph{connected to the actual JTAG pins}.
+    \end{itemize}
+
+    \item \textbf{Outputs:}
+    \begin{itemize}
+        \item \textbf{TDO*}: Test Data Output, 
+        \emph{connected to the actual JTAG pins}.
+        
+        \item \textbf{JTCK}: Signal derived from \texttt{TCK} and routed to custom instruction blocks.
+        
+        \item \textbf{JTDI}: Signal derived from \texttt{TDI} and routed to custom instruction blocks.
+        
+        \item \textbf{JRTI1}: Goes high when the TAP controller is in \texttt{Run-Test/Idle} state 
+        and \texttt{ER1} is the current instruction.
+        
+        \item \textbf{JRTI2}: Goes high when the TAP controller is in \texttt{Run-Test/Idle} state 
+        and \texttt{ER2} is the current instruction.
+        
+        \item \textbf{JSHIFT}: Goes high when the TAP controller is in the \texttt{Shift-DR} state.
+        
+        \item \textbf{JUPDATE}: Goes high when the TAP controller is in the \texttt{Update-DR} state.
+        
+        \item \textbf{JRSNT}: \emph{(Active low)}. Goes low when the TAP controller is in the 
+        \texttt{Test-Logic-Reset} state.
+        
+        \item \textbf{JCE1}: Goes high when the TAP controller is in \texttt{Capture-DR} or 
+        \texttt{Shift-DR} states and \texttt{ER1} is selected.
+
+        \item \textbf{JCE2}: Goes high when the TAP controller is in \texttt{Capture-DR} or 
+        \texttt{Shift-DR} states and \texttt{ER2} is selected.
+    \end{itemize}
+\end{itemize}
+
+Using those signals, we can create two custom instructions blocks that can be aware of the main TAP controller state and if the custom instruction is selected.
+For example to send data to ER1, we can first shift the instruction \texttt{ER1:0x32} into the instruction register, then we can shift the data we want to send 
+to the TDI input that is directly connected to the JTDI output of the JTAGG block used by custom instructions block as serial data in input.
+
+The JTAGG block is therefore a simplistic but powerful tool that allows us to create custom instructions and control the TAP controller state.\\
+
+\section{Milestone 1: RGB LED Control}
+
+This milestone consists of a simple JTAG interface that allows the user to control the RGB LEDs on the \boardName board by communicating with the JTAG interface.
+The goal of it is to desmonstrate the feasibility of the JTAG interface and to provide a proof of concept for the second milestone, by 
+letting the user decide the colors of a selected column in the RGB LED matrix.
+
+We first presented the existing JTAG interface block available in Lattice ECP5 FPGAs 
+and shortly explained how it is leveraged to build the custom communication system.  
+Now we discuss the design of an Intellectual Property Core (IP Core) that is used between the JTAG interface and the
+RGB LEDs.  
+
+
+\subsection{The Iintellectual Property Core (IP Core)}
+
+The IP core is a Verilog module directly interfaced with the JTAGG component. 
+It is responsible for interpreting signals related to custom JTAG instructions and translating them into concrete actions on the board.
+
+In the context of this milestone, the IP core’s role is to control a 12x10 RGB LED matrix.
+To achieve this, the core uses two custom instructions—ER1 and ER2—each handling a different aspect of LED control: color values and column selection, respectively.
+
+The IP core is structured around the following design principles:
+
+The IP core is organized in a modular fashion, containing two independent submodules—
+Chain1 and Chain2—each corresponding to one of the custom JTAG instructions. Chain1,
+associated with instruction 0x32, manages the LED colors by maintaining a 30-bit register
+(3 bits per color for each of the 10 LEDs in a column), with its output directly driving the
+LED matrix. Chain2, linked to instruction 0x38, is responsible for selecting which column
+of the matrix is addressed, outputting a 4-bit signal to represent one of the 12 columns.
+Both submodules receive control signals from the JTAGG module (as described in
+Section~\ref{sec:JTAG}), while the IP core simpy instantiate both chains and drives input signal correspondingly.
+
+This design allows the IP core to act as a bridge between user-issued JTAG commands and
+low-level hardware behavior. It provides a clean, modular way to interpret and apply JTAG
+instructions to specific hardware operations on the board.
+
+\subsection{How to communicate with the board through JTAG ?} 
+
+Now that we have a clear understanding of the JTAGG block and the IP core, we can discuss how to concretely communicate with the board through JTAG.
+First, we update the \texttt{.lpf} file to map the output signals of the two chains to the corresponding pins of the RGB LED matrix.
+Second the updated design (including the Ip core and the JTAGG block) is synthesized and a bitstream is generated using tools explained in \ref{sec:toolchain}.
+Once our design is loaded into the FPGA, we can use OpenOCD to communicate with the board through JTAG.
+
+Once OpenOCD is started using a board specific configuration file, it runs a local telnet server on port 4444.
+We can the connect to this server and use the large set of commands provided to interact with the board.
+Although the set of commands is large, we will only focus on the low JTAG related commands that are used during this project.
+The most important commands are:
+\begin{itemize}
+    \item \verb|irscan <tap_name> <instruction>|: This command shifts the instruction into the instruction register of the TAP controller (returns in RUN/TEST-IDLE state).
+    \item \verb|drscan <tap_name> <size> <data>|: This command shifts the first size bits of the data into the data register corresponding (returns in RUN/TEST-IDLE state).
+    to the loaded instruction.
+    \item \verb|pathmove <tap_state_name>|: This command moves the TAP controller to the specified state.
+    \item \verb|runtest <nb_cycles>|: This command runs the TAP controller for nb\_cycles clock cycles.
+\end{itemize}
+
+To control the RGB LEDS, we can thereore load either the \texttt{ER1} or \texttt{ER2} instruction into the instruction register using the \texttt{irscan} command.
+Then we can use the \texttt{drscan} command to shift the either the color values or the column selection into the data register.
+Finally, if needed we can use the \texttt{pathmove reset} command to reset the whole TAP controller.
+
 
 Introduce and discuss the design decisions that you made during this project.
 Highlight why individual decisions are important and/or necessary. Discuss
