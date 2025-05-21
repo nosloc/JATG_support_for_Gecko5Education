@@ -8,7 +8,8 @@ module DMA #(
     input wire [31:0]             ipcore_address,
     input wire [7:0]              ipcore_burst_size,
     output wire                   ipcore_dma_busy,
-    output wire [7:0]             ipcore_block_size,
+    output wire [7:0]             ipcore_block_sizeOUT,
+    input wire [7:0]              ipcore_block_sizeIN,
 
 
     // Buffer interface
@@ -59,7 +60,7 @@ module DMA #(
         bus_byte_enable_reg <= (n_reset == 1'b0) ? 4'h0 :
                                 (ipcore_launch_write == 1'b1 || ipcore_launch_read == 1'b1) ? ipcore_byte_enable : bus_byte_enable_reg;
         bus_block_size_reg <= (n_reset == 1'b0) ? 32'h0 :
-                                (ipcore_launch_write == 1'b1 || ipcore_launch_read == 1'b1) ? ipcore_burst_size : bus_block_size_reg;
+                                (ipcore_launch_write == 1'b1 || ipcore_launch_read == 1'b1) ? ipcore_block_sizeIN : bus_block_size_reg;
     end
 
     // regs for all bus-in signals
@@ -129,7 +130,7 @@ module DMA #(
     reg [8:0] pp_address_reg;
 
     // Is the teransaction done?
-    assign s_dam_done = (updated_block_size_reg == 9'b0) ? 1'b1 : 
+    assign s_dma_done = (updated_block_size_reg == 9'b0) ? 1'b1 : 
                               // end of transaction at the same time of last valid data
                               (updated_block_size_reg == 9'b1 && end_transactionIN_reg == 1'b1) ? 1'b1 : 1'b0;
     // Write in buffer iff the data read is valid
@@ -153,26 +154,26 @@ module DMA #(
     // Bus output signals
     reg data_validOUT_reg;
     reg [3:0] byte_enableOUT_reg;
-    reg [7:0] busrt_sizeOUT_reg;
+    reg [7:0] burst_sizeOUT_reg;
     reg [31:0] address_dataOUT_reg;
     reg read_n_writeOUT_reg, begin_transactionOUT_reg, end_transactionOUT_reg;
 
     always @(posedge clock) begin
-        begin_transactionOUT <= (cur_state == fsm_set_up_transaction) ? 1'b1 : 1'b0;
+        begin_transactionOUT_reg <= (cur_state == fsm_set_up_transaction) ? 1'b1 : 1'b0;
         read_n_writeOUT_reg <= (cur_state == fsm_set_up_transaction) ? read_n_write_reg : 1'b0;
         byte_enableOUT_reg <= (cur_state == fsm_set_up_transaction) ? bus_byte_enable_reg : 4'h0;
         burst_sizeOUT_reg <= (cur_state == fsm_set_up_transaction) ? bus_burst_size_reg : 8'h0;
         address_dataOUT_reg <= (cur_state == fsm_set_up_transaction) ? {updated_bus_start_address_reg[31:2], 2'b00} :
                                 (busWrite == 1'b1) ? pp_dataOut :
                                 // stall in case of busy in
-                                (cur_state == fsm_read && busyIN == 1'b1) address_dataOUT_reg : 32'h0;
+                                (cur_state == fsm_read && busyIN == 1'b1) ? address_dataOUT_reg : 32'h0;
         end_transactionOUT_reg <= (cur_state == fsm_end_transaction_error || cur_state == fsm_end_write_transaction) ? 1'b1 : 1'b0;
         data_validOUT_reg <= (cur_state == fsm_write && busyIN == 1'b1) ? data_validOUT_reg: busWrite;
     end
 
     assign address_dataOUT = address_dataOUT_reg;
     assign byte_enableOUT = byte_enableOUT_reg;
-    assign busrt_sizeOUT = busrt_sizeOUT_reg;
+    assign busrt_sizeOUT = burst_sizeOUT_reg;
     assign read_n_writeOUT = read_n_writeOUT_reg;
     assign begin_transactionOUT = begin_transactionOUT_reg;
     assign end_transactionOUT = end_transactionOUT_reg;
@@ -199,9 +200,11 @@ module DMA #(
         end
     end
 
-    assign ipcore_block_size = bus_block_size_reg;
+    assign ipcore_block_sizeOUT = bus_block_size_reg;
     assign pp_address = pp_address_reg;
     assign pp_dataIn = address_dataIN_reg;
+
+    assign s_dma_cur_state = {cur_state[3:0]};
 
 
     // // Write states
