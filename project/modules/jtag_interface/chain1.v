@@ -152,7 +152,8 @@ always @(posedge JTCK) begin
 
         busrt_size_reg <= (updated_data_reg[3:0] == 4'b0011) ? updated_data_reg[11:4] : busrt_size_reg;
 
-        block_size_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? block_size_reg + 1 : block_size_reg;
+        block_size_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? block_size_reg + 1 :
+                          (updated_data_reg[3:0] == 4'b1011) updated_data_reg[11:4] : block_size_reg;
 
         write_to_buffer <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? 1'b1 : 1'b0;
 
