@@ -135,7 +135,8 @@ module tb_jtagsupport;
         sendInstruction(36'b11110010);
         $display("Value of byte enable reg: %b", dut.ipcore.instruction_chain1.byte_enable_reg);
 
-        sendInstruction(36'b00011);
+        sendInstruction(36'b111110011);
+        // sendInstruction(36'b11000000011);
         $display("Value of burst size reg: %b", dut.ipcore.instruction_chain1.busrt_size_reg);
 
         // Read the status reg of the ipcore
@@ -143,6 +144,12 @@ module tb_jtagsupport;
 
         // Start sending data
         sendInstruction(36'hABCDEF8);
+
+        sendInstruction(36'hAAAAAA8);
+        sendInstruction(36'hBBBBBB8);
+        sendInstruction(36'hCCCCCC8);
+        sendInstruction(36'hDDDDDD8);
+        sendInstruction(36'hEEEEEE8);
 
 
         #80;
@@ -155,15 +162,21 @@ module tb_jtagsupport;
         // Try to read at address 0x55555555
         sendInstruction(36'b1001); // start the read operation
         #12;
-        granted = 1;
         data_validIN = 1;
         address_dataIN = memory_0x55555555;
         #4;
-        end_transactionIN = 1;
+        end_transactionIN = 0;
 
-        #20;
+        #50;
         sendInstruction(36'b01010);
+        #4 granted = 1;
 
+        #24 granted = 0;
+
+        #40 granted = 1;
+        #4 granted = 0;
+        #20;
+        granted = 1;
 
         #160;
 
@@ -184,5 +197,18 @@ module tb_jtagsupport;
             $display("Data written to memory: %h", address_dataOUT);
         end
     end
+    always @(posedge system_clock) begin
+        if (end_transactionOUT) begin
+            $display("End transaction signal received");
+        end
+    end
+
+    // always @(posedge JTCK) begin
+    //     if (request) begin
+    //         granted = 1;
+    //     end else begin
+    //         granted = 0;
+    //     end
+    // end
 
 endmodule

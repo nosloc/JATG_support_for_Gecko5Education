@@ -136,7 +136,7 @@ module DMA #(
     // Write in buffer iff the data read is valid
     assign pp_writeEnable = (cur_state == fsm_read && data_validIN_reg == 1'b1) ? 1'b1 : 1'b0;
     // Say if we actually wrote data on the bus or it was busy or the burst was over
-    wire busWrite = (cur_state == fsm_write && busyIN == 1'b0 && words_written_reg[8] == 1'b0) ? 1'b1 : 1'b0;
+    wire busWrite = (cur_state == fsm_write ) ? ~busyIN & ~words_written_reg[7] : 1'b0;
 
     always @(posedge clock) begin
         // Update all the regs : bus start address + 4, block size - 1 and pp address + 1
@@ -171,7 +171,7 @@ module DMA #(
         data_validOUT_reg <= (cur_state == fsm_write && busyIN == 1'b1) ? data_validOUT_reg: busWrite;
     end
 
-    assign address_dataOUT = address_dataOUT_reg;
+    assign address_dataOUT = (data_validOUT_reg == 1'b1) ? pp_dataOut : address_dataOUT_reg;
     assign byte_enableOUT = byte_enableOUT_reg;
     assign busrt_sizeOUT = burst_sizeOUT_reg;
     assign read_n_writeOUT = read_n_writeOUT_reg;
@@ -186,14 +186,14 @@ module DMA #(
 
     // words written update 
 
-    wire s_actual_busrt_size;
-    assign s_actual_busrt_size = bus_burst_size_reg + 8'h1;
+    wire [7:0] s_actual_burst_size;
+    assign s_actual_burst_size = bus_burst_size_reg + 8'h1;
     always @(posedge clock) begin
         if (n_reset == 1'b0) begin
             words_written_reg <= 9'h0;
         end else if (cur_state == fsm_set_up_transaction) begin
-            if (updated_block_size_reg > s_actual_busrt_size) begin
-                words_written_reg <= s_actual_busrt_size;
+            if (updated_block_size_reg > s_actual_burst_size) begin
+                words_written_reg <= s_actual_burst_size;
             end else begin
                 words_written_reg <= updated_block_size_reg;
             end
