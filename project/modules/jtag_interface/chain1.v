@@ -26,6 +26,7 @@ module chain1(
     output wire [7:0] DMA_burst_size_OUT,
     output wire [7:0] DMA_block_size_OUT,
     input wire DMA_busy,
+    input wire DMA_operation_done,
     input wire [7:0] DMA_block_size_IN,
 
     // Visual Clues 
@@ -80,7 +81,7 @@ reg [2:0] chain1_nxt_state;
 reg write_launched;
 reg read_launched;
 
-assign status_reg_out = {chain1_cur_state, only_switch, only_switch, pp_switch};
+assign status_reg_out = {chain1_cur_state, launch_read, launch_write, pp_switch};
 
 assign launch_dma = launch_write | launch_read | only_switch;
 
@@ -151,7 +152,7 @@ always @(posedge JTCK) begin
         shadow_reg <=   (updated_data_reg[3:0] == 4'b0100) ? address_reg :
                         (updated_data_reg[3:0] == 4'b0101) ? byte_enable_reg :
                         (updated_data_reg[3:0] == 4'b0110) ? busrt_size_reg :
-                        {24'b0, block_size_reg, status_next}; 
+                        {18'b0, DMA_operation_done,  {3'b0,DMA_busy}, block_size_reg, status_next}; 
 
         address_reg <= (updated_data_reg[3:0] == 4'b0001) ? updated_data_reg[35:4] : address_reg;
 
@@ -185,7 +186,8 @@ always @(posedge JTCK) begin
     end
     else begin
         shadow_reg <= (chain1_cur_state == READ_BUFFER) ? data_reg :
-                      (updated_data_reg[3:0] == 4'b1000) ?  {24'b0, block_size_reg, shadow_reg[3:0]} : shadow_reg;
+                      (updated_data_reg[3:0] == 4'b1000) ?  {18'b0, DMA_operation_done, {3'b0, DMA_busy}, block_size_reg, shadow_reg[3:0]} : 
+                      (chain1_cur_state == SWITCH_BUFFER) ?  {18'b0, DMA_operation_done, {3'b0,DMA_busy}, DMA_block_size_IN, shadow_reg[3:0]} : shadow_reg;
 
         data_reg <= (chain1_cur_state == READ_BUFFER) ? pp_dataOut : data_reg;
 

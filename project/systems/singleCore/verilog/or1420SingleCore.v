@@ -648,7 +648,7 @@ module or1420SingleCore ( input wire         clock12MHz,
       .busyIN(s_busy),
       .errorIN(s_busError),
       .request(s_jtagRequestBus),
-      .busGranted(1'b0)
+      .busGranted(s_jtagBusAck),
   );
 
   /*
@@ -674,7 +674,7 @@ module or1420SingleCore ( input wire         clock12MHz,
  assign s_jtagBusAck                = s_busGrants[27];
    
   // assign red = {~s_busIdle, ~s_jtagRequestBus, s_red[7:0]};
-  // assign blue = {~s_busIdle,  ~s_jtagRequestBus, s_blue[7:0]};
+  assign blue = {~s_busIdle,  ~s_jtagRequestBus, 8'hFF};
   // assign green = {~s_busIdle, ~s_jtagRequestBus, s_green[7:0]};
   assign green = s_green;
 

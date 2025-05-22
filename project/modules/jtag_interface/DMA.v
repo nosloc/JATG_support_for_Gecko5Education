@@ -9,6 +9,7 @@ module DMA #(
     input wire [31:0]             ipcore_address,
     input wire [7:0]              ipcore_burst_size,
     output wire                   ipcore_dma_busy,
+    output wire                   ipcore_operation_ended,
     output wire [7:0]             ipcore_block_sizeOUT,
     input wire [7:0]              ipcore_block_sizeIN,
 
@@ -129,6 +130,8 @@ module DMA #(
     reg [31:0] updated_bus_start_address_reg;
     reg [8:0] updated_block_size_reg;
     reg [8:0] pp_address_reg;
+    reg operation_launch_reg;
+    reg operation_ended_reg;
 
     // Is the teransaction done?
     assign s_dma_done = (updated_block_size_reg == 9'b0) ? 1'b1 : 
@@ -149,6 +152,12 @@ module DMA #(
                                     (busWrite == 1'b1 || pp_writeEnable == 1'b1) ? updated_block_size_reg - 9'h1 : updated_block_size_reg;
         pp_address_reg <= (n_reset == 1'b0 || cur_state == fsm_init) ? 9'h0 :
                           (busWrite == 1'b1 || pp_writeEnable == 1'b1) ? pp_address_reg + 8'h1 : pp_address_reg;
+        operation_launch_reg <= (n_reset == 1'b0) ? 1'b0 :
+                                (operation_ended_reg == 1'b1) ? 1'b0 :
+                                (cur_state == fsm_init) ? ~ipcore_launch_simple_switch : operation_launch_reg;
+        operation_ended_reg <= (n_reset == 1'b0) ? 1'b0 :
+                                (ipcore_launch_read == 1'b1 || ipcore_launch_write == 1'b1 || ipcore_launch_simple_switch == 1'b1) ? 1'b0 :
+                                (cur_state == fsm_idle && operation_launch_reg == 1'b1) ? 1'b1 : operation_ended_reg;
     end
 
 
@@ -207,6 +216,7 @@ module DMA #(
     assign pp_address = pp_address_reg;
     assign pp_dataIn = address_dataIN_reg;
 
-    assign s_dma_cur_state = {ipcore_launch_read, ipcore_launch_write, ipcore_launch_simple_switch};
+    assign s_dma_cur_state = {cur_state[2:0], operation_ended_reg};
+    assign ipcore_operation_ended = operation_ended_reg;
 
 endmodule

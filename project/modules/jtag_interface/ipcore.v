@@ -28,6 +28,7 @@ module ipcore(
     output wire [3:0] DMA_byte_enable,
     output wire [7:0] DMA_burst_size_OUT,
     input wire DMA_busy,
+    input wire DMA_operation_done,
     input wire [7:0] DMA_block_size_IN,
     output wire [7:0] DMA_block_size_OUT,
 
@@ -61,6 +62,7 @@ chain1 instruction_chain1 (
     .DMA_burst_size_OUT(DMA_burst_size_OUT),
     .DMA_byte_enable(DMA_byte_enable),
     .DMA_busy(DMA_busy), // assume the DMA is not busy
+    .DMA_operation_done(DMA_operation_done), // assume the DMA operation is done
     .DMA_block_size_IN(DMA_block_size_IN),
     .DMA_block_size_OUT(DMA_block_size_OUT),
     .status_reg_out(status_reg_out)
