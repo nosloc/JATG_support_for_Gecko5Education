@@ -184,7 +184,8 @@ always @(posedge JTCK) begin
 
     end
     else begin
-        shadow_reg <= (chain1_cur_state == READ_BUFFER) ? data_reg : shadow_reg;
+        shadow_reg <= (chain1_cur_state == READ_BUFFER) ? data_reg :
+                      (updated_data_reg[3:0] == 4'b1000) ?  {24'b0, block_size_reg, shadow_reg[3:0]} : shadow_reg;
 
         data_reg <= (chain1_cur_state == READ_BUFFER) ? pp_dataOut : data_reg;
 
