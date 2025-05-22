@@ -159,24 +159,25 @@ module tb_jtagsupport;
         granted = 0;
         #20; // Wait for instrction to finish
 
-        // Try to read at address 0x55555555
-        sendInstruction(36'b1001); // start the read operation
-        #12;
-        data_validIN = 1;
-        address_dataIN = memory_0x55555555;
-        #4;
-        end_transactionIN = 0;
 
+        // Write at address 0x55555555
         #50;
         sendInstruction(36'b01010);
-        #4 granted = 1;
 
-        #24 granted = 0;
+        #160;
 
-        #40 granted = 1;
-        #4 granted = 0;
-        #20;
-        granted = 1;
+        // Read from address 0x55555555
+        sendInstruction(36'hFB);
+
+        #40;
+        data_validIN = 1;
+
+        #120;
+        data_validIN = 0;
+        end_transactionIN = 1;
+
+        #4;
+        end_transactionIN = 0;
 
         #160;
 
@@ -203,12 +204,20 @@ module tb_jtagsupport;
         end
     end
 
-    // always @(posedge JTCK) begin
-    //     if (request) begin
-    //         granted = 1;
-    //     end else begin
-    //         granted = 0;
-    //     end
-    // end
+    always @(posedge JTCK) begin
+        if (request) begin
+            granted = 1;
+        end else begin
+            granted = 0;
+        end
+    end
+
+    always @(posedge system_clock) begin
+        if (JRSTN == 1'b0) begin
+            address_dataIN <= 32'hA0000000;
+        end else if (data_validIN == 1'b1) begin
+            address_dataIN <= address_dataIN + 1;
+        end
+    end
 
 endmodule

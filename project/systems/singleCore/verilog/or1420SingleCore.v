@@ -448,22 +448,6 @@ module or1420SingleCore ( input wire         clock12MHz,
              .ciResult(s_delayResult));
 
   /*
-    *
-    * Here we define a custom instruction that implements a DMA controller
-    *
-    */
-
-    dma_ci #(8'd3) dmaController
-           (.start(s_cpu1CiStart),
-            .clock(s_systemClock),
-            .reset(s_cpuReset),
-            .valueA(s_cpu1CiDataA),
-            .valueB(s_cpu1CiDataB),
-            .iseId(s_cpu1CiN),
-            .done(s_dmaciDone),
-            .result(s_dmaciResult));
-
-  /*
    *
    * Here we define the camera interface
    *
@@ -654,7 +638,7 @@ module or1420SingleCore ( input wire         clock12MHz,
       .byte_enableOUT(s_jtagByteEnable),
       .burstSizeOUT(s_jtagBurstSize),
       .read_n_writeOUT(s_jtagReadNotWrite),
-      // .begin_transactionOUT(s_jtagBeginTransaction),
+      .begin_transactionOUT(s_jtagBeginTransaction),
       .end_transactionOUT(s_jtagEndTransaction),
       .data_validOUT(s_jtagDataValid),
       .busyOUT(s_jtagBusy),

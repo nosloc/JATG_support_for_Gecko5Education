@@ -4,6 +4,7 @@ module DMA #(
     input wire                    clock, n_reset,
     input wire                    ipcore_launch_write,
     input wire                    ipcore_launch_read,
+    input wire                    ipcore_launch_simple_switch,
     input wire [3:0]              ipcore_byte_enable,
     input wire [31:0]             ipcore_address,
     input wire [7:0]              ipcore_burst_size,
@@ -60,7 +61,7 @@ module DMA #(
         bus_byte_enable_reg <= (n_reset == 1'b0) ? 4'h0 :
                                 (ipcore_launch_write == 1'b1 || ipcore_launch_read == 1'b1) ? ipcore_byte_enable : bus_byte_enable_reg;
         bus_block_size_reg <= (n_reset == 1'b0) ? 32'h0 :
-                                (ipcore_launch_write == 1'b1 || ipcore_launch_read == 1'b1) ? ipcore_block_sizeIN : bus_block_size_reg;
+                                (ipcore_launch_write == 1'b1 || ipcore_launch_read == 1'b1 || ipcore_launch_simple_switch == 1'b1) ? ipcore_block_sizeIN : bus_block_size_reg;
     end
 
     // regs for all bus-in signals
@@ -206,6 +207,6 @@ module DMA #(
     assign pp_address = pp_address_reg;
     assign pp_dataIn = address_dataIN_reg;
 
-    assign s_dma_cur_state = {cur_state[3:0]};
+    assign s_dma_cur_state = {ipcore_launch_read, ipcore_launch_write, ipcore_launch_simple_switch};
 
 endmodule

@@ -49,6 +49,7 @@ wire s_pp_switch_ipcore;
 wire [31:0] s_DMA_address;
 wire s_DMA_launch_write;
 wire s_DMA_launch_read;
+wire s_DMA_launch_simple_switch;
 wire [3:0] s_DMA_byte_enable;
 wire [7:0] s_DMA_burst_size_OUT;
 wire [7:0] s_DMA_block_size_IN;
@@ -73,7 +74,7 @@ wire s_reset, s_nreset;
 assign s_nreset = JRSTN & ~system_reset;
 assign s_reset = ~s_nreset;
 assign rgbRow = 4'b0000;
-assign green = {~s_status_reg_out};
+assign green = {~s_status_reg_out, ~s_dma_cur_state};
 // instantiate the ipcore module
 ipcore ipcore (
     .JTCK(JTCK),
@@ -100,6 +101,7 @@ ipcore ipcore (
     .DMA_address(s_DMA_address),
     .DMA_launch_write(s_DMA_launch_write),
     .DMA_launch_read(s_DMA_launch_read),
+    .DMA_launch_simple_switch(s_DMA_launch_simple_switch),
     .DMA_byte_enable(s_DMA_byte_enable),
     .DMA_burst_size_OUT(s_DMA_burst_size_OUT),
     .DMA_busy(s_DMA_busy),
@@ -132,6 +134,7 @@ DMA dma_inst (
     .n_reset(s_nreset),
     .ipcore_launch_write(s_DMA_launch_write),
     .ipcore_launch_read(s_DMA_launch_read),
+    .ipcore_launch_simple_switch(s_DMA_launch_simple_switch),
     .ipcore_byte_enable(s_DMA_byte_enable),
     .ipcore_address(s_DMA_address),
     .ipcore_burst_size(s_DMA_burst_size_OUT),

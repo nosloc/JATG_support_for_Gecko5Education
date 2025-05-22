@@ -24,6 +24,7 @@ module ipcore(
     output wire [31:0] DMA_address,
     output wire DMA_launch_write,
     output wire DMA_launch_read,
+    output wire DMA_launch_simple_switch,
     output wire [3:0] DMA_byte_enable,
     output wire [7:0] DMA_burst_size_OUT,
     input wire DMA_busy,
@@ -56,6 +57,7 @@ chain1 instruction_chain1 (
     .DMA_address(DMA_address),
     .DMA_launch_read(DMA_launch_read),
     .DMA_launch_write(DMA_launch_write),
+    .DMA_launch_simple_switch(DMA_launch_simple_switch),
     .DMA_burst_size_OUT(DMA_burst_size_OUT),
     .DMA_byte_enable(DMA_byte_enable),
     .DMA_busy(DMA_busy), // assume the DMA is not busy

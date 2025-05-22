@@ -21,6 +21,7 @@ module chain1(
     output wire [31:0] DMA_address,
     output wire DMA_launch_write,
     output wire DMA_launch_read,
+    output wire DMA_launch_simple_switch,
     output wire [3:0] DMA_byte_enable,
     output wire [7:0] DMA_burst_size_OUT,
     output wire [7:0] DMA_block_size_OUT,
@@ -46,8 +47,8 @@ reg [35:0] updated_data_reg;
 
 reg update_reg;
 
-reg [5:0] status_next;
-reg [5:0] status_reg;
+reg [3:0] status_next;
+reg [3:0] status_reg;
 
 reg [31:0] data_reg;
 reg [7:0] block_size_reg;
@@ -79,7 +80,7 @@ reg [2:0] chain1_nxt_state;
 reg write_launched;
 reg read_launched;
 
-assign status_reg_out = {chain1_cur_state, write_launched, read_launched, pp_switch};
+assign status_reg_out = {chain1_cur_state, only_switch, only_switch, pp_switch};
 
 assign launch_dma = launch_write | launch_read | only_switch;
 
@@ -115,9 +116,9 @@ always @(posedge JTCK) begin
     // Precompute the status register
     if (JUPDATE == 1'b1) begin
         case (shift_reg[3:0])
-            4'b0001: status_next = status_reg | 6'b000001;
-            4'b0010: status_next = status_reg | 6'b000010;
-            4'b0011: status_next = status_reg | 6'b000100;
+            4'b0001: status_next = status_reg | 4'b0001;
+            4'b0010: status_next = status_reg | 4'b0010;
+            4'b0011: status_next = status_reg | 4'b0100;
             default: status_next = status_reg;
         endcase
     end
@@ -129,7 +130,7 @@ always @(posedge JTCK) begin
         address_reg <= 32'b0;
         byte_enable_reg <= 4'b1111;
         busrt_size_reg <= 8'b0;
-        status_reg <= 6'b0;
+        status_reg <= 4'b0;
         block_size_reg <= 8'b0;
         data_reg <= 32'b0;
         write_to_buffer <= 1'b0;
@@ -150,7 +151,7 @@ always @(posedge JTCK) begin
         shadow_reg <=   (updated_data_reg[3:0] == 4'b0100) ? address_reg :
                         (updated_data_reg[3:0] == 4'b0101) ? byte_enable_reg :
                         (updated_data_reg[3:0] == 4'b0110) ? busrt_size_reg :
-                        {30'b0, status_next}; 
+                        {24'b0, block_size_reg, status_next}; 
 
         address_reg <= (updated_data_reg[3:0] == 4'b0001) ? updated_data_reg[35:4] : address_reg;
 
@@ -161,7 +162,7 @@ always @(posedge JTCK) begin
         block_size_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? block_size_reg + 1 :
                           (updated_data_reg[3:0] == 4'b1011) ? updated_data_reg[11:4] : block_size_reg;
 
-        block_size_reg_shadow <= block_size_reg;
+        block_size_reg_shadow <= (updated_data_reg[3:0] == 4'b1011) ? updated_data_reg[11:4] : block_size_reg;
 
         write_to_buffer <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? 1'b1 : 1'b0;
 
@@ -255,6 +256,7 @@ assign DMA_burst_size_OUT = busrt_size_reg;
 assign DMA_byte_enable = byte_enable_reg;
 assign s_launch_write = (chain1_cur_state == LAUNCH_DMA) ? launch_write: 1'b0;
 assign s_launch_read = (chain1_cur_state == LAUNCH_DMA) ? launch_read : 1'b0;
+assign s_launch_simple_switch = (chain1_cur_state == LAUNCH_DMA) ? only_switch : 1'b0;
 assign DMA_block_size_OUT = block_size_reg_shadow;
 
 // temporal assignement for dubugging purposes
@@ -285,6 +287,14 @@ synchroFlop synchroFlop2 (
     .reset(~JRSTN),
     .D(s_launch_read),
     .Q(DMA_launch_read)
+);
+
+synchroFlop synchroFlop3 (
+    .clockIn(JTCK),
+    .clockOut(system_clk),
+    .reset(~JRSTN),
+    .D(s_launch_simple_switch),
+    .Q(DMA_launch_simple_switch)
 );
 
 
