@@ -63,7 +63,7 @@ wire [31:0] s_pp_dataIn_dma;
 wire [31:0] s_pp_dataOut_dma;
 
 wire [5:0] s_status_reg_out;
-wire [3:0] s_dma_cur_state;
+wire [7:0] s_dma_cur_state;
 
 wire sync_s_dma_data_ready;
 wire sync_s_dma_readReady;
@@ -75,7 +75,7 @@ wire s_reset, s_nreset;
 assign s_nreset = JRSTN & ~system_reset;
 assign s_reset = ~s_nreset;
 assign rgbRow = 4'b0000;
-assign green = {~s_status_reg_out, ~s_dma_cur_state};
+assign green = {~s_dma_cur_state};
 // assign green = {~s_dma_cur_state};
 // instantiate the ipcore module
 ipcore ipcore (

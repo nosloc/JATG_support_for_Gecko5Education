@@ -44,7 +44,12 @@ module or1420SingleCore ( input wire         clock12MHz,
                                              camHsync,
                                              camVsync,
                                              biosBypass,
-                          input wire [7:0]   camData
+                          input wire [7:0]   camData,
+
+                          output wire [3:0]  rgbRow,
+                          output wire [9:0]  red,
+                                             green,
+                                             blue
                            );
 
   wire        s_busIdle, s_snoopableBurst;
@@ -622,7 +627,10 @@ module or1420SingleCore ( input wire         clock12MHz,
   wire        s_jtagReadNotWrite, s_jtagBeginTransaction, s_jtagEndTransaction, s_jtagDataValid, s_jtagBusy, s_jtagRequestBus;
   wire        s_jtagBusAck;
   wire [9:0]  s_red, s_green, s_blue;
-  wire [3:0]  rgbRow;
+
+  assign green = s_green;
+  assign red = s_red;
+  assign blue = s_blue;
 
   jtag_interface jtag (
     .red(s_red),

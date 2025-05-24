@@ -17,7 +17,7 @@ Objective : Make the Ipcore working for sure
 | data to send | 1000 | Write the data in the next place ping-pong buffer increassing the block size by one |
 | empty | 1001 | Put next word in the ping-pong buffer in the shift buffer decrease block size by one | 
 | empty | 1010 | Launch the write operation |
-| empty | 1011 | launch the read operation |
+| block_size (7bits) | 1011 | launch the read operation |
 | empty | 1100 | Wait for result of DMA and switch buffer |
 | empty | 1111 | reset the registers |
 

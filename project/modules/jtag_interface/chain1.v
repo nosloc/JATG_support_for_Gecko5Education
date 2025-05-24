@@ -81,7 +81,7 @@ reg [2:0] chain1_nxt_state;
 reg write_launched;
 reg read_launched;
 
-assign status_reg_out = {chain1_cur_state, launch_read, launch_write, pp_switch};
+assign status_reg_out = {write_launched};
 
 assign launch_dma = launch_write | launch_read | only_switch;
 

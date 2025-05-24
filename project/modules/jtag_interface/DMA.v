@@ -43,7 +43,7 @@ module DMA #(
     input wire         transactionGranted,
 
 
-    output wire [3:0]  s_dma_cur_state
+    output wire [7:0]  s_dma_cur_state
 
     );
 
@@ -215,8 +215,9 @@ module DMA #(
     assign ipcore_block_sizeOUT = bus_block_size_reg;
     assign pp_address = pp_address_reg;
     assign pp_dataIn = address_dataIN_reg;
-
-    assign s_dma_cur_state = {updated_bus_start_address_reg[2:0], operation_ended_reg};
     assign ipcore_operation_ended = operation_ended_reg;
+
+
+    assign s_dma_cur_state = {updated_bus_start_address_reg[9:2]};
 
 endmodule

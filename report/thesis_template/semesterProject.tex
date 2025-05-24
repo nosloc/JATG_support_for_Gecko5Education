@@ -361,7 +361,7 @@ The second milestone of the project aims at using the milestone 1 as a proof of 
 
 \subsection{The JTAG Interface Module}
 
-In this part of the project, we focus on the design of a Verilog module called \texttt{jtag_interface}
+In this part of the project, we focus on the design of a Verilog module called \texttt{jtag\_interface}
 that is added to the existing architecture explained in Section~\ref{sec:arch}.
 This new module is responsible for handling the JTAG communication and for communicating with the peripherals
 and the memory by sitting on the shared bus.
@@ -380,7 +380,7 @@ Before entering in the details of the design, we will quickly explain the bus ar
 
 \subsection{The Bus Architecture}
 The shared bus architecture coordinates communication between multiple modules through a set of defined signals totaling 50 bits.
-At its core, a 32-bit address_data channel carries both addresses and data depending on the transaction phase.
+At its core, a 32-bit address\_data channel carries both addresses and data depending on the transaction phase.
 
 Control signals include:
 
@@ -436,17 +436,17 @@ The commands are the following:
         \textbf{Data Section (32 bits)} & \textbf{Opcode (4 bits)} & \textbf{Usage} \\
         \hline
         -                               & 0000                     & Does nothing, used to shift out data \\
-        Address \[35:4\]                & 0001                     & Write the start bus address \\
-        Byte Enable \[7:4\]             & 0010                     & Write the bus byte enable \\
-        Burst Size \[11:4\]             & 0011                     & Write the bus burst size \\
+        Address $[35:4]$                & 0001                     & Write the start bus address \\
+        Byte Enable $[7:4]$             & 0010                     & Write the bus byte enable \\
+        Burst Size $[11:4]$             & 0011                     & Write the bus burst size \\
         -                               & 0100                     & Read the start bus address \\
         -                               & 0101                     & Read the bus byte enable \\
         -                               & 0110                     & Read the bus burst size \\
         -                               & 0111                     &  \\
-        Word \[35:4\]                   & 1000                     &  Write the word in the pingpong buffer and increase the block size\\
+        Word $[35:4]$                   & 1000                     &  Write the word in the pingpong buffer and increase the block size\\
         -                               & 1001                     &  Read next word in the pingpong buffer\\
         -                               & 1010                     &  Launch the DMA on a write operation when it is ready\\
-        Number_of_words \[11:4\]        & 1011                     &  Launch the DMA on a read operation for Number_of_words words when it is ready\\
+        Number\_of\_words $[11:4]$      & 1011                     &  Launch the DMA on a read operation for Number\_of\_words words when it is ready\\
         -                               & 1100                     &  Wait for DMA results and switch the buffer\\
         -                               & 1101                     & \\
         -                               & 1110                     & \\
@@ -479,17 +479,17 @@ Even if there is a small clock delay, it does not impact the design since to shi
 leaving enough time to perform the write operation.
 For the read from buffer operation, the concept is a bit more complexe and requires a state change. Intuitively, for this operation we need to first set up the buffer address where we want to read
 and then in next clock cycle we can read the data from the buffer. Once the data is read, we need to put it in the shift register to be shifted out to the host system.
-This is done by first moving to the \texttt{ASK_BUFFER} state, where we set up the address to read from and then move to the \texttt{READ_BUFFER} state where we read the data from the buffer and put it in the shadow register.
+This is done by first moving to the \texttt{ASK\_BUFFER} state, where we set up the address to read from and then move to the \texttt{READ\_BUFFER} state where we read the data from the buffer and put it in the shadow register.
 From the next clock cycle the data captured by the shift register and the finite state machine is moved to the \texttt{IDLE} state.
 To actually get back the data from the buffer, we need to shift out the data by shifting any instruction. \textbf{Important note: It is the user responsability to wait the 3
 3 clock cycles needed to update the shift register before shifting out the data}, this can be done using the \texttt{runtest 3} command in OpenOCD. 
 Finally the finite state machine has a last part to handle the DMA operations. All those operations are handled the same way.
-First we move to the \texttt{WAIT_FOR_DMA} state and stay there until the DMA is not busy anymore.
-Then the ipcore moves to the \texttt{SWITCH_BUFFER} state where it switches the pingpong buffer. The part allocated to the DMA becomes the part accesible by the ipcore and inversely.
+First we move to the \texttt{WAIT\_FOR\_DMA} state and stay there until the DMA is not busy anymore.
+Then the ipcore moves to the \texttt{SWITCH\_BUFFER} state where it switches the pingpong buffer. The part allocated to the DMA becomes the part accesible by the ipcore and inversely.
 This way the IP core can read the result of the DMA read operation and/or the DMA can read the data that need to be written to the bus.
-Once the buffer is switched, the ipcore moves to the \texttt{LAUNCH_DMA} state where it launches the DMA operation using output signals that are connected to the DMA module. 
+Once the buffer is switched, the ipcore moves to the \texttt{LAUNCH\_DMA} state where it launches the DMA operation using output signals that are connected to the DMA module. 
 They are 3 of them that goes high for each of the 3 DMA related operations: read, write and switch buffer.
-Before returning to the \texttt{IDLE} state, the ipcore resets some internal signals related to the operation in a state called \texttt{END_TRANSACTION} to be ready to execute next instructions.
+Before returning to the \texttt{IDLE} state, the ipcore resets some internal signals related to the operation in a state called \texttt{END\_TRANSACTION} to be ready to execute next instructions.
 \textbf{Important note: Again here in case of busy DMA, the user is responsible to wait for the DMA to be ready}, because the clock that synchronizes the finite state machine is user defined.
 This can be done by shifting periodically the status register until the DMA is not busy anymore.
 This conclude the design of the finite state machine used in our new design of the ipcore.
@@ -520,7 +520,7 @@ To properly close this module, there is still one problem to solve: the two cloc
 In this milestone, one problem arises that was not present in the first one: the two clock domains problem. In fact now that our design is connected to 
 an actual micro-controller architecture running on the board, we need to be careful about the clock domains that are used in the design.
 On the first hand, the JTAG clock -\texttt{TCK}- is used to clock by the JTAGG block and the ipcore, and on the other hand the bus architecture 
-is clocked by another clock -\texttt{system_clock}- that is used by the micro-controller and therefore the DMA that communicates with it should be clocked on it too.
+is clocked by another clock -\texttt{system\_clock}- that is used by the micro-controller and therefore the DMA that communicates with it should be clocked on it too.
 Since both clocks are not synchronized, especially the JATG clock on which the user has full control, we need to be careful about the timing of the signals.
 
 Because the ipcore and the DMA lies on a different clock domain, the communication between those modules needs to be carefully analysed.
@@ -582,16 +582,16 @@ The best way to this result is to use a finite state machine that will handle th
 The finite state machine of the DMA is complexe and we will walk through it state by state.
 For the ease of the explanation, a state diagram is shown in Figure~\ref{fig:state_diagram}.
 
-The first state entered when the DMA is reset is the \texttt{fsm_idle} state. In this state the DMA is not busy and waits for control signals from the ipcore to start a new operation.
+The first state entered when the DMA is reset is the \texttt{fsm\_idle} state. In this state the DMA is not busy and waits for control signals from the ipcore to start a new operation.
 Once the signal indicating the start of a new operation is received, the DMA reads the content of the ipcore's configuration register stores a copy of it, stores in a register the type
-of instruction and moves to the state \texttt{fsm_init}.
+of instruction and moves to the state \texttt{fsm\_init}.
 The configuration registers saves are the start address of the bus operation, the burst size, the byte enable and the number of words to be read or written.
 
-The \texttt{fsm_init} state is used initialize all the registers used for a single DMA operation.
+The \texttt{fsm\_init} state is used initialize all the registers used for a single DMA operation.
 Three register are worth mentioning: the \texttt{updated\_bus\_start\_address\_reg} register stores the next address the operation will be performed on, it is initialized
 to the value of the bus start address stored when the DMA was launched.
 The \texttt{updated\_block\_size\_reg} register stores the number of words left to be read or written, and is initialized to the value of the block size register stored when the DMA was launched.
-The \texttt{pp_address\_reg} register stores the next address of the pingpong buffer where the data will be read or written, initialized to \texttt{0x0}.
+The \texttt{pp\_address\_reg} register stores the next address of the pingpong buffer where the data will be read or written, initialized to \texttt{0x0}.
 Two more registers are updated to provide the ipcore whether the operation is launched and whether the DMA has finished the operation.
 After a clock cycle in this state, all those registers are initialized and the DMA moves to the \texttt{fsm\_request\_bus} state.
 
@@ -657,6 +657,10 @@ To complete the integration on the bus architecture, all other signals comming f
 a shared bus architecture this is the easiest way and cheapest way to allow multiple masters to communicate with the bus.
 Finally the signals comming from the bus are connected to the DMA module.
 
+\subsection{Implementaion issue}
+
+%% TO DO
+
 \subsection{Using the JTAG interface module}
 
 The JATG interface module is used in the same way as in the first milestone using OpenOCD and its jtag related commands
@@ -665,7 +669,7 @@ But since this mileston is more complexe, we will provide a example of how to re
 Once the design is loaded on the board and the telnet server is started as explained in Section~\ref{sec:openocd}, the user can connect to the server using telnet.
 
 Here is an example of how to read three words from the starting address \texttt{0x00010000} using a burst size of 2
-\begin{listing}
+\begin{lstlisting}
 
     > telnet localhost 4444
     > irscan ecp5.tap 0x32              //select chain 1
@@ -702,11 +706,11 @@ Here is an example of how to read three words from the starting address \texttt{
     0cccccccc                           //The third word read
     > exit
 
-\end{listing}
+\end{lstlisting}
 
 Here is an example of how to write three words starting at the address \texttt{0x00010000} using a burst size of 8
 
-\begin{listing}
+\begin{lstlisting}
 
     > telnet localhost 4444
     > irscan ecp5.tap 0x32              //select chain 1
@@ -734,11 +738,8 @@ Here is an example of how to write three words starting at the address \texttt{0
     > drscan ecp5.tap 37 0x00           //Shift out the status register to verify that the DMA has finished the operation
     000010007                           //The status register showing that the DMA has finished the operation
     > exit
-\end{listing}
+\end{lstlisting}
 
-\subsection{Implementaion issue}
-
-%% TO DO
 
 \subsection{Milestone 2 Conclusion}
 
@@ -753,6 +754,7 @@ we designed a module with which the user can interact through the JTAG interface
 In our specific case, the user can read and write data from the SDRAM or any other preipheral connected to the bus architecture. 
 Additionally, the design chosen for acheiving this goal is extensible, by using the unused ipcore chain 2 instruction \texttt{0x38} ot by adding new instruction to the 
 exitsing design of the chain 1 design.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Implementation}
