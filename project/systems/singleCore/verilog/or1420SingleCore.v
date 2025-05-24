@@ -44,11 +44,7 @@ module or1420SingleCore ( input wire         clock12MHz,
                                              camHsync,
                                              camVsync,
                                              biosBypass,
-                          input wire [7:0]   camData,
-                          output wire [9:0] red,
-                          output wire [9:0] blue,
-                          output wire [9:0] green,
-                          output wire [3:0] rgbRow
+                          input wire [7:0]   camData
                            );
 
   wire        s_busIdle, s_snoopableBurst;
@@ -336,11 +332,9 @@ module or1420SingleCore ( input wire         clock12MHz,
   wire        s_cpu1DataValid;
   wire [7:0]  s_cpu1BurstSize;
   wire        s_spm1Irq, s_stall;
-  wire [31:0] s_dmaciResult;
-  wire        s_dmaciDone;
   
-  assign s_cpu1CiDone = s_hdmiDone | s_swapByteDone | s_flashDone | s_cpuFreqDone | s_i2cCiDone | s_delayCiDone | s_camCiDone | s_dmaciDone;
-  assign s_cpu1CiResult = s_hdmiResult | s_swapByteResult | s_flashResult | s_cpuFreqResult | s_i2cCiResult | s_camCiResult | s_delayResult | s_dmaciResult; 
+  assign s_cpu1CiDone = s_hdmiDone | s_swapByteDone | s_flashDone | s_cpuFreqDone | s_i2cCiDone | s_delayCiDone | s_camCiDone;
+  assign s_cpu1CiResult = s_hdmiResult | s_swapByteResult | s_flashResult | s_cpuFreqResult | s_i2cCiResult | s_camCiResult | s_delayResult; 
 
   or1420Top #( .NOP_INSTRUCTION(32'h1500FFFF)) cpu1
              (.cpuClock(s_systemClock),
@@ -615,42 +609,44 @@ module or1420SingleCore ( input wire         clock12MHz,
               .busErrorOut(s_biosBusError),
               .dataValidOut(s_biosDataValid),
               .endTransactionOut(s_biosEndTransaction));
-  /* 
+
+
+  /*
    *
    * Here we define the JTAG interface
    *
    */
   wire [31:0] s_jtagAddressData;
-  wire [3:0] s_jtagByteEnable;
-  wire [7:0] s_jtagBurstSize;
-  wire s_jtagReadNotWrite, s_jtagBeginTransaction, s_jtagEndTransaction, s_jtagDataValid, s_jtagBusy, s_jtagRequestBus;
-  wire s_jtagBusAck;
-  wire [9:0] s_blue, s_red, s_green;
+  wire [3:0]  s_jtagByteEnable;
+  wire [7:0]  s_jtagBurstSize;
+  wire        s_jtagReadNotWrite, s_jtagBeginTransaction, s_jtagEndTransaction, s_jtagDataValid, s_jtagBusy, s_jtagRequestBus;
+  wire        s_jtagBusAck;
+  wire [9:0]  s_red, s_green, s_blue;
+  wire [3:0]  rgbRow;
 
   jtag_interface jtag (
-      .red(s_red),
-      .blue(s_blue),
-      .green(s_green),
-      .rgbRow(rgbRow),
-      .system_clock(s_systemClock),
-      .system_reset(s_reset),
-      .address_dataOUT(s_jtagAddressData),
-      .byte_enableOUT(s_jtagByteEnable),
-      .burstSizeOUT(s_jtagBurstSize),
-      .read_n_writeOUT(s_jtagReadNotWrite),
-      .begin_transactionOUT(s_jtagBeginTransaction),
-      .end_transactionOUT(s_jtagEndTransaction),
-      .data_validOUT(s_jtagDataValid),
-      .busyOUT(s_jtagBusy),
-      .address_dataIN(s_addressData),
-      .end_transactionIN(s_endTransaction),
-      .data_validIN(s_dataValid),
-      .busyIN(s_busy),
-      .errorIN(s_busError),
-      .request(s_jtagRequestBus),
-      .busGranted(s_jtagBusAck),
+    .red(s_red),
+    .blue(s_blue),
+    .green(s_green),
+    .rgbRow(rgbRow),
+    .system_clock(s_systemClock),
+    .system_reset(s_reset),
+    .address_dataOUT(s_jtagAddressData),
+    .byte_enableOUT(s_jtagByteEnable),
+    .burstSizeOUT(s_jtagBurstSize),
+    .read_n_writeOUT(s_jtagReadNotWrite),
+    .begin_transactionOUT(s_jtagBeginTransaction),
+    .end_transactionOUT(s_jtagEndTransaction),
+    .data_validOUT(s_jtagDataValid),
+    .busyOUT(s_jtagBusy),
+    .address_dataIN(s_addressData),
+    .end_transactionIN(s_endTransaction),
+    .data_validIN(s_dataValid),
+    .busyIN(s_busy),
+    .errorIN(s_busError),
+    .request(s_jtagRequestBus),
+    .busGranted(s_jtagBusAck)
   );
-
   /*
    *
    * Here we define the bus arbiter
@@ -665,19 +661,12 @@ module or1420SingleCore ( input wire         clock12MHz,
  assign s_busRequests[28] = s_camReqBus;
  assign s_busRequests[27] = s_jtagRequestBus;
  assign s_busRequests[26:0] = 27'd0;
-// assign s_busRequests[27:0] = 28'd0;
  
  assign s_cpu1DcacheBusAccessGranted = s_busGrants[31];
  assign s_cpu1IcacheBusAccessGranted = s_busGrants[30];
  assign s_hdmiBusgranted             = s_busGrants[29];
  assign s_camAckBus                  = s_busGrants[28];
- assign s_jtagBusAck                = s_busGrants[27];
-   
-  // assign red = {~s_busIdle, ~s_jtagRequestBus, s_red[7:0]};
-  assign blue = {~s_busIdle,  ~s_jtagRequestBus, 8'hFF};
-  // assign green = {~s_busIdle, ~s_jtagRequestBus, s_green[7:0]};
-  assign green = s_green;
-
+  assign s_jtagBusAck                 = s_busGrants[27];
 
  busArbiter arbiter ( .clock(s_systemClock),
                       .reset(s_reset),
@@ -709,9 +698,6 @@ module or1420SingleCore ( input wire         clock12MHz,
  assign s_dataValid        = s_cpu1DataValid | s_biosDataValid | s_uartDataValid | s_sdramDataValid | s_hdmiDataValid | 
                              s_flashDataValid | s_camDataValid | s_jtagDataValid;
  assign s_busy             = s_sdramBusy | s_jtagBusy;
- assign s_burstSize        = s_cpu1BurstSize | s_hdmiBurstSize | s_camBurstSize | s_jtagBurstSize;
-
-
-
+ assign s_burstSize        = s_cpu1BurstSize | s_hdmiBurstSize | s_camBurstSize;
  
 endmodule

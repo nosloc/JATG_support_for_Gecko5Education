@@ -216,7 +216,7 @@ module DMA #(
     assign pp_address = pp_address_reg;
     assign pp_dataIn = address_dataIN_reg;
 
-    assign s_dma_cur_state = {cur_state[2:0], operation_ended_reg};
+    assign s_dma_cur_state = {updated_bus_start_address_reg[2:0], operation_ended_reg};
     assign ipcore_operation_ended = operation_ended_reg;
 
 endmodule

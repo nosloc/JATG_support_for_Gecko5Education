@@ -88,7 +88,7 @@ assign launch_dma = launch_write | launch_read | only_switch;
 assign JTD1 = shift_reg[0];
 
 assign operation_in_progress = write_operation_in_progress | read_operation_in_progress;
-assign ready_to_launch = (block_size_reg != 8'b0 && byte_enable_reg != 4'b0) ? 1'b1 : only_switch;
+assign ready_to_launch = (block_size_reg != 8'b0) ? 1'b1 : only_switch;
 
 assign buffer_full = (block_size_reg == 8'b11111111) ? 1'b1 : 1'b0;
 assign read_complete = (buffer_read_reg == block_size_reg) ? 1'b1 : 1'b0;
@@ -221,7 +221,7 @@ always @(*) begin
                                 IDLE;
         end
 
-        // Write to buffer operaation
+        // Read to buffer operaation
         ASK_FOR_BUFFER: begin
             chain1_nxt_state <= READ_BUFFER;
         end
