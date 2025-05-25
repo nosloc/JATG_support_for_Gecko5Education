@@ -24,16 +24,16 @@
 % \makededication
 % \makeacks
 
-% \begin{abstract}
-% The \sysname tool enables lateral decomposition of a multi-dimensional
-% flux compensator along the timing and space axes.
+\begin{abstract}
+The \sysname tool enables lateral decomposition of a multi-dimensional
+flux compensator along the timing and space axes.
 
-% The abstract serves as an executive summary of your project.
-% Your abstract should cover at least the following topics, 1-2 sentences for
-% each: what area you are in, the problem you focus on, why existing work is
-% insufficient, what the high-level intuition of your work is, maybe a neat
-% design or implementation decision, and key results of your evaluation.
-% \end{abstract}
+The abstract serves as an executive summary of your project.
+Your abstract should cover at least the following topics, 1-2 sentences for
+each: what area you are in, the problem you focus on, why existing work is
+insufficient, what the high-level intuition of your work is, maybe a neat
+design or implementation decision, and key results of your evaluation.
+\end{abstract}
 
 % \begin{frenchabstract}
 % For a doctoral thesis, you have to provide a French translation of the
@@ -202,9 +202,10 @@ Finally we discuss the design for the milestone 2, which extends the JTAG interf
 
 On the \boardName board, the JTAG interface is implemented using a Lattice ECP5 FPGA. This FPGA includes a built-in JTAG interface block that 
 can be instantiated and used in the desuign. This block is responsible for handling the JTAG protocol and provides the necessary signals for communication,
-while respecting the standard definition of JTAG.
+while respecting the standard definition of JTAG. 
 For the Lattice ECP5, the existing JATG interface block is called \texttt{JTAGG}, and provides the minimum required signals and 
-functionnalities to implement the JTAG protocol and letting the user defining two custom instructions \texttt{ER1} and \texttt{ER2}.
+functionnalities to implement the JTAG protocol and letting the user defining two custom instructions \texttt{ER1} and \texttt{ER2}. 
+This block is very poorly documented in the Lattice documentation, but Tom Verbeure has coded a concrete and detailed implementation of it in a github respository that i used both to understand the JTAGG block and to test my design on simulation.
 Hence the JTAGG block provides the TDI, TDO, TCK, and TMS signals and is control by a TAP controller as described in Section~\ref{sec:JTAG}.
 On top of that it also provudes signals to let the user define two custom instructions, they are active when the values \texttt{0x32} and \texttt{0x38} are shifted into the instruction register respectively.
 The JATGG block therefore provides set of pins that can be used to create those two free instructions.
@@ -659,7 +660,27 @@ Finally the signals comming from the bus are connected to the DMA module.
 
 \subsection{Implementaion issue}
 
-%% TO DO
+All the above design is actually a refactored version of a first version that was noot working, in this subsection we will explain the issues we faced and why this design is better.
+The first version of the JTAG interface module followed the exact same design in a way that it was also composed of the JATGG block, the ipcore, the pingpong buffer and the DMA controller.
+The difference mainly lies in the design choices for the ipcore.
+The first big issue was the code in it self that was not well structured and was hard to understand, this made the design  very hard to debug. This hold for both the ipcore and the DMA module.
+Hence the first thing we did in this second milestone is to refactor the code to make it more readable and understandable.
+The second issue was the design of the ipcore that was not well thought making operations much more complex and less intuitive while providing less informations to the user. 
+THe previous design was also at a point where even if it was working the user could read and write only one word at a time, and having the DMA doing an operation on the bus while the ipcore was reading or writing data to the pingpong buffer was not possible.
+A good example of the ipcore being not well designed is the instruction set. In fact it was composed only of the operations to set the configuration registers, one operation called write that was in care of writting data to the buffer plus launching the DMA write operation when needed,
+and one operation to read DMA results and one to launch a DMA read operation.
+Performance wise this could have been a good design because less operations were needed to actually read and write to the bus.
+But on the other hand the logic inside was messy and gave me a lot of headache to debug, after spending a lot of time trying to understand why the design wasn't working on the board and a meeting with my supervisor, we decided to refactor the design.
+The idea of the new design was first to clear the code and the logic inside. For example before the ipcore's FSM was composed of 2 diferents path for the read and write operations, now to launch any DMA transactions the ipcore follows the same path in the FSM making the 
+design much more simple and easier to understand.
+Moreover the new design decouples the ipcore capabilities trading some performance for a better usability, understanding and debugging. To acheive this, the new ipcore offers a new set of commands that are more specific, breaking the previous write and read 
+operations into samller operations. For example the new design offers commands to control completely the pingpong buffer, to read and write data from it, rather than having a single command to write data to the buffer and launch the DMA write operation. 
+The workflow changed a bit since now it is the user responsability to write in the buffer before launching a write operation, or reading the buffer after launching a read operation, but ideally this part will be done by a software communication with the ipcore layer, 
+rather than by the user directly.
+The breaking of the commands also allows the user to control the ipcore while the DMA is performing a bus operation, write more than a single word, define a burst size, and having more feedback on what is happening inside the ipcore.
+Finally the new design also offers more features for debugging which was one of the big problem with the previous design. Adding the ability to read the values loaded in the configuration registers, 
+the distinction between the pingpong buffer operations and DMA's one, and the status register now providing information on the DMA state and buffer state are the main features added to the ipcore to acheive this goal.
+Overall the new design might not be as performant as a working version of the first one, but it is much more understandable, easier to debug and more powerful.
 
 \subsection{Using the JTAG interface module}
 
@@ -756,40 +777,60 @@ Additionally, the design chosen for acheiving this goal is extensible, by using 
 exitsing design of the chain 1 design.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Implementation}
-%%%%%%%%%%%%%%%%%%%%%%%%
-
-The implementation covers some of the implementation details of your project.
-This is not intended to be a low level description of every line of code that
-you wrote but covers the implementation aspects of the projects.
-
-This section is usually 3-5 pages.
-
-
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Evaluation}
 %%%%%%%%%%%%%%%%%%%%
 
-In the evaluation you convince the reader that your design works as intended.
-Describe the evaluation setup, the designed experiments, and how the
-experiments showcase the individual points you want to prove.
+\section{Testbenches}
 
-This section is usually 5-10 pages.
+Throughout the whole project the design of each created module was evaluated and tested. This was mainly done using verilog testbenches created for each module.
+The testbenches are a verilog component that instantiate a DUT (Device Under Test) and simulate the inputs and outputs of the module.
+They are used to verify that the module behaves as intended and that the design is correct. 
+In this project, all the tesbenches simulated the molude and then store every singal in a file that was alter used the generate and visualize the waveforms.
+To be able to visualize the waveforms, the workflow used first the \texttt{iverilog} tool to compile the verilog file and add all the dependencies.
+Then by running the output file of the above command, a \texttt{.vcd} file is generated that contains all the signals and their values at each clock cycle.
+Finally, the \texttt{gtkwave} tool is used to visualize the waveforms and check that the module behaves as expected.
+
+By doing this we were able to verify that a module behaves normally without having to synthesis and load it on the board which take some times.
+All those testbenches are available in the project repository. 
+
+To evaluate the design of the JTAG modules at the end of each milestone, the idea is to create a software program that uses the JTAG interface and abstracts the low level details of the JTAG or openOCD protocol.
+This software should also prove that the goal of the corresponding milestone is achieved.
 
 
-%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Related Work}
-%%%%%%%%%%%%%%%%%%%%%%
+\section{Evaluation of the first milestone}
 
-The related work section covers closely related work. Here you can highlight
-the related work, how it solved the problem, and why it solved a different
-problem. Do not play down the importance of related work, all of these
-systems have been published and evaluated! Say what is different and how
-you overcome some of the weaknesses of related work by discussing the 
-trade-offs. Stay positive!
+We will now explain the evaluation of the first milestone, which was to design a JATG interface that allows the user to communicate with the board, in our case deciding the color of the LEDs.
 
-This section is usually 3-5 pages.
+The software program created for this purpose is a simple Python script called \texttt{jtag_led.py} that once the milestone 1 design is loaded on the board, can be run to control the LEDs using a simple command line interface.
+This script uses openOCD to start the JTAG interface and then connect to the telnet server. Once connected it provides a simple command line interface with the following commands:
+\begin{itemize}
+    \item \texttt{led <number/all> <color>}: Lights up the LED at the specified index (or all LEDs) with the selected color. Available colors are:
+    \begin{itemize}
+        \item red (\texttt{r})
+        \item blue (\texttt{b})
+        \item green (\texttt{g})
+        \item yellow (\texttt{y})
+        \item cyan (\texttt{c})
+        \item magenta (\texttt{m})
+        \item black (\texttt{k})
+        \item white (\texttt{w})
+    \end{itemize}
+    \item \texttt{column <number>}: Sets the active column to the specified number.
+    \item \texttt{help}: Displays the help message.
+    \item \texttt{exit}: Exits the program.
+\end{itemize}
+On each command, the script uses \texttt{irscan} and \texttt{drscan} commands to send the data to the JTAG interface and update the LEDs, and then print the current state of the LEDs on ther console.
+
+This program is a proof that the first milestone is acheived since it allows the user to communicate with the board using only the JTAG interface while offering a simple and intuitive command line interface.
+
+\section{Evaluation of the second milestone}
+
+%% To do
+
+\section{Speed and Performance}
+
+%% To do
 
 
 %%%%%%%%%%%%%%%%%%%%
