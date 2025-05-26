@@ -13,7 +13,7 @@
 \usepackage[MScProject,lablogo]{EPFLreport}
 \usepackage{xspace}
 
-\title{JTAG support \\for Gecko5Education board}
+\title{JTAG support \\for Gecko5Education Board}
 \author{Antoine Colson}
 \supervisor{Prof. Ties Jan Henderikus Kluter}
 
@@ -46,41 +46,44 @@ design or implementation decision, and key results of your evaluation.
 \chapter{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%
 
-    This project focuses on implementing and testing robust JTAG (Joint Test Action Group) communication 
-and control on the \boardName board. The goal is to develop 
-low-level infrastructure that enables JTAG-based access to internal system components, 
-such as memory and peripherals, paving the way for advanced debugging, testing, and programming capabilities.
-Several challenges arose from this project statement.
-First, the board was designed exclusively for educational use at EPFL, and as a result, it lacks official documentation which leaves its internals largely unexplored in this context. 
-Second, no prior work had been done on enabling JTAG access for the \boardName board; existing references focuse on different boards or architectures. 
-Finally, the built-in JTAG interface is extremely minimalistic, exposing only the bare features required by the standard, with only little support for custom extensions or advanced control.\\
+This project focuses on implementing and testing robust JTAG (Joint Test Action Group) communication and control for the \boardName board.
+The primary objective is to develop low-level infrastructure that enables JTAG-based access to internal system components, providing a foundation for concrete and useful applications.
 
-To address these challenges, the project was divided into two main milestones: 
+Several challenges were encountered in pursuing this goal.
+First, the \boardName board was designed specifically for educational purposes at EPFL and lacks documentation, 
+making its internal architecture—particularly in relation to JTAG communication—largely unexplored.
+Second, no prior work has addressed JTAG support for this specific board; existing references mainly focus on other platforms or architectures.
+Third, even the official Lattice documentation for the specific FPGA used on the board is limited, 
+offering only minimal guidance on implementing or extending JTAG functionality.
+Finally, the onboard JTAG interface itself is minimalistic, 
+providing only the core features mandated by the standard, with little support for custom extensions.
+
+To address these challenges, the project was divided into two main milestones:
 
 \begin{itemize}
-    \item Establish basics communication via the JTAG interface and demonstrate control by using 
-    on-board RGB LEDs.
-    \item Extend the JTA interface to suppoort memory accesses and peripherals control, by providing read and write
-    operations to any component on the bus architecture.
+    \item Establish basic communication via the JTAG interface and demonstrate control using the on-board RGB LEDs.
+    \item Extend the JTAG interface to support memory access and peripheral control by enabling read and write operations to any component on the bus architecture.
 \end{itemize}
 
-In summary, this project aimed to transform the previously underutilized JTAG interface of the \boardName board into a powerful low-level communication path
-that can later be used by EPFL students. 
+In summary, this project aimed to transform the previously underutilized JTAG interface of the \boardName board into a powerful low-level communication path 
+that can be used by EPFL students in future projects.
 Both milestones were successfully completed: reliable communication with the board was achieved, 
-and the interface was extended to provide full memory and peripheral access. As a result, 
-software can now interact with the board through a high-level abstraction of the JTAG interface, hiding much of the underlying complexity.
-The remainder of this report details the background of the project, the design decisions made, the concrete implementation and the evaluation of the updated JTAG interface.
+and the interface was extended to provide full access to memory and peripherals.
+As a result, software can now interact with the board through a high-level abstraction of the JTAG interface, 
+hiding much of the underlying complexity.
+The remainder of this report details the background of the project, the design and implementation of the involved components, and the evaluation of the enhanced JTAG interface.
 
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Background}
 %%%%%%%%%%%%%%%%%%%%
 
-This chapter provides the necessary context for the project.  
-It introduces the \boardName board, essential FPGA concepts,  
-the board’s initial architecture related to this project, and the JTAG protocol.  
-It also covers the open-source toolchain used for development,  
-simulation, and debugging.  
+This chapter provides the foundational knowledge necessary to understand the design and implementation of the enhanced JTAG interface on the \boardName board.
+It begins with an overview of the \boardName board itself, outlining its primary features.
+Following this, essential FPGA concepts are introduced to clarify how the board’s programmable logic is utilized in the project.
+Then, it explains the initial system architecture, which serves as the baseline for the JTAG enhancements.
+Next, the chapter details the open-source toolchain employed throughout development, simulation, and debugging activities.
+Finally, it presents an in-depth explanation of the JTAG protocol, its operation, signals, and finite state machine, which forms the core technology used throughout this project.
 
 \section{The \boardName Board}
 \label{sec:board}
@@ -99,51 +102,43 @@ the availability of UART for communication.
 
 \section{FPGA Basics}
 
-As mentioned in Section~\ref{sec:board}, the \boardName board is built around a Lattice ECP5 FPGA.  
-Unlike CPUs that execute software, FPGAs are reconfigurable hardware platforms  
-used to implement digital logic circuits.  
-They are programmed using hardware description languages (HDLs);  
-in this project, Verilog is used to describe the hardware's structure and behavior.  
-The HDL code is then synthesized, placed, and routed to produce a bitstream,  
-which is loaded into the FPGA.  
+As mentioned in Section~\ref{sec:board}, the \boardName board is built around a Lattice ECP5 FPGA.
+Unlike CPUs, which execute software instructions sequentially, FPGAs are reconfigurable hardware platforms used to implement custom digital logic circuits.
+They are programmed using hardware description languages (HDLs); in this project, Verilog is used to describe the hardware’s structure and behavior.
+The HDL code is then synthesized, placed, and routed to produce a bitstream, which is loaded into the FPGA to configure its logic.
 
-In this project, the FPGA is used to enhance an existing microcontroller-based architecture  
-by adding components for JTAG support.  
-
-\section{Toolchain}
-\label{sec:toolchain}
-
-The project uses the open-source \texttt{oss-cad-suite},  
-a comprehensive set of tools for FPGA development.  
-Icarus Verilog is used for simulation,  
-and GTKWave is employed for waveform visualization.  
-Yosys and nextpnr-ecp5 handle synthesis and placement,  
-while ecppack generates the bitstream.  
-The design is then loaded onto the FPGA using openFPGALoader.  
-
-Additionally, \texttt{OpenOCD} (Open On-Chip Debugger) is used  
-to interact with the JTAG interface.  
-It provides a telnet-accessible environment to send low-level JTAG commands,  
-making it possible to control TAP states and directly drive input signals.  
+In this project, the FPGA is used to extend an existing microcontroller-based architecture by adding components for JTAG support. 
 
 \section{Initial System Architecture}
 \label{sec:arch}
 
-The default system architecture on the board is based on an OpenRISC microprocessor,  
-implementing the OpenRISC 1000 ISA in a 5-stage pipelined configuration.  
-It is connected to other modules via a 32-bit shared bus.  
-The default setup includes a UART module, an SDRAM memory controller,  
-a camera interface, and various GPIO components.  
+The default system architecture on the board is based on an OpenRISC microprocessor, implementing the OpenRISC 1000 ISA in a 5-stage pipelined configuration.
+It is connected to other modules via a 32-bit shared bus.
+The default setup includes a UART module, an SDRAM memory controller, a camera interface, and various GPIO components.
 
-All modules are interconnected through the shared bus,  
-which is designed to be easily extensible—  
-an essential feature leveraged in the second milestone of this project.  
+All modules are interconnected through the shared bus, which is designed to be easily extensible—an essential feature leveraged in the second milestone of this project.
 
-The SDRAM ia allocated to the top of the memory space \texttt{0x00000000} and it's 32MiB in size.
+In its default configuration, the system is capable of running arbitrary programs by communicating with the board through the UART interface.
+Program output or debug feedback can be retrieved via UART or visually displayed by connecting a monitor to the board’s HDMI output.
 
-However, for the first milestone,  
-the JTAG interface is used only to control the RGB LEDs,  
-which are directly mapped to GPIOs.  
+The SDRAM is mapped to the beginning of the memory space at address \texttt{0x00000000} and provides 32MiB of storage.
+
+For the first milestone, the JTAG interface was used only to control the RGB LEDs, which are directly mapped to GPIOs. Hence this architecture becomes relevant only for the second milestone,  
+where the JTAG interface is extended to support memory and peripheral access.  
+
+\section{Toolchain}
+\label{sec:toolchain}
+
+The project uses the open-source \texttt{oss-cad-suite}, a comprehensive collection of tools for FPGA development.
+Icarus Verilog is used for simulation, and GTKWave is employed for waveform visualization.
+Yosys handles synthesis, while nextpnr-ecp5 performs placement and routing.
+The bitstream is then generated using \texttt{ecppack} and loaded onto the FPGA using \texttt{openFPGALoader}.
+
+Additionally, \texttt{OpenOCD} (Open On-Chip Debugger) is used  
+to interact with the JTAG interface.  
+It provides a telnet-accessible environment to send low-level JTAG commands,  
+making it possible to control TAP state machine and directly drive input signals.  
+
 
 \section{JTAG Protocol}
 \label{sec:JTAG}
@@ -170,6 +165,15 @@ The interface includes four required signals and one optional:
 
 JTAG communication is governed by the TAP (Test Access Port) controller,  
 which operates as a finite state machine.  
+Figure~\ref{fig:tap-fsm} illustrates the TAP state diagram as defined in the JTAG standard.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/TAP_FSM.pdf} % or .png, .eps, etc.
+    \caption{TAP controller finite state machine as defined by the IEEE 1149.1 standard.}
+    \label{fig:tap-fsm}
+\end{figure}
+
 Key states include:  
 
 \begin{itemize}
@@ -187,29 +191,48 @@ Because JTAG relies on shift registers, it supports bidirectional communication:
 data can be shifted in via TDI and read out via TDO simultaneously.  
 In this project, this mechanism is used to control LEDs  
 and access memory and peripheral modules on the \boardName board.  
+Hence understanding the JTAG protocol and its operation is crucial for the design and implementation of the JTAG interface.
 
 
 %%%%%%%%%%%%%%%%
-\chapter{Project}
+\chapter{JATG Interface Designs}
 %%%%%%%%%%%%%%%%
-This chapter describes the design choices and mechanisms implemented to enable 
-JTAG-based control on the \boardName board.  
-We first present the existing JTAGG interface used throughout the whole project.
-Then we explain the milestone 1 design, which focuses on controlling the RGB LEDs.  
-Finally we discuss the design for the milestone 2, which extends the JTAG interface to support memory and peripheral access.  
+
+This chapter details the design decisions and implementation steps taken to enable JTAG-based control on the \boardName board.
+We begin by introducing the existing JTAGG interface, which forms the foundational component of the porject.
+Next, we describe the implementation for Milestone 1, which focuses on using the JTAG interface to control the RGB LEDs through GPIOs.
+Finally, we present the design and functionality introduced in Milestone 2, where the JTAG interface is extended to support memory-mapped access to system peripherals.
 
 \section{JTAG Interface Block: JTAGG}
 
-On the \boardName board, the JTAG interface is implemented using a Lattice ECP5 FPGA. This FPGA includes a built-in JTAG interface block that 
-can be instantiated and used in the desuign. This block is responsible for handling the JTAG protocol and provides the necessary signals for communication,
-while respecting the standard definition of JTAG. 
-For the Lattice ECP5, the existing JATG interface block is called \texttt{JTAGG}, and provides the minimum required signals and 
-functionnalities to implement the JTAG protocol and letting the user defining two custom instructions \texttt{ER1} and \texttt{ER2}. 
-This block is very poorly documented in the Lattice documentation, but Tom Verbeure has coded a concrete and detailed implementation of it in a github respository that i used both to understand the JTAGG block and to test my design on simulation.
-Hence the JTAGG block provides the TDI, TDO, TCK, and TMS signals and is control by a TAP controller as described in Section~\ref{sec:JTAG}.
-On top of that it also provudes signals to let the user define two custom instructions, they are active when the values \texttt{0x32} and \texttt{0x38} are shifted into the instruction register respectively.
-The JATGG block therefore provides set of pins that can be used to create those two free instructions.
-Here is an explanation of the signals provided by the JTAGG block:
+On the \boardName board, the JTAG interface is implemented using a Lattice ECP5 FPGA.
+This FPGA includes a built-in JTAG interface module called \texttt{JTAGG} that can be instantiated and used in the design.
+This module handles the JTAG protocol and provides the necessary signals for communication,
+respecting the standard JTAG definition explained in Section~\ref{sec:JTAG}.
+
+The \texttt{JTAGG} module offers the minimum required signals and functionalities to implement
+the JTAG protocol while allowing the user to define two custom instructions, \texttt{ER1} and \texttt{ER2}.
+Unfortunately, the Lattice documentation provides limited details on this module.
+However, Tom Verbeure has implemented a concrete and detailed version of it in a GitHub repository,
+which I used both to understand the \texttt{JTAGG} module and to test my design through simulation.
+%% to do : add link to the repository
+
+The \texttt{JTAGG} module provides the standard signals \texttt{TDI}, \texttt{TDO}, \texttt{TCK}, and \texttt{TMS},
+and is controlled by a TAP controller as described in Section~\ref{sec:JTAG}.
+Additionally, it provides signals for two custom develloper designed instructions that become active when the values
+\texttt{0x32} and \texttt{0x38} are shifted into the instruction register,
+corresponding to \texttt{ER1} and \texttt{ER2}, respectively.
+
+This module exposes a set of pins that can be used to implement these two custom instructions.
+Below is a summary of the signals provided by the \texttt{JTAGG} module.
+All these signals are one bit wide.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/jtagg_block_diagram.pdf}
+    \caption{Block diagram of the \texttt{JTAGG} module and its interface with custom instruction modules (\texttt{ER1} and \texttt{ER2}).}
+    \label{fig:jtagg_block}
+\end{figure}
 
 \begin{itemize}
     \item \textbf{Inputs:}
@@ -220,20 +243,16 @@ Here is an explanation of the signals provided by the JTAGG block:
         \item \textbf{JTDO2}: If \texttt{ER2} instruction is shifted into the JTAG instruction register, 
         TDO output will come from \texttt{JTDO2}.
         
-        \item \textbf{TCK*}: Clock used to clock the registers and the TAP controller, 
-        \emph{connected to the actual JTAG pins}.
+        \item \textbf{TCK}: Clock used to clock the registers and the TAP controller, connected to the actual JTAG pins.
         
-        \item \textbf{TMS*}: Controls state switching for the TAP controller, 
-        \emph{connected to the actual JTAG pins}.
+        \item \textbf{TMS}: Controls state switching for the TAP controller, connected to the actual JTAG pins.
         
-        \item \textbf{TDI*}: Test Data Input, 
-        \emph{connected to the actual JTAG pins}.
+        \item \textbf{TDI}: Test Data Input, connected to the actual JTAG pins.
     \end{itemize}
 
     \item \textbf{Outputs:}
     \begin{itemize}
-        \item \textbf{TDO*}: Test Data Output, 
-        \emph{connected to the actual JTAG pins}.
+        \item \textbf{TDO}: Test Data Output, connected to the actual JTAG pins.
         
         \item \textbf{JTCK}: Signal derived from \texttt{TCK} and routed to custom instruction blocks.
         
@@ -249,7 +268,7 @@ Here is an explanation of the signals provided by the JTAGG block:
         
         \item \textbf{JUPDATE}: Goes high when the TAP controller is in the \texttt{Update-DR} state.
         
-        \item \textbf{JRSNT}: \emph{(Active low)}. Goes low when the TAP controller is in the 
+        \item \textbf{JRSNT}: (Active low). Goes low when the TAP controller is in the 
         \texttt{Test-Logic-Reset} state.
         
         \item \textbf{JCE1}: Goes high when the TAP controller is in \texttt{Capture-DR} or 
@@ -260,130 +279,144 @@ Here is an explanation of the signals provided by the JTAGG block:
     \end{itemize}
 \end{itemize}
 
-Using those signals, we can create two custom instructions blocks that can be aware of the main TAP controller state and if the custom instruction is selected.
-For example to send data to ER1, we can first shift the instruction \texttt{ER1:0x32} into the instruction register, then we can shift the data we want to send 
-to the TDI input that is directly connected to the JTDI output of the JTAGG block used by custom instructions block as serial data in input.
+Using these signals, two custom instruction modules can be created that are aware of the main TAP controller state
+and whether their corresponding custom instruction is selected.
+For example, to send data to \texttt{ER1}, the \texttt{ER1} instruction (\texttt{0x32}) is first shifted into the instruction register of the JTAGG module.
+Then, data is shifted through the TDI input, which is routed internally to \texttt{JTDI} and received by the custom instruction module as serial input.
 
-The JTAGG block is therefore a simplistic but powerful tool that allows us to create custom instructions and control the TAP controller state.\\
+In summary, the \texttt{JTAGG} module is a simple yet powerful component that enables the creation of only two custom instructions
+and provides fine-grained control over the TAP controller state.
 
 \section{Milestone 1: RGB LED Control}
 
-This milestone consists of a simple JTAG interface that allows the user to control the RGB LEDs on the \boardName board by communicating with the JTAG interface.
-The goal of it is to desmonstrate the feasibility of the JTAG interface and to provide a proof of concept for the second milestone, by 
-letting the user decide the colors of a selected column in the RGB LED matrix. This milestone can be considered as a proof of concept that communication with the Board
-using JTAG is possible.
+This milestone implements a simple JTAG interface enabling the user to control the RGB LEDs on the \boardName board through JTAG communication.  
+Its primary goal is to demonstrate the feasibility of using JTAG for communication with the board and to provide a proof of concept for the second milestone.  
+Specifically, it allows the user to select the colors of a chosen column in the RGB LED matrix.  
 
-We first presented the existing JTAG interface block available in Lattice ECP5 FPGAs 
-and shortly explained how it is leveraged to build the custom communication system.  
-Now we discuss the design of an Intellectual Property Core (IP Core) that is used between the JTAG interface and the
-RGB LEDs.  
+Having introduced the existing JTAG interface module available in Lattice ECP5 FPGAs and briefly explained how it can be used to build a custom communication system,  
+we now present the design of an Intellectual Property core (also called ipcore in this project) that bridges the JTAGG interface and the RGB LEDs using two custom JATG instructions.
 
+\subsection{The Intellectual Property Core (ipcore)}
 
-\subsection{The Intellectual Property Core (IP Core)}
-
-The IP core is a Verilog module directly interfaced with the JTAGG component. 
+The ipcore is a Verilog module directly interfaced with the \texttt{JTAGG} component. 
 It is responsible for interpreting signals related to custom JTAG instructions and translating them into concrete actions on the board.
 
-In the context of this milestone, the IP core’s role is to control a 12x10 RGB LED matrix.
-This matrix is organized into 12 columns and 10 rows, with each LED capable of displaying a color defined by three values: red, green, and blue. Several pins on the board are
-used to control the LEDs: 3 pins per column are used to control the color of the LED in that column and 4 pins are used to select the column to be controlled.  
-One important things to note is that the pins used to control the red, green and blue values are active low, meaning that a low value on the pin will turn on the LED and a high value will turn it off.
+In the context of this milestone, the ipcore controls a 12x10 RGB LED matrix.
+This matrix consists of 12 columns and 10 rows, with each LED capable of displaying a color defined by three signals: red, green, and blue. The \boardName board uses several pins
+ to control the LEDs: three pins per row control the color of the LED in that row and four pins select the column to be lighted up.  
+Notably, the color pins are active low, meaning a low signal turns on the LED while a high signal turns it off.
 
-To achieve this, the core uses two custom instructions—ER1 and ER2—each handling a different aspect of LED control: color values and column selection, respectively.
+To implement this, the ipcore uses two custom instructions, \texttt{ER1} and \texttt{ER2}, each handling a different aspect of LED control: color values and column selection, respectively.
 
-It is structured around the following design principles:
+It is structured around the following principles:
 
-The IP core is organized in a modular fashion, containing two independent submodules—
-Chain1 and Chain2—each corresponding to one of the custom JTAG instructions. Chain1,
-associated with instruction 0x32, manages the LED colors by maintaining a 30-bit register
-(3 bits per color for each of the 10 LEDs in a column), with its output directly driving the
-LED matrix. Chain2, linked to instruction 0x38, is responsible for selecting which column
-of the matrix is addressed, outputting a 4-bit signal to represent one of the 12 columns.
-Both submodules receive control signals from the JTAGG module (as described in
-Section~\ref{sec:JTAG}), while the IP core simpy instantiate both chains and drives input signal correspondingly.
+The ipcore is designed in a  modular fashion, containing two independent submodules—\texttt{Chain1} and \texttt{Chain2}—each corresponding to one of the custom JTAG instructions.  
+\texttt{Chain1}, associated with instruction \texttt{0x32}, manages LED colors by maintaining a 30-bit register (3 bits per LED for 10 LEDs in a column), directly connected to the RGB matrix.  
+\texttt{Chain2}, associated with instruction \texttt{0x38}, controls column selection via a 4-bit signal representing one of the 12 columns.  
+Both submodules receive control signals from the \texttt{JTAGG} module (see Section~\ref{sec:JTAG}).  
 
-The core idea of those chain components rely in the shift register mechanism that is explianed here and reused in the entire project.
+The ipcore simply instantiates both chains and routes input signals accordingly. An overall visualization of the ipcore and its integration is shown in Figure~\ref{fig:ipcore_block}.
 
-In this design, shift registers play a crucial role in facilitating serial communication through the JTAG interface. 
-A shift register is a digital circuit composed of a series of flip-flops that sequentially move data in or out, one bit at a time, in sync with a clock signal. 
-This mechanism is particularly well-suited for serial data transfer, as it allows for efficient communication over a minimal number of physical lines—typically just data
- and clock—making it ideal for FPGA environments with limited I/O resources. 
-In our implementation, the shift register is used to receive custom instructions, or store data comming in for later use, bit-by-bit from the host system. 
-To ensure reliable data handling, a shadow register captures the full instruction once all bits have been shifted in, allowing the system to process complete commands while continuing to receive new data. 
-This approach not only ensures synchronization but also maintains data integrity and simplifies the logic required for serial input handling.
-Similarly, when data needs to be sent back to the host, the relevant value is loaded into the shift register and then shifted out serially via the TDO line, synchronized with the JTAG clock.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/IPCORE_Design.pdf}
+    \caption{High-level block diagram of the \texttt{ipcore}, showing interaction with the \texttt{JTAGG} module, \texttt{Chain1}, and \texttt{Chain2}.}
+    \label{fig:ipcore_block}
+\end{figure}
 
-This mechanism is used in the JATGG component, but also in our implementation of the IP core. In fact both Chain1 and Chain2 modules uses a shift register and a shadow register.
-The shift is enable when \texttt{JSHIFT} is high and the instruction register is loaded with the corresponding instruction. Then the data is copied in 
-the shadow register when \texttt{JUPDATE} is high and this exact shadow reg is mappedd to the output of the chain (the RGB LED matrix for Chain1 and the column selection for Chain2).
+A core concept behind these chain modules is the use of shift registers, which are fundamental to the serial communication via JTAG and use throughout this project.
 
-An important consideration in this design is the internal behavior of the JTAGG block, specifically how it handles data input via the TDI pin. 
-Contrary to a typical direct shift path, the JTAGG does not forward incoming bits directly to the output chains.
- Instead, the data passes through an internal flip-flop that is clocked by the JTCK signal. 
- As a result, there is an inherent delay of one clock cycle before the incoming data becomes visible at the output of the chain. 
- To address this timing offset, when using the design we intentionally consider shift registers one bit larger than the actual data payload.
-For example, in the Chain2 module, which uses a 4-bit shift register, we will shift in 5 bits of data instead of 4. 
-The first four bits propagate to the shift register as intended, while the fifth bit remains temporarily held within the JTAGG block's internal flip-flop. 
-This strategy ensures that the complete and correctly aligned data is available in the shift register despite the one-cycle latency introduced by the JTAGG logic.
+Shift registers are digital circuits composed of a series of flip-flops that sequentially move data in or out, one bit at a time, synchronized with a clock.  
+They enable efficient serial data transfer over minimal lines, which is ideal for FPGA environments with limited I/O.  
+In our design, shift registers receive incoming data bit-by-bit from the host system, storing it temporarily for processing.  
+To maintain reliable data handling, a shadow register captures the full data word once all bits are shifted in, enabling processing of complete instructions while continuing data reception.
+  
+Similarly, when sending data back to the host, values are loaded into the shift register and shifted out serially via the TDO line, synchronized to the JTAG clock.
 
-This design allows the IP core to act as a bridge between user-issued JTAG commands and
-low-level hardware behavior. It provides a clean, modular way to interpret and apply JTAG
-instructions to specific hardware operations on the board.
+Both \texttt{Chain1} and \texttt{Chain2} modules implement this mechanism: a shift register and a shadow register.  
+Data shifting is enabled when \texttt{JSHIFT} is high and the corresponding instruction is active.  
+Data is latched into the shadow register when \texttt{JUPDATE} is asserted.  
+The shadow register output is then mapped to the relevant hardware outputs (RGB LED signals for \texttt{Chain1}, column selection for \texttt{Chain2}).
+
+An important detail concerns the internal behavior of the \texttt{JTAGG} module regarding data input on the \texttt{TDI} pin.  
+Unlike a direct pass-through, data bits pass through an internal flip-flop clocked by \texttt{JTCK}, introducing a one-cycle delay before the bits appear at the chain outputs.  
+To compensate for this latency, shift registers can be seen as a register with an additional bit for the internal delay.  
+For example, \texttt{Chain2}, which logically requires a 4-bit shift register, actually needs a shift of five bits.  
+The first four bits correspond to the data, while the extra bit accounts for the internal \texttt{JTAGG} delay.  
+This approach ensures proper alignment and availability of data despite the internal pipeline stage.
+
+Overall, this design enables the ipcore to serve as a bridge between JTAG commands and low-level hardware control, providing a clean and modular interface to manipulate board components via the JTAG interface.
 
 \subsection{How to communicate with the board through JTAG ?} 
 
-Now that we have a clear understanding of the JTAGG block and the IP core, we can discuss how to concretely communicate with the board through JTAG.
-First, we update the \texttt{.lpf} file to map the output signals of the two chains to the corresponding pins of the RGB LED matrix.
-Second the updated design (including the Ip core and the JTAGG block) is synthesized and a bitstream is generated using tools explained in \ref{sec:toolchain}.
-Once our design is loaded into the FPGA, we can use OpenOCD to communicate with the board through JTAG.
+Now that we have a clear understanding of the \texttt{JTAGG} module and the \texttt{ipcore}, we can describe how to communicate with the board via JTAG in practice.
 
-Once OpenOCD is started using a board specific configuration file, it runs a local telnet server on port 4444.
-We can the connect to this server and use the large set of commands provided to interact with the board.
-Although the set of commands is large, we will only focus on the low JTAG related commands that are used during this project.
-The most important commands are:
+First, the \texttt{.lpf} (lattice preference file) is updated to map the output signals of the two chains to the corresponding pins of the RGB LED matrix.  
+Next, the updated design—containing both the \texttt{ipcore} and the \texttt{JTAGG} module—is synthesized and a bitstream is generated using the toolchain described in Section~\ref{sec:toolchain}.  
+Once the bitstream is loaded onto the FPGA, OpenOCD can be used to interact with the board through JTAG.
+
+After launching OpenOCD with a board-specific configuration file, it starts a local Telnet server on port \texttt{4444}.  
+We can connect to this server and use the extensive command set it provides to interact with the board.  
+Although OpenOCD provides many commands, we focus here on a subset directly related to low-level JTAG operations, which are enough for the scope of this project:
+
 \begin{itemize}
-    \item \verb|irscan <tap_name> <instruction>|: This command shifts the instruction into the instruction register of the TAP controller (returns in RUN/TEST-IDLE state).
-    \item \verb|drscan <tap_name> <size> <data>|: This command shifts the first size bits of the data into the data register corresponding (returns in RUN/TEST-IDLE state).
-    to the loaded instruction.
+    \item \verb|irscan <tap_name> <instruction>|: This command shifts the instruction into the instruction register of the TAP controller and returns in RUN/TEST-IDLE state.
+    \item \verb|drscan <tap_name> <size> <data>|: This command shifts the first \texttt{size} bits of the data into the data register corresponding to the loaded instruction and returns in RUN/TEST-IDLE state.
     \item \verb|pathmove <tap_state_name>|: This command moves the TAP controller to the specified state.
-    \item \verb|runtest <nb_cycles>|: This command runs the TAP controller for nb\_cycles clock cycles.
+    \item \verb|runtest <nb_cycles>|: This command runs the TAP controller for \texttt{nb\_cycles} clock cycles.
 \end{itemize}
 
 To control the RGB LEDS, we can thereore load either the \texttt{ER1} or \texttt{ER2} instruction into the instruction register using the \texttt{irscan} command.
 Then we can use the \texttt{drscan} command to shift the either the color values or the column selection into the data register.
 Finally, if needed we can use the \texttt{pathmove reset} command to reset the whole TAP controller.
 
-This milestone demonstrates the feasibility of using the JTAG interface to communicate with the board and control on-board peripherals. 
-It serves as a proof of concept for more advanced designs developed in the following milestone.
+To control the RGB LEDs, we begin by shifting either the \texttt{ER1} or \texttt{ER2} instruction into the instruction register using the \texttt{irscan} command.  
+Then, the corresponding data, either the color values or the column selection, is sent using the \texttt{drscan} command.  
+If necessary, the TAP controller can be reset using the \texttt{pathmove reset} command.
+
+\subsection{Conclusion}
+
+This first milestone successfully demonstrates a minimal yet functional JTAG-based communication interface on the \boardName board.  
+By leveraging the \texttt{JTAGG} module and a custom-designed \texttt{ipcore}, we were able to control the RGB LED matrix through two dedicated custom instructions.  
+The modular design using shift and shadow registers provides a robust foundation for serial communication, while OpenOCD enables straightforward interaction with the board from a host machine.  
+Overall, this milestone validates the feasibility of using JTAG as a flexible and extensible interface for on-board control, offering a solid proof of concept for the next milestone of the project.
 
 \section{Milestone 2: Memory and Peripheral Access}
 
-The second milestone of the project aims at using the milestone 1 as a proof of concept and extend the JTAG interface to support memory and peripheral access.
+The second milestone uses the proof of concept established in the first milestone to extend the JTAG interface to support memory and peripheral access.
 
 \subsection{The JTAG Interface Module}
 
-In this part of the project, we focus on the design of a Verilog module called \texttt{jtag\_interface}
-that is added to the existing architecture explained in Section~\ref{sec:arch}.
-This new module is responsible for handling the JTAG communication and for communicating with the peripherals
-and the memory by sitting on the shared bus.
-For ease of implementation, understanding, and reuse, the JTAG interface module is constructed in a modular way.
-First, we instantiate the JTAGG block, which handles the JTAG protocol and the TAP controller.
-Then, directly connected to it, sits the IP core module, responsible for providing and handling instructions
-that allow the user to read and write data from the bus architecture.
-To access the bus, the IP core delegates control to a Direct Memory Access (DMA) module that is connected to the bus
-and controlled by the IP core.
-Finally, for performance reasons, the data transiting between the IP core and the DMA is buffered in a ping-pong buffer,
-which allows reading and writing data in parallel, enabling transactions to involve chunks of data instead of single bits.
-The big picture of this part of the design is shown in Figure~\ref{fig:big_picture}.
-%% TO DO: add figure
+This part of the project focuses on the design and integration of a Verilog module named \texttt{jtag\_interface}, which is added to the architecture introduced in Section~\ref{sec:arch}. 
+This module serves as a bridge between the JTAG communication mechanism and the system's shared bus, allowing access to memory and peripherals.
 
-Before entering in the details of the design, we will quickly explain the bus architecture with which the JTAG interface module tries to communicate.
+To facilitate implementation, modularity, and reuse, the \texttt{jtag\_interface} is designed in a hierarchical and modular fashion. The global structure is as follows:
+
+First, we instantiate the \texttt{JTAGG} module, which manages the JTAG protocol and implements the TAP controller.  
+Directly connected to this block is the \texttt{ipcore} module, which provides and handles custom JTAG instructions as in the first milestone.  
+These instructions allow the user to read from and write to the shared bus architecture.  
+
+To perform actual bus transactions, the \texttt{ipcore} delegates control to a Direct Memory Access (DMA) module.  
+This DMA module is connected to the shared bus and controlled by the \texttt{ipcore}.  
+
+For improved performance, data exchanged between the \texttt{ipcore} and the DMA module is buffered using a ping-pong buffer.  
+This buffer enables  parallel usage from the ipcore and the DMA and allows transactions to move chunks of data instead of single bits or words.
+
+The high-level architecture of the JTAG interface module is illustrated in Figure~\ref{fig:big_picture}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/jtag_interface_overview.pdf}
+    \caption{High-level architecture of the JTAG interface module. The design connects the JTAGG block to the system bus using an IP core, DMA controller, and ping-pong buffer for efficient data handling.}
+    \label{fig:big_picture}
+\end{figure}
+
+Before diving into the internal design of the JTAG interface module, we will briefly describe the shared bus architecture it communicates with.
 
 \subsection{The Bus Architecture}
+
 The shared bus architecture coordinates communication between multiple modules through a set of defined signals totaling 50 bits.
 At its core, a 32-bit address\_data channel carries both addresses and data depending on the transaction phase.
-
-Control signals include:
 
 The main control signals are:
 
@@ -404,30 +437,34 @@ This design supports flexible and efficient data exchange among connected module
 
 We will now enter into more details about the design of each of the submodules of our JTAG interface module.
 
-\subsection{The IP Core}
+\subsection{The ipcore}
 
-First milestone proved us that the JATG interface can be used to make meaningful communication with the board, tahnks to a simple ipcore that
-transform the JATGG signals into concrete actions on the borad. In this second milestone, the ipcore role remains the same, 
-but is completely redisigned to support the need to read and write data from the bus architecture. In this new design the ipcore has multiple interfaces to 
-communicate with other components of the JTAF interface module.
-First it has a interface for the communication with the JTAGG block, used to receive data from the exterior and send data to the host system.
-Then it has an interface to communicate with the DMA module, which allows the ipcore to start the DMA's operations, to send the configurations needed for the bus operations and 
-getting feedback from the DMA module.
-Finally, the ipcore has an interface to communicate with the pingpong buffer, which allows it to read and write data from the buffer and to switch the buffer allowing the DMA and ipcore to 
-excahnge data.
+The first milestone demonstrated that the JTAG interface can be used to enable meaningful communication with the board, thanks to a simple ipcore that translates JTAGG signals into concrete actions on the board.
 
-In this scond milestone, the ipcore will used only one of the two custom instructions provided by the JTAGG block (the \texttt{0x32} one). Hence in this 
-refactored version, the ipcore only contains the Chain1 module which left the Chain2 module unused and available for any new functionality.
+In this second milestone, the ipcore retains the same core role, but is completely redisigned to support reading and writing data over the shared bus architecture.
+
+In this new design, the ipcore includes multiple interfaces to communicate with other components of the JTAG interface module.  
+First it interfaces with the JTAGG module to receive data from the host system and send data back.
+It also has an interface to communicate with the DMA module, which allows the ipcore to initiate the DMA's operations, send the bus opreations configurations and 
+receive status feedback from the DMA module.
+Finally, the ipcore interfaces with the pingpong buffer allowing it to read and write data from the buffer's part and to switch them, facilitating the data exchange between the DMA and the ipcore.
+
+In this milestone, the ipcore uses only one of the two custom instructions provided by JTAGG (the \texttt{0x32} instruction).  
+Therefore, only the Chain1 module is instantiated within the ipcore, leaving Chain2 unused and available for future functionality.
+
 Once the instruction is loaded into JTAGG instruction register, the user can communicate with the ipcore using serial data in and out signals by sending 
-instructions.
-Those instruction are part of a set of commands that can be used to either write or read the set up registers, write or read data from ipcore's part of the pingpong buffer,
-or launch the DMA to read or write data from the bus.
-One decision that was made during the design of the ipcore is to use a fixed length for all instructions to simplify the design and the use of the ipcore.
-They are all composed of two parts: the first part is the data section that is used by some instruction to provide data to the ipcore, and the second part is the command 
-operand that is used to specify the command to be executed.
-For the data section, the obvious idea was to fix it to 32 bits since both the bus, and the buffer used support 32 bits words. Fixing this size allows the write
-of a complete word or address in a single instruction but also read a whole word when shifting an instruction.
-The command opcode is fixed to 4 bits to allow 16 different commands in total to be used which is sufficient in our case.
+ ipcore defined commands.
+Those commands are part of a set of commands enabling operations such as writing or reading configuration registers, transderring data to/from ipcore's part of the pingpong buffer,
+and launching the DMA read or write operation on the bus.
+
+To simplify the design and usage, all instructions use a fixed length composed of two parts:
+The first part is the data section, which some instruction uses to provide data to the ipcore.
+The second part is the command operand, specifying the command to be executed.
+
+Choosing 32 bits for the data section matches the bus and buffer word size, enabling whole words or addresses to be transferred in a single instruction.  
+The 4-bit opcode allows for up to 16 commands, which suffices for this design.
+The total instruction length of ipcore's commands is 36 bits.
+
 The commands are the following:
 
 \begin{table}[h!]
@@ -436,346 +473,478 @@ The commands are the following:
         \hline
         \textbf{Data Section (32 bits)} & \textbf{Opcode (4 bits)} & \textbf{Usage} \\
         \hline
-        -                               & 0000                     & Does nothing, used to shift out data \\
-        Address $[35:4]$                & 0001                     & Write the start bus address \\
-        Byte Enable $[7:4]$             & 0010                     & Write the bus byte enable \\
-        Burst Size $[11:4]$             & 0011                     & Write the bus burst size \\
-        -                               & 0100                     & Read the start bus address \\
-        -                               & 0101                     & Read the bus byte enable \\
-        -                               & 0110                     & Read the bus burst size \\
-        -                               & 0111                     &  \\
-        Word $[35:4]$                   & 1000                     &  Write the word in the pingpong buffer and increase the block size\\
-        -                               & 1001                     &  Read next word in the pingpong buffer\\
-        -                               & 1010                     &  Launch the DMA on a write operation when it is ready\\
-        Number\_of\_words $[11:4]$      & 1011                     &  Launch the DMA on a read operation for Number\_of\_words words when it is ready\\
-        -                               & 1100                     &  Wait for DMA results and switch the buffer\\
-        -                               & 1101                     & \\
-        -                               & 1110                     & \\
-        -                               & 1111                     &  reset the ipcore\\
+        -                               & 0000                     & No operation (used to shift out data) \\
+        Address $[35:4]$                & 0001                     & Write start bus address \\
+        Byte Enable $[7:4]$             & 0010                     & Write bus byte enable \\
+        Burst Size $[11:4]$             & 0011                     & Write bus burst size \\
+        -                               & 0100                     & Read start bus address \\
+        -                               & 0101                     & Read bus byte enable \\
+        -                               & 0110                     & Read bus burst size \\
+        -                               & 0111                     & Reserved \\
+        Word $[35:4]$                   & 1000                     & Write word into ping-pong buffer and increment block size \\
+        -                               & 1001                     & Read next word from ping-pong buffer \\
+        -                               & 1010                     & Launch DMA write operation (when ready) \\
+        Number\_of\_words $[11:4]$      & 1011                     & Launch DMA read operation for specified number of words (when ready) \\
+        -                               & 1100                     & Wait for DMA completion and switch buffer \\
+        -                               & 1101                     & Reserved \\
+        -                               & 1110                     & Reserved \\
+        -                               & 1111                     & Reset the ipcore \\
         \hline
     \end{tabular}
     \caption{JTAG IP Core Command Set: Data section, opcode, and usage.}
-    \label{tab:jtag_commands}
+
 \end{table}
 
-The ipcore's design is based on several key registers. The Bus Start Address Register stores the starting address at which the bus operation will be executed. 
-The Bus Byte Enable Register holds the byte enable value used by the bus architecture to determine which bytes of a word should be read or written; 
-by default, all bytes are enabled. The Burst Size Register keeps track of the burst size, which defines the maximum number of words sent before releasing the bus setting it to zero means 
-1 word will be sent at the time. 
-The Block Size Register records the number of valid words in the ipcore's section of the pingpong buffer, it is also used to indicate the number of words involved in the 
-bus operation to the DMA. 
-The Shift Register is responsible for shifting in instructions and, when necessary, shifting out data, it works exactly as expalained in the above section. The only 
-main difference with the milestone 1 design is that when \texttt{JCE1} is high, the shift register is loaded with either the status register (default value), or one of the config registers
-(when previous command asked to read one of them), or the value out of the pingpong buffer (when previous command asked to read a word from it).
-Finally, the status register is used to indicate the current state of the ipcore. It contains the following informations; is the byte enable register loaded, 
-is the burst size register loaded, is the bus address register loaded, the value of the block size register, is the DMA busy, is the DMA has finished performing the operation.
-%% TO DO: add figure of the status register
+The \texttt{ipcore} design is structured around several key registers. 
+The Bus Start Address Register specifies the starting address for bus operations, 
+while the Bus Byte Enable Register determines which bytes within a word are active during transfers 
+(with all bytes enabled by default). 
+The Burst Size Register sets the number of words to be transferred before the bus is released, 
+and the Block Size Register keeps track of the number of valid words in the \texttt{ipcore}'s section of the ping-pong buffer, 
+as well as the number of words involved in DMA bus operations.
 
-Internally the ipcore relies on a simple finite state machine to handle the timming and needs of each command.
-The first state is the \texttt{IDLE} state, where the ipcore is waiting for a new command to be issued, it remains most of the time in this idle state. In fact writting any config registers
-is done in the same clock cycle as the command is copied in the shadow register (\texttt{JUPDATE} is high) then there is no need to change state.
-The write to buffer operation does not require any state change either, even if it is not done in a same clock cycle, it is done in the next one and is handle by 
-internal logic that updates the block size register and provides the data and where to write it to the buffer using internal buffers.
-Even if there is a small clock delay, it does not impact the design since to shift the next instruction we need to shift for 37 cycles (32 bits + 4 bits for the opcode + 1 bit for the last shift as expalined above) 
-leaving enough time to perform the write operation.
-For the read from buffer operation, the concept is a bit more complexe and requires a state change. Intuitively, for this operation we need to first set up the buffer address where we want to read
-and then in next clock cycle we can read the data from the buffer. Once the data is read, we need to put it in the shift register to be shifted out to the host system.
-This is done by first moving to the \texttt{ASK\_BUFFER} state, where we set up the address to read from and then move to the \texttt{READ\_BUFFER} state where we read the data from the buffer and put it in the shadow register.
-From the next clock cycle the data captured by the shift register and the finite state machine is moved to the \texttt{IDLE} state.
-To actually get back the data from the buffer, we need to shift out the data by shifting any instruction. \textbf{Important note: It is the user responsability to wait the 3
-3 clock cycles needed to update the shift register before shifting out the data}, this can be done using the \texttt{runtest 3} command in OpenOCD. 
-Finally the finite state machine has a last part to handle the DMA operations. All those operations are handled the same way.
-First we move to the \texttt{WAIT\_FOR\_DMA} state and stay there until the DMA is not busy anymore.
-Then the ipcore moves to the \texttt{SWITCH\_BUFFER} state where it switches the pingpong buffer. The part allocated to the DMA becomes the part accesible by the ipcore and inversely.
-This way the IP core can read the result of the DMA read operation and/or the DMA can read the data that need to be written to the bus.
-Once the buffer is switched, the ipcore moves to the \texttt{LAUNCH\_DMA} state where it launches the DMA operation using output signals that are connected to the DMA module. 
-They are 3 of them that goes high for each of the 3 DMA related operations: read, write and switch buffer.
-Before returning to the \texttt{IDLE} state, the ipcore resets some internal signals related to the operation in a state called \texttt{END\_TRANSACTION} to be ready to execute next instructions.
-\textbf{Important note: Again here in case of busy DMA, the user is responsible to wait for the DMA to be ready}, because the clock that synchronizes the finite state machine is user defined.
-This can be done by shifting periodically the status register until the DMA is not busy anymore.
-This conclude the design of the finite state machine used in our new design of the ipcore.
+The Shift Register manages serial instruction shifting, similar to Milestone 1, but now when \texttt{JCE1} is high, it can load data from the status register, configuration registers, or ping-pong buffer based on the previous command.
+This enables the user to request and retrieve data from the ipcore.
 
-There is on more improtatn thing to mention about: at the time the data is shifted out the ipcore core has no idea of the instruction that is shifted in. This implies
-that to retreive data from the ipcore such the configuration registers or the words in the pingpong buffer, the user first needs to shift the instruction starting the read,
-and then shift the data out by shifting any commands. The instruction \texttt{0x00} can be used to shift out the data without doing anything. 
-For the exact same reason the status register is only updated when the next instruction is shifted in, we can consider the status register as the status of the ipcore at the time where
-the previous instruction finished executing. For example after switching the buffer with any DMA related instruction, the block size register is 
-updated to the new value provided by the DMA, but the status register will still show the old value until the next instruction is shifted in.
+The Status Register reports the current \texttt{ipcore} state, including flags indicating whether the byte enable, burst size, and bus address registers are loaded; the current block size; DMA busy status; and whether the DMA operation has completed.
 
-Two more things to mention about the ipcore:
-First, as explained previously, the block size register is used to both indicate the number of words in the ipcore's part of the pingpong buffer, but also to indicate the number of words involved in the bus operation to the DMA.
-This implies that we have to handle the case where the user wants to write or read more words than the ipcore's part of the pingpong buffer (1KB), 
-it this specific case the ipcore will simply ignore the extra words and shifted out the status register instead. 
-Second, some instructions have specific requirement. It is the case for the launch DMA instructions-read or write- that require the 
-block size register to be non zero, in case of a write this means that the user wrote something to the pingpong buffer before launching the DMA, in case of a read this means
-that the user has to specify the number of words to be read in the used command. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/status_register.pdf}
+    \caption{Status register of the \texttt{ipcore}. It provides information about the current state of the ipcore, including bus configuration and DMA status.}
+    \label{fig:status_register}
+\end{figure}
 
-This almost concludes the design of the ipcore logic and design, as shown it is a simple but 
-powerful module that allows the user to control both the pingpong buffer and the DMA controler to acheive the goal of reading and writing data from the bus.
-This version has a structure that can be reused for other purposes and is extensible to add new functionalities, by simply changing the command set and the logic 
-behind them.
-To properly close this module, there is still one problem to solve: the two clock domains issue, this next subsection will explain how we solved this problem.
+Internally, the \texttt{ipcore} uses a finite state machine (FSM) to manage command execution timing and behavior. It is provided on Figure~\ref{fig:ipcore_fsm}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/ipcore_fsm.pdf}
+    \caption{Finite state machine of the \texttt{ipcore}. It manages command execution and transitions between states based on the current operation.}
+    \label{fig:ipcore_fsm}
+\end{figure}
+
+The first state is the \texttt{IDLE} state, where the \texttt{ipcore} waits for a new command to be issued.
+Most of the time, the FSM remains in this idle state. In fact, writing to any configuration register is done
+in the same clock cycle as the command is latched into the shadow register (when \texttt{JUPDATE} is high),
+so there is no need to leave the idle state for such operations.
+
+Similarly, the write-to-buffer operation does not require a state change.
+Although the write is not performed in the exact same cycle as the command is received,
+it is handled in the following cycle by internal logic. This logic updates the block size register,
+prepares the data, and selects the correct buffer address for the write using internal buffers.
+Even though there is a slight clock delay between receiving the command and completing the write,
+this has no negative impact on the design. Shifting the next instruction takes 37 clock cycles
+(32 bits for data, 4 bits for the opcode, and 1 final shift as explained earlier),
+leaving sufficient time for the write operation to complete.
+
+The read-from-buffer operation, however, is more complex and does require a state change.
+Intuitively, reading from the buffer involves two steps:
+first, setting the buffer address, and then retrieving the data from that address.
+After that, the data must be moved to the shift register for output to the host system.
+This is implemented by transitioning to the \texttt{ASK\_BUFFER} state, where the read address is set up.
+The FSM then proceeds to the \texttt{READ\_BUFFER} state, which handles the actual data read
+and places the result into the shadow register.
+In the next clock cycle, the data can be captured by the shift register, and the FSM returns to the \texttt{IDLE} state.
+To retrieve the data, the user must shift it out by issuing any new instruction.
+\textbf{Important note: It is the user's responsibility to wait three clock cycles for the result of the read from buffer operation
+to be ready to be captured and later shifted out of the shift register.} This delay can be handled in OpenOCD using the \texttt{runtest 3} command.
+
+The final part of the finite state machine handles DMA-related operations,
+all three of them follow a similar state sequence.
+First, the FSM enters the \texttt{WAIT\_FOR\_DMA} state, where it waits until the DMA is no longer busy.
+Once the DMA is ready, the FSM transitions to the \texttt{SWITCH\_BUFFER} state.
+Here, the ping-pong buffer parts are swapped: the half previously used by the DMA
+becomes accessible to the ipcore, and inversely.
+This allows the ipcore to access the results of a DMA read operation,
+or prepare data for the DMA to write to the bus.
+After switching buffers, the FSM moves to the \texttt{LAUNCH\_DMA} state,
+where it initiates the appropriate DMA operation by asserting one of three output signals:
+launch\_read, launch\_write, or only\_switch.
+The read operation starts the DMA read process, the write operation
+initiates the DMA write process and the only switch operation simply switches the buffers without launching a DMA operation.
+Before returning to the \texttt{IDLE} state, the FSM enters the \texttt{END\_TRANSACTION} state
+to reset internal control signals and prepare for the next instruction.
+
+\textbf{Important note: As with reading buffer data, the user must ensure the DMA is ready before issuing a DMA command.}
+Since the clock driving the FSM is user-defined, OpenOCD must periodically check the status register
+until the DMA is no longer busy.
+
+This concludes the design of the finite state machine used in our new ipcore.
+
+However, there is one more important aspect to mention: at the time data is captured in the shift register before being shifted out, 
+the ipcore has no knowledge of the instruction being shifted in. 
+This implies that to retrieve data from the ipcore, such as configuration registers 
+or the contents of the ping-pong buffer, the user must first shift in the instruction that initiates the read. 
+Then, they must shift for 37 clock cycle again to retrieve the data, this can be done by sending any instruction.
+For this purpose, the \texttt{0x00} instruction can be used. 
+It acts as a no-op and simply captures and shifts out the current data without triggering any action in the ipcore.
+
+For the same reason, the status register is only received updated when the next instruction is shifted in. 
+We can consider the status register to reflect the state of the ipcore 
+at the moment the previous instruction completed execution. 
+For example, after a DMA-related instruction, 
+the ipcore's block size register may already be updated by the DMA, 
+but the status register will still display the old value until the following instruction is shifted in.
+
+Two additional points are worth noting about the \texttt{ipcore}'s behavior.
+
+First, as previously explained, the block size register serves a dual purpose:
+it indicates both the number of words currently stored in the \texttt{ipcore}'s half of the ping-pong buffer,
+and the number of words involved in a DMA bus transaction.
+This dual use implies a limitation. If the user attempts to read or write more than the buffer's capacity (1KB), 
+the ipcore will ignore the excess data. When this happens, instead of transferring further words,
+it will begin shifting out the status register.
+
+Second, some instructions come with specific preconditions. 
+In particular, the DMA launch instructions, both read and write, require the block size register to be non-zero.
+For a write operation, this means that the user must have written data to the buffer before launching the DMA.
+For a read operation, the user must first indicate how many words should be read by writing the appropriate value into the block size register.
+
+This nearly completes our description of the new ipcore's logic and architecture. 
+As demonstrated, it is a simple yet powerful module, giving the user full control over both the pingpong buffer and the DMA module, providing efficient data transfer to and from the bus.
+Moreover, the design is modular and extensible. 
+It can be adapted for other use cases simply by modifying the command set and the associated logic.
+
+To properly finalize this module, there remains one critical issue to address:
+the presence of two independent clock domains. 
+The next subsection will explain how this challenge is resolved in our design.
 
 \subsection{The Two Clock Domains Problem}
 
-In this milestone, one problem arises that was not present in the first one: the two clock domains problem. In fact now that our design is connected to 
-an actual micro-controller architecture running on the board, we need to be careful about the clock domains that are used in the design.
-On the first hand, the JTAG clock -\texttt{TCK}- is used to clock by the JTAGG block and the ipcore, and on the other hand the bus architecture 
-is clocked by another clock -\texttt{system\_clock}- that is used by the micro-controller and therefore the DMA that communicates with it should be clocked on it too.
-Since both clocks are not synchronized, especially the JATG clock on which the user has full control, we need to be careful about the timing of the signals.
+In this milestone, a new challenge emerges that was not present in the earlier stage of development: the two clock domains problem. 
+Now that our design interfaces with an actual microcontroller architecture running on the board, 
+we need to paid attention to the distinct clock domains involved.
 
-Because the ipcore and the DMA lies on a different clock domain, the communication between those modules needs to be carefully analysed.
-Hopefully not all communications needs to be synchronized, it is the case for the configuartion registers, the DMA can read them at anytime and since they remains the same 
-during the launch of the DMA, the DMA can just read them once and store them in its own registers for later use.
-The data in the buffer is also not sensitive to the clock domain because of the pingpong buffer design that can handle the two clock domains.
-The only thing that needs to be synchronized is the DMA control signals that are used to launch the DMA operations.
-The ipcore uses so called \texttt{Synchronous Flops} to synchronize the signals with the system clock and avoid them being metastable or high for more than one clock cycle.
-It is done by using a three stage synchronizer that will ensure that a signal high during a clock cycle in on domain (input domain) will be high and stable for one clock cycle in the other domain (output domain).
-The design of this synchronizer is simple, the signal is first passed through a flip-flop clocked by the input domain clock, and we make sure it remains high until reset by oring the 
-input signal of the first flip-flop with the output of the same flip-flop.
-The second flip-flop and the third flip-flop are clocked by the output domain clock and are used to synchronize the signal with the output domain while ensuring the output signal reamins stable.
-Finally once the output signal is high we asynchronously reset the first and second flip-flops to ensure that the signal is not high for more than one clock cycle.
+On one side, the JTAG clock (\texttt{TCK}) is used to synchronize both the JTAGG block and the ipcore. 
+On the other side, the system bus architecture is clocked by a different signal—\texttt{system\_clock}—which is also used by the microcontroller. 
+Consequently, the DMA communicating with the bus must also be clocked by \texttt{system\_clock}. 
+Since these clocks are not synchronized, especially the JTAG clock, which is entirely under user control, it becomes critical to handle timing with care.
 
-This design is therefore used three times in the ipcore to synchronize the signal in charge of launching the DMA read operation, the DMA write operation and the pingpong buffer switch.
-With this the ipcore's design is complete and ready to be used to communicate with the buffer and the DMA.
-The design of the synchronizer is shown in Figure~\ref{fig:sync}.
-%% TO DO: add figure
+Because the ipcore and the DMA reside in different clock domains, communication between them must be carefully analyzed. 
+Fortunately, not all communications require synchronization. For instance, configuration registers can be safely read by the DMA at any time, 
+as they remain constant during the DMA launch. The DMA can simply capture their values once and store them internally for later use.
+Similarly, data transfer via the pingpong buffer does not require clock domain synchronization. 
+This is thanks to the buffer's design, which is inherently capable of handling two clock domains.
+
+The only signals that require proper synchronization are the DMA control signals, the ones that trigger DMA operations. 
+To safely transfer these signals across clock domains, the ipcore employs what are known as \texttt{synchronous flops}. 
+These are implemented using a three-stage synchronizer, which ensures that a signal high for one clock cycle in the input domain 
+appears high and stable for exactly one clock cycle in the output domain, avoiding metastability.
+
+The synchronizer's operation is straightforward. The signal is first passed through a flip-flop clocked by the input domain. 
+To ensure it remains high until explicitly cleared, the input of this flip-flop is ored with its own output. 
+This holds the signal high until reset.
+Next, the signal passes through two additional flip-flops, both clocked by the output domain. 
+These serve to synchronize and stabilize the signal in the new clock domain. 
+Once the output is high, the first two flip-flops are asynchronously reset, 
+guaranteeing that the signal stays high for a single cycle of the output domain.
+
+This synchronization scheme is applied three times in the ipcore design: 
+once for the DMA read launch signal, once for the DMA write launch signal, and once for the pingpong buffer switch command.
+
+With this, the \texttt{ipcore}'s design is complete. It is now fully capable of safely communicating with both the buffer and the DMA module. 
+The detailed schematic of the synchronizer is presented in Figure~\ref{fig:sync}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/clock_synchronizer.pdf}
+    \caption{Schematic of the synchronizer used in the ipcore to safely transfer control signals across clock domains.}
+    \label{fig:sync}
+\end{figure}
+
 
 \subsection{The pingpong buffer}
 
-The pingpong buffer is not a complex design but is a key component of this second milestone.
-It is used as an intermediate storage area between the IP core and the DMA controller. But in a special way where both
-the ipcore and the DMA can used it at the same time. For example the DMA could be reading data from it to write it to the bus while the ipcore is writting data ot it to prepare the 
-next DMA write operation. The key idea is to have two buffers that are used by each component respectively and to be able to switch them at any momnent.
+The pingpong buffer is not a complex design, but it is a key component of this second milestone. 
+It serves as an intermediate storage area between the ipcore and the DMA module, 
+with the particularity that both components can access it concurrently. 
+For instance, the DMA could be reading data from the buffer to write to the bus, 
+while at the same time the ipcore is writing new data to prepare for the next DMA transaction. 
+The core idea is to have two memory regions, one allocated to each component, and to be able to switch them at any moment. 
 
-Acheiving this necessitates the usage of a fully dual ported SSRAM, which allows two access simultaneously on the same memory. It has two distinct interfaces, that are 
-composed of the address where to read or write, the data going in, the data coming out the memory, the read not write signal (high for read, low for write), the clock signal.
-The two interfaces are completely independent and can be used at the same time. One of this interface is used by the ipcore and is clocked by the JTAG clock, 
-the other one is used by the DMA and is clocked by the system clock, solving part of the clock domain problem discussed in the previous section.  
+This is achieved using a fully dual-ported SSRAM, which supports simultaneous access from two independent interfaces. 
+Each interface includes its own set of signals: address lines, input data, output data, a read/write control (high for read, low for write), and a dedicated clock. 
+These two interfaces are completely independent, allowing the ipcore (clocked by \texttt{TCK}) 
+and the DMA (clocked by \texttt{system\_clock}) to operate concurrently and safely, 
+thereby addressing part of the clock domain crossing problem described in the previous section.
 
-The pingpong buffer simply ensure that this dual ported memory is separated in two distinct parts, that can be easily switched at any time.
-By forcing the most significant bit to 0 or 1 for the two interfaces respectively, this design ensure that the ipcore will nerver be able to access the part of the memory used by the DMA and inversely.  
-Moreover inversing this bit is a simple and efficient way to switch the buffer, allowing the transfer of data between the two modules.
-The built version of the pingpong buffer also offers a input signal that switches the buffer's parts on the rising edge of the JTAG clock (becasue handled by the ipcore) in addition to 
-the two interfaces of the dual ported memory. This signal is used by the ipcore to switch the buffer when needed given that the previous DMA operation is finished.
+It is also important to note that due to the synchronous nature of the memory and the clocked design of both the ipcore and the DMA, 
+any data written to or read from the ping-pong buffer becomes valid after one clock cycle. 
+This means that a write operation will take one clock cycle before the data is stored and accessible, 
+and similarly, data read from the buffer will be available one clock cycle after the read request is issued. 
 
-In the used design the pingpong buffer uses a 2KB dual ported memory which is word addressable (32 bits words).
-This means that after division, the ipcore and the DMA can access 1KB of memory each (or 128 words memory).
-It follows that the pingpong buffer can handle up to 256 words of data for each of the two modules leading to pingpong buffer's address are on 8 bits, the ninth one being forced.
-The reason behind this size is that both it is sufficient for the needs of this project, making it bigger will not improve by a lot the performance since switch is almost free, and 
- it is the biggest configuration the FPGA allows us to use wihtout implementing it using flip-flops and multiplexers which would be inefficient and slow. 
+The ping-pong buffer ensures that this dual-ported memory is logically divided into two regions. 
+This is done by forcing the most significant address bit to 0 or 1, depending on the interface. 
+In doing so, the ipcore is restricted to one half of the memory, 
+and the DMA to the other which guarante mutual exclusion. 
+Switching buffers simply involves inverting this most significant bit, effectively swapping buffer halves between the two components.
 
-The pingpong buffer allows the ipcore and the DMA to exchange chunks of data efficiently while respecting the two clock domains and being lightweight and easy to use.
+The used version in this milestone also includes an input signal, handled by the ipcore, 
+which triggers the buffer switch on the rising edge of the JTAG clock. 
+This allows the buffer regions to be exchanged when the ipcore requests it.
+
+In our design, the pingpong buffer uses a 2KB dual-ported memory, word-addressable in 32-bit words. 
+This means each half of the memory provides 1KB (128 words) to the ipcore and DMA respectively. 
+As a result, the buffer can handle a total of 256 words, and addresses are 8 bits wide—the 9th bit being reserved for partitioning.
+
+This size was chosen for practical reasons. 
+First, it meets the data throughput needs of this project. 
+Second, increasing it further would not significantly improve performance, since buffer switching is fast and efficient. 
+Finally, 2KB is the largest usable configuration on our FPGA without moving to inefficient implementations based on flip-flops and multiplexers.
+
+In conclusion, the ping-pong buffer enables efficient and concurrent data exchange between the ipcore and the DMA. 
+It respects clock domain boundaries while remaining lightweight, robust, and easy to integrate into the rest of the system.
 
 \subsection{The DMA Controller}
 
-The Direct Memory Access controller (DMA) is a key component of this new design that is in charge of executing the bus operations the ipcore asks for.
-The DMA module is a verilog component which ports can be divided into 4 groups: first the ports that are used to communicate with the ipcore including the control signals,
-the configuration registers and some status signals. 
-Then it also has twelve ports used for sitting on the bus architecture as a master and to communicate with the bus.
-It also has two ports connected to the bus arbitrer that are used to request the bus and to acknowledge the bus access.
-Finnally it also uses some ports to communicate with the pinpong buffer to allow the read and write operations to be performed on the buffer.
+he Direct Memory Access controller (DMA) is a key component of this new design.  
+It is responsible for executing the bus operations requested by the ipcore.  
+The DMA module is a Verilog component whose ports can be divided into four groups.  
+First, there are the ports used to communicate with the ipcore, including control signals, configuration registers, and some status signals.  
+Then, there are twelve ports used to act as a master on the bus architecture and communicate with the bus.  
+Additionally, two ports connect to the bus arbiter; these are used to request the bus and acknowledge bus access.  
+Finally, some ports communicate with the pingpong buffer to allow read and write operations to be performed on it.
 
-Conceptually the DMA module should be able to handle read and write operation on the bus. The data read should be written to the pingpong buffer and
-the data written should be read from the pingpong buffer (previously written by the ipcore).
-The best way to this result is to use a finite state machine that will handle the timing of the operations and the bus access.
+Conceptually, the DMA module should handle both read and write operations on the bus.  
+Data read from the bus should be written to the pingpong buffer,  
+and data written to the bus should be read from the pingpong buffer (previously written by the ipcore).  
+The best way to achieve this is by using a finite state machine (FSM) that handles the timing of operations and bus access.
 
 The finite state machine of the DMA is complexe and we will walk through it state by state.
 For the ease of the explanation, a state diagram is shown in Figure~\ref{fig:state_diagram}.
 
-The first state entered when the DMA is reset is the \texttt{fsm\_idle} state. In this state the DMA is not busy and waits for control signals from the ipcore to start a new operation.
-Once the signal indicating the start of a new operation is received, the DMA reads the content of the ipcore's configuration register stores a copy of it, stores in a register the type
-of instruction and moves to the state \texttt{fsm\_init}.
-The configuration registers saves are the start address of the bus operation, the burst size, the byte enable and the number of words to be read or written.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/dma_fsm.pdf}
+    \caption{Finite state machine of the DMA controller. It manages bus operations, pingpong buffer access, and data transfer.}
+    \label{fig:state_diagram}
+\end{figure}
 
-The \texttt{fsm\_init} state is used initialize all the registers used for a single DMA operation.
-Three register are worth mentioning: the \texttt{updated\_bus\_start\_address\_reg} register stores the next address the operation will be performed on, it is initialized
-to the value of the bus start address stored when the DMA was launched.
-The \texttt{updated\_block\_size\_reg} register stores the number of words left to be read or written, and is initialized to the value of the block size register stored when the DMA was launched.
-The \texttt{pp\_address\_reg} register stores the next address of the pingpong buffer where the data will be read or written, initialized to \texttt{0x0}.
-Two more registers are updated to provide the ipcore whether the operation is launched and whether the DMA has finished the operation.
-After a clock cycle in this state, all those registers are initialized and the DMA moves to the \texttt{fsm\_request\_bus} state.
+The first state entered when the DMA is reset is the \texttt{fsm\_idle} state.  
+In this state, the DMA is idle and waits for control signals from the ipcore to start a new operation.  
+It is the only state where the DMA is not busy, and a new operation can be launched.  
+Once a start signal is received, the DMA reads the ipcore's configuration registers, stores a copy,  
+records the type of instruction in a register, and transitions to the \texttt{fsm\_init} state.  
+The saved configuration registers include the start address for the bus operation, burst size, byte enable signals, and the number of words to be read or written.
 
-In the \texttt{fsm\_request\_bus} state, the DMA is requesting the bus to start an operation by setting its request signal high.
-The DMA wait in this state until the bus arbitrer grants the bus access to the DMA, at which point the DMA moves to the \texttt{fsm\_set\_up\_transaction} state.
+The \texttt{fsm\_init} state initializes all the registers needed for a single DMA operation.  
+Three registers are especially important:  
+\texttt{updated\_bus\_start\_address\_reg} holds the next bus address for the operation and is initialized to the stored start address.  
+\texttt{updated\_block\_size\_reg} holds the remaining number of words to read or write and is initialized to the stored block size.  
+\texttt{pp\_address\_reg} stores the next pingpong buffer address for data transfer and is initialized to \texttt{0x0}.  
+Two more registers are updated to inform the ipcore whether the operation has started and whether it has finished.  
+After one clock cycle in this state, all registers are initialized, and the DMA moves to the \texttt{fsm\_request\_bus} state.
 
-According to the shared bus architecture used in this project the first clock cycle of the bus operation is used to set up the transaction, this state is 
-used exactly for this purpose.
-The DMA sets the bus control signals, byte enable, burst size and read not write signal according to the configuration registers and the type of operation.
-On this set up cycle the DMA should also set the begin transaction signal high to indicate the start of the transaction, and set the address\_data signal to 
-the value of the updated bus start address register to indicate where the operation will be performed.
-Another internal register is updated if the operation is a read to store the actual number of words to be written in this burst, this value is set to the burst size received 
-from the ipcore if this one is smaller than the updated block size register, otherwise it is set to the updated block size register. 
-Once this is done, the DMA moves to either \texttt{fsm\_read} if the operation is a read or the \texttt{fsm\_write} state if the operation is a write.
+In the \texttt{fsm\_request\_bus} state, the DMA asserts its bus request signal to start an operation.  
+It waits in this state until the bus arbiter grants bus access, once granted the DMA proceeds to the \texttt{fsm\_set\_up\_transaction} state.
 
-We will first explain the \texttt{fsm\_read} state, which is used to read data from the bus and write it to the pingpong buffer.
-If the the data on the bus is valid, then the DMA updates the \texttt{updated\_bus\_start\_address\_reg} register to the next address -adding 4 (the size of a word)-, the 
-\texttt{updated\_block\_size\_reg} register to the number of words left to be read -decreasing it by 1- and the \texttt{pp\_address\_reg} register to the next address of the pingpong buffer -adding 1-.
-It also stores the data read to a tempory register that is connected to the pingpong buffer data input signal, and set write enable register to high. This way the next cycle the data will be written in the pingpong buffer.
-The DMA stays in this state until it receives a signal indicating the end of the transaction from the slave or an error signal from the bus.
-In case of an error, the DMA moves to the \texttt{fsm\_wait\_end} state wher it stalls until receiving the end transaction signal and moving back to the \texttt{fsm\_idle} state.
-In case of normal transaction, two cases are possible: either the end transaction signal is received and the DMA received all the datat it needed and returns to the \texttt{fsm\_idle} state, 
-or the end transaction signal is received and the DMA has not received all the data it neeeded -because of the burst size being smaller than the updated block size register-, in this case 
-the DMA moves to the \texttt{fsm\_request\_bus} state to request the bus again and repeat the operation until all the data is received.
+According to the shared bus architecture used in this project, the first clock cycle of any bus operation is used to set up the transaction.  
+The \texttt{fsm\_request\_bus} state configures the bus control signals, including byte enable, burst size, and read/write indication, based on the configuration registers and operation type.  
+The DMA also sets the begin transaction signal high to indicate the start of the transaction,  
+and sets the \texttt{address\_data} signal to the value of the updated bus start address register.  
+If the operation is a read, an internal register is also initialize to store the actual number of words to transfer in the burst.  
+This value is set to the burst size received from the ipcore if it is smaller than the remaining block size; otherwise, it is set to the remaining block size.  
+Once this setup is complete, the DMA transitions to either the \texttt{fsm\_read} state (for reads) or the \texttt{fsm\_write} state (for writes).
 
-The \texttt{fsm\_write} state on the other hand is used to write data from the pingpong buffer to the bus.
-In this state the DMA stall completely if the slave is busy e.g. the busyIn signal is high.
-Otherwise, the DMA updates the \texttt{updated\_bus\_start\_address\_reg} register, the \texttt{updated\_block\_size\_reg} register and the \texttt{pp\_address\_reg} register exactly as in the \texttt{fsm\_read} state.
-It also updates the register that stores the number of words left to be written in this burst by reducing it by one.
-It also ensure that the every clock cycle the data read from the pingpong buffer is maped to the bus data out port and the data valid signal is set high.
-Reading from the buffer has one clock cycle delay, but this is not a problem since by default the pingong buffer reads the data at address \texttt{pp\_address\_reg}. 
-Thus the first time the DMA send some data to the bus, it will be the data at address \texttt{pp\_address\_reg} and update the address to the next one, the new data will therefore be available for the next clock cycle.
 
-There are two ways to leaves this state:
-\begin{itemize}
-    \item An error signal is received from the bus, in this case the DMA moves to the \texttt{fsm\_end\_transaction\_error} state, where it sends the end transaction signal to the bus and moves back to the \texttt{fsm\_idle} state.
-    \item The register that stores the number of words left to be written in this burst reaches one and the busy signal is low, in this case the DMA moves to the \texttt{fsm\_end\_write\_transaction} state.
-        Where depending on the number of words left to be written in the block size register -number of words still not written for this operation- it either moves to the \texttt{fsm\_idle} state or to the \texttt{fsm\_request\_bus} state 
-        to request the bus again and send another burst of data.
-\end{itemize}
+The \texttt{fsm\_read} state handles reading data from the bus and writing it to the pingpong buffer.  
+When valid data is detected on the bus, the DMA updates the \texttt{updated\_bus\_start\_address\_reg} by adding 4 (the size of a word),  
+decrements the \texttt{updated\_block\_size\_reg} by one,  
+and increments the \texttt{pp\_address\_reg} to the next pingpong buffer address.  
+It stores the read data in a temporary register connected to the pingpong buffer data input,  
+and sets the write enable register high so the data will be written to the buffer on the next clock cycle.  
+The DMA remains in this state until it receives an end transaction signal from the slave or an error signal from the bus.  
+In case of an error, the DMA transitions to the \texttt{fsm\_wait\_end} state, where it stalls until the end transaction signal is received, then returns to \texttt{fsm\_idle}.  
+If the transaction ends normally, two scenarios are possible:  
+either all data has been received, so the DMA returns to \texttt{fsm\_idle},  
+or not all data was received (e.g., due to burst size limitations), in which case the DMA requests the bus again by moving back to \texttt{fsm\_request\_bus} and reapeat the same process until all data is received.
 
-This concludes the exhaustive explanation of the DMA finite state machine and since the rest of the design is simple logic, we will not go into details about it.
-But we will quickly summarize the overall design for easier and better understanding.
-The DMA modules waits for the ipocore to launch a new operation, then it initializes the registers used for this operation and requests the bus.
-Once the bus is granted, it sets up the transaction and moves to either the read or write state.
-In the read state the DMA reads the data from the bus and writes it to the pingpong buffer, in the write state it reads the data from the pingpong buffer and writes it to the bus.
-This is done for burst of data, and is reapeated until all the data is read or written.
-Once the operation is finished, the DMA returns to the idle state sets the busy signal low and the operation finished signal high, and waits for a new operation to be launched.
+The \texttt{fsm\_write} state is responsible for writing data from the pingpong buffer to the bus.  
+In this state, the DMA stalls if the slave is busy (indicated by the \texttt{busyIn} signal).  
+Otherwise, it updates the \texttt{updated\_bus\_start\_address\_reg}, \texttt{updated\_block\_size\_reg}, and \texttt{pp\_address\_reg} in the same way as in the read state.  
+It also decrements the counter tracking the number of words left to write in the current burst.  
+The DMA ensures that on every clock cycle, the data read from the pingpong buffer is driven to the bus data out port, and the data valid signal is asserted.  
+Although reading from the buffer has a one-cycle delay, this is not an issue because the buffer reads data from the address in \texttt{pp\_address\_reg} by default.  
+As a result, the first data written to the bus corresponds to the data at the current \texttt{pp\_address\_reg} address, after which the address register is incremented. 
+This ensures that on each subsequent clock cycle, the next data word is available for sending on the bus.
 
-This module is very helpful in our design since it allows the ipcore to perform bus operations while preparing the next operation or reading the result of the previous one.
-It also improve the understandability of ipcore's design since it is a simple module that take care of all the timing complexity and the bus requirement to the DMA.
+There are two ways to exit this state.  
+First if an error signal is received from the bus, the DMA moves to the \texttt{fsm\_end\_transaction\_error} state, sends the end transaction signal to the bus, and returns to \texttt{fsm\_idle}.  
+If the number of words left to write in the burst reaches one and the bus is not busy, the DMA moves to the \texttt{fsm\_end\_write\_transaction} state.  
+Depending on whether there are more words left to write for this transaction, the DMA either returns to \texttt{fsm\_idle} or to \textt{fsm\_request\_bus} to requests the bus again and send another burst.
 
-This part concludes the design of the JTAG interface module, where the JATGG block, the ipcore, the pinpong buffer and the DMA controller are all connected together to allow
-once integrated to the actual interface the user to read and write data from the memory or any peripheral connected to the bus.
+This concludes the detailed explanation of the DMA FSM.  
+Since the rest of the design is simple combinational and sequential logic, we will not detail it here.  
+To summarize, the DMA module waits for the ipcore to launch a new operation, initializes registers for the operation, and requests the bus.  
+Once the bus is granted, it sets up the transaction and proceeds to either the read or write state.  
+In the read state, data is read from the bus and written to the pingpong buffer;  
+in the write state, data is read from the pingpong buffer and written to the bus.  
+These bursts continue until the entire data block is transferred.  
+Upon completion, the DMA returns to idle, clears the busy signal, set high the operation finished signal, and waits for the next operation.
+
+This module greatly improves our design by allowing the ipcore to perform bus operations while preparing the next operation or processing previous results.  
+It also enhances the understandability of the ipcore by encapsulating all bus timing and protocol complexities within a simple module.
+
+This concludes the design of the JTAG interface module,  
+where the JTAG block, the ipcore, the pingpong buffer, and the DMA controller are connected.  
+Once it is integrated with the actual architecture, the user will be able to read and write data from memory or any peripheral connected to the bus.
 
 \subsection{Integration to the architecture}
 
-The integration of the JATG interface module to the architecture is done by simply connecting the JTAG interface module to the bus architecture.
-In the existing architecture, the bus arbitrer provides 32 bits wide signal for master requests \texttt{s\_busRequests} and 32 bits wide signal for master grants \texttt{s\_busGrants}.
-Because the architecture already have 4 masters, the JTAG interface module is added as a fifth master by simply connecting the 27th bits of \texttt{s\_busRequests} and \texttt{s\_busGrants} 
-to request and grant signals used by the DMA module.
-To complete the integration on the bus architecture, all other signals comming from the DMA to the bus are ored with the corresponding signals from the other masters. For 
-a shared bus architecture this is the easiest way and cheapest way to allow multiple masters to communicate with the bus.
-Finally the signals comming from the bus are connected to the DMA module.
+The integration of the JTAG interface module into the architecture is done by simply connecting the module to the bus architecture.  
+In the existing setup, the bus arbiter provides a 32-bit wide signal for master requests (\texttt{s\_busRequests}) and a 32-bit wide signal for master grants (\texttt{s\_busGrants}).  
+Since the architecture already includes four masters, the JTAG interface module is added as a fifth master by connecting the 27th bit of \texttt{s\_busRequests} and \texttt{s\_busGrants}  
+to the request and grant signals used by the DMA module.  
+
+To complete the integration into the bus architecture, all other signals coming from the DMA to the bus are ORed with the corresponding signals from the other masters.  
+Which is the way our shared bus architecure is designed to handle multiple masters.
+Finally, the signals coming from the bus are simply connected to the DMA module.
+
 
 \subsection{Implementaion issue}
 
-All the above design is actually a refactored version of a first version that was noot working, in this subsection we will explain the issues we faced and why this design is better.
-The first version of the JTAG interface module followed the exact same design in a way that it was also composed of the JATGG block, the ipcore, the pingpong buffer and the DMA controller.
-The difference mainly lies in the design choices for the ipcore.
-The first big issue was the code in it self that was not well structured and was hard to understand, this made the design  very hard to debug. This hold for both the ipcore and the DMA module.
-Hence the first thing we did in this second milestone is to refactor the code to make it more readable and understandable.
-The second issue was the design of the ipcore that was not well thought making operations much more complex and less intuitive while providing less informations to the user. 
-THe previous design was also at a point where even if it was working the user could read and write only one word at a time, and having the DMA doing an operation on the bus while the ipcore was reading or writing data to the pingpong buffer was not possible.
-A good example of the ipcore being not well designed is the instruction set. In fact it was composed only of the operations to set the configuration registers, one operation called write that was in care of writting data to the buffer plus launching the DMA write operation when needed,
-and one operation to read DMA results and one to launch a DMA read operation.
-Performance wise this could have been a good design because less operations were needed to actually read and write to the bus.
-But on the other hand the logic inside was messy and gave me a lot of headache to debug, after spending a lot of time trying to understand why the design wasn't working on the board and a meeting with my supervisor, we decided to refactor the design.
-The idea of the new design was first to clear the code and the logic inside. For example before the ipcore's FSM was composed of 2 diferents path for the read and write operations, now to launch any DMA transactions the ipcore follows the same path in the FSM making the 
-design much more simple and easier to understand.
-Moreover the new design decouples the ipcore capabilities trading some performance for a better usability, understanding and debugging. To acheive this, the new ipcore offers a new set of commands that are more specific, breaking the previous write and read 
-operations into samller operations. For example the new design offers commands to control completely the pingpong buffer, to read and write data from it, rather than having a single command to write data to the buffer and launch the DMA write operation. 
-The workflow changed a bit since now it is the user responsability to write in the buffer before launching a write operation, or reading the buffer after launching a read operation, but ideally this part will be done by a software communication with the ipcore layer, 
-rather than by the user directly.
-The breaking of the commands also allows the user to control the ipcore while the DMA is performing a bus operation, write more than a single word, define a burst size, and having more feedback on what is happening inside the ipcore.
-Finally the new design also offers more features for debugging which was one of the big problem with the previous design. Adding the ability to read the values loaded in the configuration registers, 
-the distinction between the pingpong buffer operations and DMA's one, and the status register now providing information on the DMA state and buffer state are the main features added to the ipcore to acheive this goal.
-Overall the new design might not be as performant as a working version of the first one, but it is much more understandable, easier to debug and more powerful.
+The current design of the JTAG interface module for the second milestone is actually a refactored version of an initial implementation that did not function correctly.  
+In this subsection, we explain the issues we encountered in the first version and how the revised design addresses them.
+
+The initial design followed the same general structure, comprising the JTAGG block, the IP core, the ping-pong buffer, and the DMA controller.  
+However, the main differences lie in the design decisions made for the IP core.
+
+One of the biggest problems was the structure of the code itself. It was poorly organized and difficult to follow, making the system very hard to debug.  
+This applied to both the IP core and the DMA controller.  
+Therefore, the first step in the redesign process was a full code refactoring to improve readability and maintainability.
+
+The second major issue was the design of the IP core.  
+It was not well thought out, which made the system more complex, less intuitive, and provided very little feedback to the user.  
+Even when functional, the previous design only allowed the user to read or write a single word at a time.  
+It was also impossible for the DMA to perform bus operations simultaneously while the IP core accessed the ping-pong buffer.
+
+A clear example of the design limitations was the instruction set of the IP core.  
+It included only few operations: configuration register setup, a combined "write" command that handled both writing to the buffer and launching a DMA write,  
+a "read" command for retrieving DMA results, and a command to start a DMA read.  
+From a performance standpoint, this approach could have been efficient, as it required fewer instructions for data transfers.  
+However, the internal logic was overly complex and difficult to debug.  
+After considerable time trying to make the design work on hardware and following a meeting with my supervisor, I decided to rework the design entirely.
+
+The main goal of the redesign was to simplify both the logic and the code.  
+Previously, the FSM in the IP core had separate paths for read and write operations.  
+In the new design, all DMA transactions follow a unified path through the FSM, greatly simplifying the flow and making it easier to understand.
+
+Additionally, the new design deliberately trades some performance for better usability, clarity, and debuggability.  
+To achieve this, the IP core now offers a broader and more specific command set.  
+Instead of one command handling both buffer writing and DMA activation, commands have been split into smaller operations.  
+For instance, there are now separate commands for controlling the pingpong buffer and for controlling the DMA.  
+This provides finer control and makes the workflow more transparent.
+
+The user is now responsible for writing data to the buffer before launching a write operation,  
+or switching the buffer and reading from it after completing a read operation.  
+While this slightly complicates usage, it is expected that a software layer interfacing with the JTAG interface will handle this logic rather than the user directly.
+
+This new breakdown of responsibilities allows the IP core to remain active while the DMA performs bus operations,  
+enables multi-word transfers, supports burst configurations, and provides more visibility into the internal state of the system.
+
+Finally, the new design introduces several improvements for debugging, one of the lacking areas in the previous version.  
+These include the ability to read back values from the configuration registers,  
+clearly distinguish between ping-pong buffer operations and DMA transactions,  
+and access a more informative status register that reflects both the DMA and buffer states.
+
+In summary, while the new design may sacrifice a degree of raw performance compared to a fully optimized first version,  
+it is significantly more robust, easier to debug, more user-friendly, and better suited for future extensions.
 
 \subsection{Using the JTAG interface module}
 
-The JATG interface module is used in the same way as in the first milestone using OpenOCD and its jtag related commands
-But since this mileston is more complexe, we will provide a example of how to read and write data from the bus using the JTAG interface module.
+The JTAG interface module is used in the same way as in the first milestone, through OpenOCD and its JTAG-related commands.  
+However, since this milestone introduces more complexity, we provide a detailed example of how to read from and write to the bus using the JTAG interface module.
 
-Once the design is loaded on the board and the telnet server is started as explained in Section~\ref{sec:openocd}, the user can connect to the server using telnet.
+Once the design is loaded onto the board and the Telnet server is started, as explained in Section~\ref{sec:openocd}, the user can connect to the server using Telnet.
 
-Here is an example of how to read three words from the starting address \texttt{0x00010000} using a burst size of 2
+\vspace{1em}
+\noindent\textbf{Example: Reading three words from address \texttt{0x00010000} using a burst size of 2}
 \begin{lstlisting}
+> telnet localhost 4444
+> irscan ecp5.tap 0x32              // Select chain 1
 
-    > telnet localhost 4444
-    > irscan ecp5.tap 0x32              //select chain 1
-    // Now that the chain is selected, we can send chain 1 instructions as data
-    // Set up the configuration registers
-    > drscan ecp5.tap 37 0x000100001    //set the bus start address
-    000000000
-    > drscan ecp5.tap 37 0xF2           //set the byte enable, this one is optional since the default value is 0xF
-    000000001                           //The status register showing that the address is laoded
-    > drscan ecp5.tap 37 0x23           //set the burst size to 2
-    000000003                           //The status register showing that both address and byte enable are loaded 
-    // Now we can start the DMA read operation
-    > drscan ecp5.tap 37 0x3B           //Launch the DMA read operation with a block size of 3
-    000000007                           //The status register showing that address, byte enable and burst size are loaded             
-    > runtest 10                        //Run idle for ten clock cycles to actually launch the DMA because of the few cycle delay of previous command
-    > drscan ecp5.tap 37 0x00           //Shift out the status register to verify that the DMA has finished the operation
-    000010007                           //The status register showing that the DMA has finished the operation
-    // Retreive the DMA results
-    > drscan ecp5.tap 37 0xC            //Switch the buffer to be able to read the data read by the DMA
-    000010007
-    > runtest 10                        //Run idle for ten clock cycles beacuse of cycle delay
-    > drscan ecp5.tap 37 0x00           //Shift out the status register to verify that the buffer is switched
-    000000037                           //The status register showing that the buffer contains now 3 valids words
-    > drscan ecp5.tap 37 0x9            //Shift out the first word in the buffer
-    000000037
-    > runtest 3                         // Handle read from buffer 3 clock cycles delay
-    > drscan ecp5.tap 37 0x9            //Shift out the first word in the buffer and ask for the next one
-    0aaaaaaaa                           //The first word read
-    > runtest 3                         // Handle read from buffer 3 clock cycles delay
-    > drscan ecp5.tap 37 0x9            //Shift out the second word in the buffer and ask for the next one
-    0bbbbbbbbb                          //The second word read
-    > runtest 3                         // Handle read from buffer 3 clock cycles delay
-    > drscan ecp5.tap 37 0x0            //Shift out the third word in the buffer
-    0cccccccc                           //The third word read
-    > exit
+// Set up the configuration registers
+> drscan ecp5.tap 37 0x000100001    // Set bus start address
+000000000
+> drscan ecp5.tap 37 0xF2           // Set byte enable (optional, default is 0xF)
+000000001                           // Status register: address loaded
+> drscan ecp5.tap 37 0x23           // Set burst size to 2
+000000003                           // Status: address and byte enable loaded
 
+// Start the DMA read operation
+> drscan ecp5.tap 37 0x3B           // Launch DMA read (block size = 3)
+000000007                           // Status: address, byte enable, and burst size loaded
+> runtest 10                        // Delay to allow command propagation
+> drscan ecp5.tap 37 0x00           // Read status register
+000010007                           // Status: DMA operation finished
+
+// Retrieve DMA results
+> drscan ecp5.tap 37 0xC            // Switch buffer for read access
+000010007
+> runtest 10                        // Delay for buffer switch
+> drscan ecp5.tap 37 0x00
+000000037                           // Status: buffer holds 3 valid words
+
+> drscan ecp5.tap 37 0x9            // Read first word from buffer
+000000037
+> runtest 3
+> drscan ecp5.tap 37 0x9
+0aaaaaaaa                           // First word read
+> runtest 3
+> drscan ecp5.tap 37 0x9
+0bbbbbbbb                           // Second word read
+> runtest 3
+> drscan ecp5.tap 37 0x0
+0cccccccc                           // Third word read
+> exit
 \end{lstlisting}
 
-Here is an example of how to write three words starting at the address \texttt{0x00010000} using a burst size of 8
-
+\vspace{1em}
+\noindent\textbf{Example: Writing three words starting at address \texttt{0x00010000} with a burst size of 8}
 \begin{lstlisting}
+> telnet localhost 4444
+> irscan ecp5.tap 0x32              // Select chain 1
 
-    > telnet localhost 4444
-    > irscan ecp5.tap 0x32              //select chain 1
-    // Now that the chain is selected, we can send chain 1 instructions as data
-    // Set up the configuration registers
-    > drscan ecp5.tap 37 0x000100001    //set the bus start address
-    000000000
-    > drscan ecp5.tap 37 0xF2           //set the byte enable, this one is optional since the default value is 0xF
-    000000001                           //The status register showing that the address is laoded
-    > drscan ecp5.tap 37 0x23           //set the burst size to 2
-    000000003                           //The status register showing that both address and byte enable are loaded 
-    // Now we can start writting in the buffer the data we want to write
-    > drscan ecp5.tap 37 0x111111118    //Write the first word in the buffer
-    000000007                           //The status register showing that the address, byte enable and burst size are loaded
-    > drscan ecp5.tap 37 0x222222228    //Write the second word in the buffer
-    000000017                           //The status register showing that the actual block size is 1
-    > drscan ecp5.tap 37 0x333333338    //Write the third word in the buffer
-    000000027                           //The status register showing that the actual block size is 2
-    > drscan ecp5.tap 37 0x0            //Shift out the status register to verify that the third word is written
-    000000037                           //The status register showing that the actual block size is 3
-    // Now we can start the DMA write operation
-    > drscan ecp5.tap 37 0x8            //Launch the DMA write operation
-    000000037                           
-    > runtest 10                        //Run idle for ten clock cycles to actually launch the DMA because of the few cycle delay of previous command
-    > drscan ecp5.tap 37 0x00           //Shift out the status register to verify that the DMA has finished the operation
-    000010007                           //The status register showing that the DMA has finished the operation
-    > exit
+// Set up the configuration registers
+> drscan ecp5.tap 37 0x000100001    // Set bus start address
+000000000
+> drscan ecp5.tap 37 0xF2           // Set byte enable
+000000001                           // Status: address loaded
+> drscan ecp5.tap 37 0x23           // Set burst size to 2
+000000003                           // Status: address and byte enable loaded
+
+// Write data into the ping-pong buffer
+> drscan ecp5.tap 37 0x111111118    // Write first word
+000000007                           // Status: DMA config loaded
+> drscan ecp5.tap 37 0x222222228    // Write second word
+000000017                           // Status: block size = 1
+> drscan ecp5.tap 37 0x333333338    // Write third word
+000000027                           // Status: block size = 2
+> drscan ecp5.tap 37 0x0            // Confirm buffer content
+000000037                           // Status: block size = 3
+
+// Launch the DMA write operation
+> drscan ecp5.tap 37 0x8            // Start DMA write
+000000037
+> runtest 10                        // Allow time for DMA to complete
+> drscan ecp5.tap 37 0x00           // Check DMA completion
+000010007                           // Status: DMA operation finished
+> exit
 \end{lstlisting}
-
 
 \subsection{Milestone 2 Conclusion}
 
-This second milestone of the project was to extend the JTAG interface to support memory and peripheral access.
-This was done by designing a JTAG interface module that is composed of several submodules: the JATGG block, the ipcore, the pingpong buffer and the DMA controller.
-The JATGG block is used to handle the JTAG protocol and the TAP controller, while the ipcore is used to provide and handle instructions
-that allow the user to execute read and write operations on the bus architecture thanks to the DMA module. 
-Communication between the ipcore and the DMA is done using a pingpong buffer and synchronization flops for a bugless and efficient communication.
+The objective of this second milestone was to extend the JTAG interface to support memory and peripheral access via the system bus.  
+This was achieved by designing a dedicated JTAG interface module composed of several submodules: the JATGG block, the ipcore, the ping-pong buffer, and the DMA controller.  
+The JATGG block handles the JTAG protocol and the TAP controller, while the ipcore interprets user commands and coordinates read and write operations through the DMA controller.  
+Communication between the ipcore and the DMA is managed using a ping-pong buffer and synchronization flip-flops to ensure reliable and efficient data exchange between clock domains.
 
-As a conclusion, using the proof of concept of the first milestone, 
-we designed a module with which the user can interact through the JTAG interface using OpenOCD, thanks to developer designed commands.
-In our specific case, the user can read and write data from the SDRAM or any other preipheral connected to the bus architecture. 
-Additionally, the design chosen for acheiving this goal is extensible, by using the unused ipcore chain 2 instruction \texttt{0x38} ot by adding new instruction to the 
-exitsing design of the chain 1 design.
+Building upon the proof of concept developed in the first milestone, we implemented a fully functional module that allows the user to interact with the system via the JTAG interface using OpenOCD and custom-designed commands.  
+With this setup, the user can now read from and write to the SDRAM or any other peripheral connected to the shared bus architecture.  
 
+Moreover, the current design is extensible. New features can be added either by utilizing the currently unused ipcore chain 2 instruction (\texttt{0x38}) or by introducing new instructions into the existing chain 1 protocol.  
+This modularity and flexibility make the current implementation a solid foundation for future enhancements in JTAG-based debugging and system control.
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Evaluation}
@@ -783,29 +952,33 @@ exitsing design of the chain 1 design.
 
 \section{Testbenches}
 
-Throughout the whole project the design of each created module was evaluated and tested. This was mainly done using verilog testbenches created for each module.
-The testbenches are a verilog component that instantiate a DUT (Device Under Test) and simulate the inputs and outputs of the module.
-They are used to verify that the module behaves as intended and that the design is correct. 
-In this project, all the tesbenches simulated the molude and then store every singal in a file that was alter used the generate and visualize the waveforms.
-To be able to visualize the waveforms, the workflow used first the \texttt{iverilog} tool to compile the verilog file and add all the dependencies.
-Then by running the output file of the above command, a \texttt{.vcd} file is generated that contains all the signals and their values at each clock cycle.
-Finally, the \texttt{gtkwave} tool is used to visualize the waveforms and check that the module behaves as expected.
+Throughout the entire project, each module was evaluated and tested using Verilog testbenches.  
+A testbench in Verilog instantiates the DUT (Device Under Test) and simulates its inputs and outputs to verify that the module behaves as expected.  
+These testbenches were essential for verifying correctness before deploying the modules to the board.
 
-By doing this we were able to verify that a module behaves normally without having to synthesis and load it on the board which take some times.
-All those testbenches are available in the project repository. 
+In this project, each testbench simulated the module's behavior and recorded every signal into a file that was later used to generate and visualize the waveforms.  
+To do this, the workflow consisted of using the \texttt{iverilog} tool to compile the Verilog source files along with all required dependencies.  
+Running the resulting simulation binary produces a \texttt{.vcd} file, which captures the signal activity over time.  
+The \texttt{gtkwave} tool was then used to view the waveforms and ensure the module functioned as intended.
 
-To evaluate the design of the JTAG modules at the end of each milestone, the idea is to create a software program that uses the JTAG interface and abstracts the low level details of the JTAG or openOCD protocol.
-This software should also prove that the goal of the corresponding milestone is achieved.
+This approach allowed us to confirm visually the functionality of each module without needing to synthesize and deploy it to the FPGA, which is more time-consuming.  
+All testbenches are available in the project repository and provide a solid foundation for regression testing and debugging.
 
+To evaluate the complete JTAG module designs at the end of each milestone, a software program was also developed.  
+This program interacts with the JTAG interface and abstracts away the low-level details of the OpenOCD and JTAG protocol.  
+It also serves as a proof of functionality for each milestone's objectives.
 
 \section{Evaluation of the first milestone}
 
-We will now explain the evaluation of the first milestone, which was to design a JATG interface that allows the user to communicate with the board, in our case deciding the color of the LEDs.
+This first milestone focused on implementing a basic JTAG interface to allow communication with the board, in our case, controlling the LEDs.
 
-The software program created for this purpose is a simple Python script called \texttt{jtag_led.py} that once the milestone 1 design is loaded on the board, can be run to control the LEDs using a simple command line interface.
-This script uses openOCD to start the JTAG interface and then connect to the telnet server. Once connected it provides a simple command line interface with the following commands:
+For evaluation, a Python script named \texttt{jtag\_led.py} was developed.  
+Once the milestone 1 design is loaded onto the board, this script can be executed to control the LEDs through a command-line interface.
+
+The script uses OpenOCD to initialize the JTAG interface and connect to the Telnet server.  
+Once connected, the following commands are available:
 \begin{itemize}
-    \item \texttt{led <number/all> <color>}: Lights up the LED at the specified index (or all LEDs) with the selected color. Available colors are:
+    \item \texttt{led <number/all> <color>}: Lights up a specific LED (or all LEDs) with the selected color. Supported colors are:
     \begin{itemize}
         \item red (\texttt{r})
         \item blue (\texttt{b})
@@ -816,13 +989,16 @@ This script uses openOCD to start the JTAG interface and then connect to the tel
         \item black (\texttt{k})
         \item white (\texttt{w})
     \end{itemize}
-    \item \texttt{column <number>}: Sets the active column to the specified number.
-    \item \texttt{help}: Displays the help message.
-    \item \texttt{exit}: Exits the program.
+    \item \texttt{column <number>}: Selects the active LED column.
+    \item \texttt{help}: Displays help information.
+    \item \texttt{exit}: Exits the script.
 \end{itemize}
-On each command, the script uses \texttt{irscan} and \texttt{drscan} commands to send the data to the JTAG interface and update the LEDs, and then print the current state of the LEDs on ther console.
 
-This program is a proof that the first milestone is acheived since it allows the user to communicate with the board using only the JTAG interface while offering a simple and intuitive command line interface.
+Each command translates to a sequence of \texttt{irscan} and \texttt{drscan} instructions sent via JTAG to the board, updating the LED state accordingly.  
+The script also prints the current state of the LEDs to the terminal after each command.
+
+This program demonstrates that the first milestone was successfully achieved.  
+It allows the user to interact with the FPGA using only the JTAG interface and provides a simple, functional user interface for controlling outputs on the board.
 
 \section{Evaluation of the second milestone}
 
