@@ -24,16 +24,16 @@
 % \makededication
 % \makeacks
 
-\begin{abstract}
-The \sysname tool enables lateral decomposition of a multi-dimensional
-flux compensator along the timing and space axes.
+% \begin{abstract}
+% The \sysname tool enables lateral decomposition of a multi-dimensional
+% flux compensator along the timing and space axes.
 
-The abstract serves as an executive summary of your project.
-Your abstract should cover at least the following topics, 1-2 sentences for
-each: what area you are in, the problem you focus on, why existing work is
-insufficient, what the high-level intuition of your work is, maybe a neat
-design or implementation decision, and key results of your evaluation.
-\end{abstract}
+% The abstract serves as an executive summary of your project.
+% Your abstract should cover at least the following topics, 1-2 sentences for
+% each: what area you are in, the problem you focus on, why existing work is
+% insufficient, what the high-level intuition of your work is, maybe a neat
+% design or implementation decision, and key results of your evaluation.
+% \end{abstract}
 
 % \begin{frenchabstract}
 % For a doctoral thesis, you have to provide a French translation of the
@@ -167,7 +167,7 @@ JTAG communication is governed by the TAP (Test Access Port) controller,
 which operates as a finite state machine.  
 Figure~\ref{fig:tap-fsm} illustrates the TAP state diagram as defined in the JTAG standard.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{figures/TAP_FSM.pdf} % or .png, .eps, etc.
     \caption{TAP controller finite state machine as defined by the IEEE 1149.1 standard.}
@@ -227,10 +227,10 @@ This module exposes a set of pins that can be used to implement these two custom
 Below is a summary of the signals provided by the \texttt{JTAGG} module.
 All these signals are one bit wide.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{figures/jtagg_block_diagram.pdf}
-    \caption{Block diagram of the \texttt{JTAGG} module and its interface with custom instruction modules (\texttt{ER1} and \texttt{ER2}).}
+    \caption{\texttt{JTAGG} module} 
     \label{fig:jtagg_block}
 \end{figure}
 
@@ -317,10 +317,10 @@ Both submodules receive control signals from the \texttt{JTAGG} module (see Sect
 
 The ipcore simply instantiates both chains and routes input signals accordingly. An overall visualization of the ipcore and its integration is shown in Figure~\ref{fig:ipcore_block}.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.85\linewidth]{figures/IPCORE_Design.pdf}
-    \caption{High-level block diagram of the \texttt{ipcore}, showing interaction with the \texttt{JTAGG} module, \texttt{Chain1}, and \texttt{Chain2}.}
+    \caption{High-level block diagram of the \texttt{ipcore} and its integration}
     \label{fig:ipcore_block}
 \end{figure}
 
@@ -348,7 +348,7 @@ This approach ensures proper alignment and availability of data despite the inte
 Overall, this design enables the ipcore to serve as a bridge between JTAG commands and low-level hardware control, providing a clean and modular interface to manipulate board components via the JTAG interface.
 
 \subsection{How to communicate with the board through JTAG ?} 
-
+\label{sec:openocd}
 Now that we have a clear understanding of the \texttt{JTAGG} module and the \texttt{ipcore}, we can describe how to communicate with the board via JTAG in practice.
 
 First, the \texttt{.lpf} (lattice preference file) is updated to map the output signals of the two chains to the corresponding pins of the RGB LED matrix.  
@@ -404,10 +404,10 @@ This buffer enables  parallel usage from the ipcore and the DMA and allows trans
 
 The high-level architecture of the JTAG interface module is illustrated in Figure~\ref{fig:big_picture}.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{figures/jtag_interface_overview.pdf}
-    \caption{High-level architecture of the JTAG interface module. The design connects the JTAGG block to the system bus using an IP core, DMA controller, and ping-pong buffer for efficient data handling.}
+    \caption{High-level architecture of the JTAG interface module}
     \label{fig:big_picture}
 \end{figure}
 
@@ -469,7 +469,7 @@ The commands are the following:
 
 \begin{table}[h!]
     \centering
-    \begin{tabular}{|c|c|l|}
+    \begin{tabular}{|c|c|p{8cm}|}
         \hline
         \textbf{Data Section (32 bits)} & \textbf{Opcode (4 bits)} & \textbf{Usage} \\
         \hline
@@ -508,19 +508,19 @@ This enables the user to request and retrieve data from the ipcore.
 
 The Status Register reports the current \texttt{ipcore} state, including flags indicating whether the byte enable, burst size, and bus address registers are loaded; the current block size; DMA busy status; and whether the DMA operation has completed.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/status_register.pdf}
-    \caption{Status register of the \texttt{ipcore}. It provides information about the current state of the ipcore, including bus configuration and DMA status.}
+    \includegraphics[width=0.9\linewidth]{figures/status_reg.pdf}
+    \caption{Status register of the \texttt{ipcore}}
     \label{fig:status_register}
 \end{figure}
 
 Internally, the \texttt{ipcore} uses a finite state machine (FSM) to manage command execution timing and behavior. It is provided on Figure~\ref{fig:ipcore_fsm}.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{figures/ipcore_fsm.pdf}
-    \caption{Finite state machine of the \texttt{ipcore}. It manages command execution and transitions between states based on the current operation.}
+    \caption{Finite state machine of the \texttt{ipcore}}
     \label{fig:ipcore_fsm}
 \end{figure}
 
@@ -646,9 +646,9 @@ once for the DMA read launch signal, once for the DMA write launch signal, and o
 With this, the \texttt{ipcore}'s design is complete. It is now fully capable of safely communicating with both the buffer and the DMA module. 
 The detailed schematic of the synchronizer is presented in Figure~\ref{fig:sync}.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/clock_synchronizer.pdf}
+    \includegraphics[angle=-90, width=\linewidth]{figures/clock_synchronizer.pdf}
     \caption{Schematic of the synchronizer used in the ipcore to safely transfer control signals across clock domains.}
     \label{fig:sync}
 \end{figure}
@@ -714,10 +714,10 @@ The best way to achieve this is by using a finite state machine (FSM) that handl
 The finite state machine of the DMA is complexe and we will walk through it state by state.
 For the ease of the explanation, a state diagram is shown in Figure~\ref{fig:state_diagram}.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/dma_fsm.pdf}
-    \caption{Finite state machine of the DMA controller. It manages bus operations, pingpong buffer access, and data transfer.}
+    \includegraphics[angle=-90, width=0.9\linewidth]{figures/dma_fsm.pdf}
+    \caption{Finite state machine of the DMA controller}
     \label{fig:state_diagram}
 \end{figure}
 
@@ -772,7 +772,7 @@ This ensures that on each subsequent clock cycle, the next data word is availabl
 There are two ways to exit this state.  
 First if an error signal is received from the bus, the DMA moves to the \texttt{fsm\_end\_transaction\_error} state, sends the end transaction signal to the bus, and returns to \texttt{fsm\_idle}.  
 If the number of words left to write in the burst reaches one and the bus is not busy, the DMA moves to the \texttt{fsm\_end\_write\_transaction} state.  
-Depending on whether there are more words left to write for this transaction, the DMA either returns to \texttt{fsm\_idle} or to \textt{fsm\_request\_bus} to requests the bus again and send another burst.
+Depending on whether there are more words left to write for this transaction, the DMA either returns to \texttt{fsm\_idle} or to \texttt{fsm\_request\_bus} to requests the bus again and send another burst.
 
 This concludes the detailed explanation of the DMA FSM.  
 Since the rest of the design is simple combinational and sequential logic, we will not detail it here.  
