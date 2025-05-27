@@ -136,7 +136,7 @@ module DMA #(
     // Is the teransaction done?
     assign s_dma_done = (updated_block_size_reg == 9'b0) ? 1'b1 : 
                               // end of transaction at the same time of last valid data
-                              (updated_block_size_reg == 9'b1 && end_transactionIN_reg == 1'b1) ? 1'b1 : 1'b0;
+                              (updated_block_size_reg == 9'b1 && end_transactionIN_reg == 1'b1 && data_validIN_reg == 1'b1) ? 1'b1 : 1'b0;
     // Write in buffer iff the data read is valid
     assign pp_writeEnable = (cur_state == fsm_read && data_validIN_reg == 1'b1) ? 1'b1 : 1'b0;
     // Say if we actually wrote data on the bus or it was busy or the burst was over
@@ -168,20 +168,30 @@ module DMA #(
     reg [31:0] address_dataOUT_reg;
     reg read_n_writeOUT_reg, begin_transactionOUT_reg, end_transactionOUT_reg;
 
+    wire [8:0] maxBurstSize = {2'b0, bus_burst_size_reg[7:0]} + 9'h1;
+    wire [7:0] actualBurstSize = (updated_block_size_reg > maxBurstSize) ? maxBurstSize : updated_block_size_reg[7:0];
+
     always @(posedge clock) begin
         begin_transactionOUT_reg <= (cur_state == fsm_set_up_transaction) ? 1'b1 : 1'b0;
         read_n_writeOUT_reg <= (cur_state == fsm_set_up_transaction) ? read_n_write_reg : 1'b0;
         byte_enableOUT_reg <= (cur_state == fsm_set_up_transaction) ? bus_byte_enable_reg : 4'h0;
-        burst_sizeOUT_reg <= (cur_state == fsm_set_up_transaction) ? bus_burst_size_reg : 8'h0;
-        address_dataOUT_reg <= (cur_state == fsm_set_up_transaction) ? {updated_bus_start_address_reg[31:2], 2'b00} :
+        burst_sizeOUT_reg <= (cur_state == fsm_set_up_transaction) ? actualBurstSize - 1'b1 : 8'h0;
+        address_dataOUT_reg <= (n_reset == 1'b0) ? 32'h0 :
+                                (cur_state == fsm_write && busyIN == 1'b1) ? address_dataOUT_reg :
                                 (busWrite == 1'b1) ? pp_dataOut :
-                                // stall in case of busy in
-                                (cur_state == fsm_read && busyIN == 1'b1) ? address_dataOUT_reg : 32'h0;
+                                (cur_state == fsm_set_up_transaction) ? {updated_bus_start_address_reg[31:2], 2'b00} : 32'h0;
+        // address_dataOUT_reg <= (cur_state == fsm_set_up_transaction) ? {updated_bus_start_address_reg[31:2], 2'b00} :
+        //                         (busWrite == 1'b1) ? pp_dataOut :
+        //                         // stall in case of busy in
+        //                         (cur_state == fsm_read && busyIN == 1'b1) ? address_dataOUT_reg : 32'h0;
         end_transactionOUT_reg <= (cur_state == fsm_end_transaction_error || cur_state == fsm_end_write_transaction) ? 1'b1 : 1'b0;
         data_validOUT_reg <= (cur_state == fsm_write && busyIN == 1'b1) ? data_validOUT_reg: busWrite;
+        words_written_reg <= (cur_state == fsm_set_up_transaction) ? {1'b0, actualBurstSize[7:0]} :
+                                (busWrite == 1'b1) ? words_written_reg - 9'h1 : words_written_reg;
     end
 
-    assign address_dataOUT = (data_validOUT_reg == 1'b1) ? pp_dataOut : address_dataOUT_reg;
+    // assign address_dataOUT = (data_validOUT_reg == 1'b1) ? pp_dataOut : address_dataOUT_reg;
+    assign address_dataOUT = address_dataOUT_reg;
     assign byte_enableOUT = byte_enableOUT_reg;
     assign busrt_sizeOUT = burst_sizeOUT_reg;
     assign read_n_writeOUT = read_n_writeOUT_reg;
@@ -196,28 +206,12 @@ module DMA #(
 
     // words written update 
 
-    wire [7:0] s_actual_burst_size;
-    assign s_actual_burst_size = bus_burst_size_reg + 8'h1;
-    always @(posedge clock) begin
-        if (n_reset == 1'b0) begin
-            words_written_reg <= 9'h0;
-        end else if (cur_state == fsm_set_up_transaction) begin
-            if (updated_block_size_reg > s_actual_burst_size) begin
-                words_written_reg <= s_actual_burst_size;
-            end else begin
-                words_written_reg <= updated_block_size_reg;
-            end
-        end else if (busWrite == 1'b1) begin
-            words_written_reg <= words_written_reg - 9'h1;
-        end
-    end
-
     assign ipcore_block_sizeOUT = bus_block_size_reg;
     assign pp_address = pp_address_reg;
     assign pp_dataIn = address_dataIN_reg;
     assign ipcore_operation_ended = operation_ended_reg;
 
 
-    assign s_dma_cur_state = {updated_bus_start_address_reg[9:2]};
+    assign s_dma_cur_state = {words_written_reg[7:0]};
 
 endmodule

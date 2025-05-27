@@ -114,33 +114,33 @@ module tb_DMA;
 
         #80;
 
-        n_reset = 0; // Assert reset
-        #4 n_reset = 1; // Deassert reset
+        // n_reset = 0; // Assert reset
+        // #4 n_reset = 1; // Deassert reset
 
-        // Test write transaction with error
-        #12 ipcore_launch_write = 1;
-        ipcore_address = 32'hAABBCCDD;
-        ipcore_burst_size = 8'd100;
-        ipcore_byte_enable = 4'b1111;
-        ipcore_block_sizeIN = 8'd200;
-        #4 ipcore_launch_write = 0; // Deassert write signal
-        transactionGranted = 1; // Grant transaction
-        #20 transactionGranted = 0; // Simulate data input
-        #100 bus_errorIN = 1; // Simulate bus error
-        #4 bus_errorIN = 0; // Clear bus error
+        // // Test write transaction with error
+        // #12 ipcore_launch_write = 1;
+        // ipcore_address = 32'hAABBCCDD;
+        // ipcore_burst_size = 8'd100;
+        // ipcore_byte_enable = 4'b1111;
+        // ipcore_block_sizeIN = 8'd200;
+        // #4 ipcore_launch_write = 0; // Deassert write signal
+        // transactionGranted = 1; // Grant transaction
+        // #20 transactionGranted = 0; // Simulate data input
+        // #100 bus_errorIN = 1; // Simulate bus error
+        // #4 bus_errorIN = 0; // Clear bus error
 
-        // Test read transaction
-        #12 ipcore_launch_read = 1;
-        ipcore_address = 32'h00f00000;
-        ipcore_burst_size = 8'd10;
-        ipcore_byte_enable = 4'b1111;
-        ipcore_block_sizeIN = 8'd20;
-        #4 ipcore_launch_read = 0; // Deassert read signal
-        transactionGranted = 1; // Grant transaction
-        #20 transactionGranted = 0; // Simulate data input
-        #4 data_validIN = 1; // Simulate data valid signal
-        #80 data_validIN = 0; // Simulate end of transaction
-        #4 end_transactionIN = 1; // Grant transaction
+        // // Test read transaction
+        // #12 ipcore_launch_read = 1;
+        // ipcore_address = 32'h00f00000;
+        // ipcore_burst_size = 8'd10;
+        // ipcore_byte_enable = 4'b1111;
+        // ipcore_block_sizeIN = 8'd20;
+        // #4 ipcore_launch_read = 0; // Deassert read signal
+        // transactionGranted = 1; // Grant transaction
+        // #20 transactionGranted = 0; // Simulate data input
+        // #4 data_validIN = 1; // Simulate data valid signal
+        // #80 data_validIN = 0; // Simulate end of transaction
+        // #4 end_transactionIN = 1; // Grant transaction
 
 
 

@@ -118,7 +118,7 @@ ipcore ipcore (
 // Instantiate the Ping-Pong Buffer
 pingpongbuffer pingpongbuffer_inst (
     .clockA(JTCK),
-    .clockB(system_clock),
+    .clockB(~system_clock),
     .addressA(s_pp_address_ipcore),
     .addressB(s_pp_address_dma),
     .writeEnableA(s_pp_writeEnable_ipcore),

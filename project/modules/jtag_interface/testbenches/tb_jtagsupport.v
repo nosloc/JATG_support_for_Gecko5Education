@@ -135,7 +135,7 @@ module tb_jtagsupport;
         sendInstruction(36'b11110010);
         $display("Value of byte enable reg: %b", dut.ipcore.instruction_chain1.byte_enable_reg);
 
-        sendInstruction(36'b111110011);
+        sendInstruction(36'b0011);
         // sendInstruction(36'b11000000011);
         $display("Value of burst size reg: %b", dut.ipcore.instruction_chain1.busrt_size_reg);
 
@@ -150,36 +150,40 @@ module tb_jtagsupport;
         sendInstruction(36'hCCCCCC8);
         sendInstruction(36'hDDDDDD8);
         sendInstruction(36'hEEEEEE8);
+        sendInstruction(36'hFFFFFF8);
 
 
         #80;
-        // Grant DMA access to bus architecture
-        granted = 1;
-        #4;
-        granted = 0;
-        #20; // Wait for instrction to finish
-
-
         // Write at address 0x55555555
         #50;
         sendInstruction(36'b01010);
-
-        #160;
-
-        // Read from address 0x55555555
-        sendInstruction(36'hFB);
-
-        #40;
-        data_validIN = 1;
-
-        #120;
-        data_validIN = 0;
-        end_transactionIN = 1;
-
+        #16;
+        busyIN = 1; // Simulate busy state
+        #20;
+        busyIN = 0; // Clear busy state
         #4;
-        end_transactionIN = 0;
+        busyIN = 1; // Simulate busy state
+        #16;
+        busyIN = 0; // Clear busy state
+
+
 
         #160;
+
+        // // Read from address 0x55555555
+        // sendInstruction(36'hFB);
+
+        // #40;
+        // data_validIN = 1;
+
+        // #120;
+        // data_validIN = 0;
+        // end_transactionIN = 1;
+
+        // #4;
+        // end_transactionIN = 0;
+
+        // #160;
 
         
 
@@ -193,10 +197,11 @@ module tb_jtagsupport;
     end
 
     always @(posedge system_clock) begin
-        if (data_validOUT) begin
+        if (data_validOUT == 1'b1) begin
             memory_0x55555555 = 32'hFFFFFFFF;
-            $display("Data written to memory: %h", address_dataOUT);
+            $display("Data written to memory: %h at clock cycel : %d", address_dataOUT, $time);
         end
+
     end
     always @(posedge system_clock) begin
         if (end_transactionOUT) begin
