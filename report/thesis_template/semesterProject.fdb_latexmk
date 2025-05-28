@@ -1,11 +1,11 @@
 # Fdb version 4
-["biber semesterProject"] 1748294999.5801 "semesterProject.bcf" "semesterProject.bbl" "semesterProject" 1748295006.47315 0
-  "semesterProject.bcf" 1748295006.3146 108688 8e8ff91fc5bdfe194d29f7551b1772a2 "pdflatex"
+["biber semesterProject"] 1748473457.19985 "semesterProject.bcf" "semesterProject.bbl" "semesterProject" 1748473476.8907 0
+  "semesterProject.bcf" 1748473476.7196 108688 8e8ff91fc5bdfe194d29f7551b1772a2 "pdflatex"
   (generated)
   "semesterProject.bbl"
   "semesterProject.blg"
   (rewritten before read)
-["pdflatex"] 1748295004.95692 "semesterProject.tex" "semesterProject.pdf" "semesterProject" 1748295006.47358 0
+["pdflatex"] 1748473475.32216 "semesterProject.tex" "semesterProject.pdf" "semesterProject" 1748473476.89129 0
   "/usr/local/texlive/2025basic/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm" 1136768653 3584 929cdff2b7a8c11bd4d49fd68cb0ae70 ""
@@ -142,22 +142,22 @@
   "/usr/local/texlive/2025basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1746827015 2663825 5b4d32abb239b8a9ac4b9ebeee7aadc9 ""
   "/usr/local/texlive/2025basic/texmf.cnf" 1741448314 628 81d1ada0f601fb1ffa62f1323192d946 ""
   "EPFLlogo.pdf" 1746826332.86614 10758 fecead30cc4ac8966478232d65321e76 ""
-  "EPFLreport.sty" 1748271042.0181 5664 860d759360d7cb10698c1f78f0e4decf ""
+  "EPFLreport.sty" 1748437493.4032 5664 860d759360d7cb10698c1f78f0e4decf ""
   "LABlogo.pdf" 1747735342.76106 12949 e342bfd2a76d91b0c41b9c253cbade80 ""
-  "figures/IPCORE_Design.pdf" 1748269020.55866 33854 0af31d0716683e5a23fd5a3bec05d558 ""
-  "figures/TAP_FSM.pdf" 1748268740.81849 61578 03c854d9cacc0ca59e22da7161b5d7d5 ""
-  "figures/clock_synchronizer.pdf" 1748269244.61753 17132 e36b91ccd8f1a456ab51fd0d32ffedab ""
-  "figures/dma_fsm.pdf" 1748269405.66607 46263 a1d301535793ef2fa55912814adb4879 ""
-  "figures/ipcore_fsm.pdf" 1748269192.75279 26847 3920b79e5e7b6f2a46b8d1fc06b795c8 ""
-  "figures/jtag_interface_overview.pdf" 1748269038.80883 53444 baf9b2d4fa8640cb3ac57bc39852b102 ""
-  "figures/jtagg_block_diagram.pdf" 1748268863.28718 16802 a45e3c54d443624f15192b7441c97f7f ""
-  "figures/status_reg.pdf" 1748269637.75868 18593 d921ace64b5dd78fd8c4705972328c97 ""
-  "semesterProject.aux" 1748295006.30998 7506 7bfd4048d357a07d2b0a7356677f5065 "pdflatex"
-  "semesterProject.bbl" 1748295003.3849 466 76d65a242ec496c9b4361af646ff12cb "biber semesterProject"
-  "semesterProject.out" 1748295006.3128 5295 a645575f0ee165d2444b904b9df81799 "pdflatex"
-  "semesterProject.run.xml" 1748295006.31622 2479 a168f6409dcc5e09456e60a6a3ce0308 "pdflatex"
-  "semesterProject.tex" 1748294985.08152 71087 d31ce5ff8327099ff6233208572c857c ""
-  "semesterProject.toc" 1748295006.31635 2638 9924bb3f5dec7ab42aa7a932f63d9ee8 "pdflatex"
+  "figures/IPCORE_Design.pdf" 1748437493.40759 33854 0af31d0716683e5a23fd5a3bec05d558 ""
+  "figures/TAP_FSM.pdf" 1748437493.40947 61578 03c854d9cacc0ca59e22da7161b5d7d5 ""
+  "figures/clock_synchronizer.pdf" 1748437493.41101 17132 e36b91ccd8f1a456ab51fd0d32ffedab ""
+  "figures/dma_fsm.pdf" 1748437493.41278 46263 a1d301535793ef2fa55912814adb4879 ""
+  "figures/ipcore_fsm.pdf" 1748437493.41416 26847 3920b79e5e7b6f2a46b8d1fc06b795c8 ""
+  "figures/jtag_interface_overview.pdf" 1748437493.41577 53444 baf9b2d4fa8640cb3ac57bc39852b102 ""
+  "figures/jtagg_block_diagram.pdf" 1748437493.4171 16802 a45e3c54d443624f15192b7441c97f7f ""
+  "figures/status_reg.pdf" 1748437493.41851 18593 d921ace64b5dd78fd8c4705972328c97 ""
+  "semesterProject.aux" 1748473476.71394 7383 195e38238f4df5de7d72658fa105da18 "pdflatex"
+  "semesterProject.bbl" 1748473473.75398 466 76d65a242ec496c9b4361af646ff12cb "biber semesterProject"
+  "semesterProject.out" 1748473476.71765 5129 8b6d285b99c05e4344ea12ea677185cd "pdflatex"
+  "semesterProject.run.xml" 1748473476.72075 2479 a168f6409dcc5e09456e60a6a3ce0308 "pdflatex"
+  "semesterProject.tex" 1748473409.80783 74194 3f18f2f206b328768f1e7edc93e585f2 ""
+  "semesterProject.toc" 1748473476.72088 2556 10673c8233353b1462d0bd59f4b5b27f "pdflatex"
   (generated)
   "semesterProject.aux"
   "semesterProject.bcf"

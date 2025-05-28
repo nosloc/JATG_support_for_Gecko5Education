@@ -99,6 +99,31 @@ This project offers the following features:
 
 5b. Use the provide C programm
 
+1. Run the OpenOCD server to connect to the Gecko5Education board.
+
+    ```bash
+    cd project/scripts
+    openocd -f config.cfg
+    ```
+
+2. On a separated terminal compile the C program to interact with the JTAG interface.
+
+    ```bash
+    cd project/scripts
+    gcc jtag_interface.c -o jtag_interface
+    ```
+
+2. Run the compiled program to interact with the JTAG interface (all options are available in the report).
+
+    ```bash
+    ./jtag_interface -h
+    ```
+
+    ```bash
+    ./jtag_interface -r -addr 0x000100 -bs 4 -s 100
+    ./jtag_interface -w -addr 0x000100 -bs 4 -s 100
+    ```
+
 ## Directory Structure
 
 - `/project/modules/jtag_interface` — Verilog source modules for the added JTAG interface

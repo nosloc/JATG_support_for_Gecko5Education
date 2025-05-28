@@ -374,7 +374,7 @@ To control the RGB LEDs, we begin by shifting either the \texttt{ER1} or \texttt
 Then, the corresponding data, either the color values or the column selection, is sent using the \texttt{drscan} command.  
 If necessary, the TAP controller can be reset using the \texttt{pathmove reset} command.
 
-\subsection{Conclusion}
+\subsection{Milestone 1 Conclusion}
 
 This first milestone successfully demonstrates a minimal yet functional JTAG-based communication interface on the \boardName board.  
 By leveraging the \texttt{JTAGG} module and a custom-designed \texttt{ipcore}, we were able to control the RGB LED matrix through two dedicated custom instructions.  
@@ -487,7 +487,7 @@ The commands are the following:
         Number\_of\_words $[11:4]$      & 1011                     & Launch DMA read operation for specified number of words (when ready) \\
         -                               & 1100                     & Wait for DMA completion and switch buffer \\
         -                               & 1101                     & Reserved \\
-        -                               & 1110                     & Reserved \\
+        -                               & 1110                     & Reset the Buffer signals (including the block size) \\
         -                               & 1111                     & Reset the ipcore \\
         \hline
     \end{tabular}
@@ -972,7 +972,7 @@ It also serves as a proof of functionality for each milestone's objectives.
 
 This first milestone focused on implementing a basic JTAG interface to allow communication with the board, in our case, controlling the LEDs.
 
-For evaluation, a Python script named \texttt{jtag\_led.py} was developed.  
+For evaluation, a Python script named \texttt{project/scripts/jtag\_led.py} was developed.  
 Once the milestone 1 design is loaded onto the board, this script can be executed to control the LEDs through a command-line interface.
 
 The script uses OpenOCD to initialize the JTAG interface and connect to the Telnet server.  
@@ -1002,12 +1002,29 @@ It allows the user to interact with the FPGA using only the JTAG interface and p
 
 \section{Evaluation of the second milestone}
 
-%% To do
+This second milestone focused on expanding the JTAG interface to enable direct memory (and peripheral) access through the JTAG interface module, allowing for efficient read and write operations to the FPGA’s memory.
 
-\section{Speed and Performance}
+For evaluation, a C program located at \texttt{project/scripts/jtag\_access.c} was developed.
+Once the milestone 2 bitstream is loaded onto the board, and the \textbf{openOCD server launched in the background}, it allows the user to initiate any bus transactions over JTAG via a command-line interface.
 
-%% To do
+The program supports both read and write operations and accepts several command-line arguments:
+\begin{itemize}
+    \item \texttt{-addr <address>}: Sets the base memory address for the transaction (default 0x0).
+    \item \texttt{-bs <burst size>}: Configures the number of words to be transferred per DMA burst (default 0xF).
+    \item \texttt{-s <size>}: Total size (in words) to read or write (default 1).
+    \item \texttt{-r}: Activates read mode (default).
+    \item \texttt{-w}: Activates write mode.
+    \item \texttt{-d}: Enables debug output.
+\end{itemize}
 
+This program validates the proper functioning of the second milestone and demonstrates that accessing memory and peripherals via the JTAG interface is now possible.
+It confirms that large data transfers can be orchestrated from the host side with full control over burst sizes and memory regions, making it a solid foundation for further development.
+Due to time constraints, large write operations remain impractical in the current version, as values must be entered manually one by one. 
+However, this limitation is purely on the software side and can be resolved with a simple extension to automate data generation or loading from files.
+
+Finally, this program significantly enhances the user experience compared to the previous UART-based interface. 
+Previously, reading or writing to a memory location required the user to write a C program, compile it, transfer it over UART, and execute it on the board, which was a time-consuming process. 
+Now, with this JTAG-based solution, the user can simply launch the OpenOCD server, run the program, and access memory or peripherals in just a few seconds, making development and debugging much more efficient.
 
 %%%%%%%%%%%%%%%%%%%%
 \chapter{Conclusion}
@@ -1018,20 +1035,27 @@ This project aimed to design a modular and extensible JTAG interface capable of 
 The first milestone introduced a simple but functional communication channel between the user and the FPGA, using the JTAG interface to control on-board LEDs. 
 This proved the usability of the setup and was validated using a Python script that abstracted the low-level JTAG interactions into a simple command-line tool.
 
-The second milestone expanded the design to enable memory access via a DMA controller and a pingpong buffer architecture, controlled entirely through JTAG. 
-This allowed for read and write operations to SDRAM or other bus-connected devices. The design was evaluated with simulation-based testbenches, ensuring correctness before hardware testing with OpenOCD and direct telnet commands.
+The second milestone extended the system’s capabilities by introducing memory and peripheral access through a custom DMA controller combined with a ping-pong buffer architecture—all managed via JTAG.
+This made it possible to perform read and write operations directly to SDRAM or any device on the system bus. 
+The setup was validated using OpenOCD along with a dedicated software tool that abstracts low-level JTAG commands and bus transactions, offering a user-friendly interface for initiating and testing memory operations.
+Moreover, this software tool greatly imporoves the user's capability to peak and poke memory locations, compared to the existing UART interface.
+While the operations are currently limited to console input and output, the design is flexible enough to be extended with more sophisticated software that could automate data generation or loading from files.
 
 This work demonstrates that the JTAG interface, traditionally used for boundary scan and device configuration, can be also be used as a general-purpose communication and debugging interface. 
 The final system is flexible, extensible, and integrates easily with existing open-source tools like OpenOCD.
 
-Looking forward, this project lays a solid base for several further extensions. 
-One of the immediate next steps, unfortunately not completed due to time constraints, is to evaluate the performance of memory writes over JTAG compared to traditional interfaces such as UART. 
-This includes measuring transfer speeds and analyzing the impact of different burst sizes to identify the optimal configuration in terms of throughput and latency.
+Looking forward, this project lays a solid foundation for a variety of future extensions.
+One immediate improvement is the development of a more advanced software layer to automate data generation and loading, making large-scale memory operations easier and more efficient. 
+This could include features such as reading and writing entire files to memory, potentially offering a better alternative to traditional interfaces like UART.
 
-Beyond that, the JTAG interface could be extended into a logic analyzer, enabling real-time capture and inspection of internal signals. 
-Another interesting direction would be to integrate a processor with debug capabilities and using OpenOCD and GDB to implement a full-featured debugger over JTAG. 
-Finally, the second unused instruction slot in the milestone 2 design, along with the modularity of the chain 1 structure, leaves space for implementing a wide range of new features such as whether for runtime monitoring, 
-advanced testing, or custom configuration, without needing to redesign the existing system.
+A key next step, which unfortunately could not be completed due to time constraints, is to benchmark the performance of memory operation over JTAG. 
+This involves measuring transfer speeds and analyzing the impact of different burst sizes to determine the optimal configuration in terms of throughput and latency.
+
+Beyond performance optimization, several exciting directions are possible.
+The JTAG infrastructure could be extended into a logic analyzer, capable of capturing and inspecting internal signals in real time.
+Another promising avenue would be to integrate a processor with debug support, allowing the use of OpenOCD and GDB to build a full-featured on-chip debugger.
+Finally, the second unused instruction slot in the milestone 2 design, along with the modularity of the chain 1 architecture, provides a flexible base for adding new features such as runtime monitoring, 
+advanced testing, or custom configuration, without needing to modify the existing system.
 
 \cleardoublepage
 \phantomsection
