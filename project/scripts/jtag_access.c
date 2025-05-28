@@ -33,8 +33,6 @@ typedef struct {
     size_t burst_size;
     size_t size;
     int read_not_write_flag;
-    int file_flag;
-    char *file_name;
 } jtag_options_t;
 
 
@@ -188,7 +186,6 @@ void print_usage() {
     printf("\t-addr <address>  Set base address for the operation (default: %s)\n", DEFAULT_ADDRESS);
     printf("\t-bs <size> \t Set the burst size (default: %d)\n", DEFAULT_BURST_SIZE);
     printf("\t-s <size> \t Set the size of the data to read/write (default: %d)\n", DEFAULT_SIZE);
-    printf("\t-f \t\t File to write or file to store the result of the read\n");
     printf("\t-r \t\t Read data from the target, default operation (excludes -w)\n");
     printf("\t-w \t\t Write data to the target (excludes -r)\n");
     printf("\t-d \t\t Debug mode, prints additional information\n");
@@ -242,13 +239,13 @@ int do_read(int sock, jtag_options_t options) {
         for (int i = 0; i < read_size; i++) {
             res = shift_data(sock, READ_BUFFER, NULL, 0);
             if (i != 0){
-                printf("%#x : \t%lx\n", address, res);
+                printf("0x%08x : \t0x%08lx\n", address, res);
                 address += 4; // Increment address by 4 bytes
             }
             run_idle(sock, 3); // Run idle for 1 cycle
         }
         res = shift_data(sock, 0, NULL, 0); // Shift to the next state
-        printf("%#x : \t%lx\n", address, res);
+        printf("0x%08x : \t0x%08lx\n", address, res);
         address += 4; // Increment address by 4 bytes
     }
     return 0;
@@ -271,7 +268,7 @@ int do_write(int sock, jtag_options_t options) {
 
         for (size_t i = 0; i < write_size; i++) {
             int data_to_write = ask_user_hex_value();
-            snprintf(buffer, sizeof(buffer), "%#x", data_to_write);
+            snprintf(buffer, sizeof(buffer), "0x%x", data_to_write);
             long res = shift_data(sock, WRITE_BUFFER, buffer, strlen(buffer));
             print_debug("Data in the buffer: %ld\n", get_DMA_block_size(res) + 1);
         }
@@ -294,8 +291,6 @@ int main(int argc, char *argv[]) {
         .burst_size = DEFAULT_BURST_SIZE,
         .size = DEFAULT_SIZE,
         .read_not_write_flag = 1, // Default to read operation
-        .file_flag = 0,
-        .file_name = NULL
     };
 
     for (size_t i = 1; i < argc; i++) {
@@ -308,9 +303,6 @@ int main(int argc, char *argv[]) {
             options.burst_size = atoi(argv[++i]);
         } else if (strcmp(argv[i], "-s") == 0 && i + 1 < argc) {
             options.size = atoi(argv[++i]);
-        } else if (strcmp(argv[i], "-f") == 0 && i + 1 < argc) {
-            options.file_flag = 1;
-            options.file_name = argv[++i];
         } else if (strcmp(argv[i], "-r") == 0) {
             options.read_not_write_flag = 1;
         } else if (strcmp(argv[i], "-w") == 0) {
