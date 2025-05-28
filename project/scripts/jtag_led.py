@@ -146,6 +146,8 @@ def print_status(status):
 
 
 if __name__ == "__main__": 
+    print("Not available with this milestone")
+    exit(1)
     SERVER_IP = "127.0.0.1"
     SERVER_PORT = 4444
 
