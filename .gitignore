@@ -4,4 +4,6 @@ oss-cad-suite
 ressources
 .DS_Store
 build-release
+*.o
+project/scripts/config.cfg
 
