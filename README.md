@@ -78,18 +78,18 @@ This project offers the following features:
     ```
 
 4a. Interact with the JTAG interface using low-level commands.
-    1. Run the OpenOCD server to connect to the Gecko5Education board.
+1. Run the OpenOCD server to connect to the Gecko5Education board.
 
-        ```bash
-        cd \<project location\>/scripts
-        openocd -f config.cfg
-        ```
-    2. In a separate terminal, connect to the OpenOCD server using telnet.
+    ```bash
+    cd \<project location\>/scripts
+    openocd -f config.cfg
+    ```
+2. In a separate terminal, connect to the OpenOCD server using telnet.
 
-        ```bash
-        telnet localhost 4444
-        ```
-    3. Use the provided JTAG commands explained in the report to read/write memory or control peripherals.
+    ```bash
+    telnet localhost 4444
+    ```
+3. Use the provided JTAG commands explained in the report to read/write memory or control peripherals.
 
 4b. Use the provide C programm
 
