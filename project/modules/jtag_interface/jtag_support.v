@@ -74,9 +74,13 @@ wire sync_switch_ready;
 wire s_reset, s_nreset;
 assign s_nreset = JRSTN & ~system_reset;
 assign s_reset = ~s_nreset;
+
+// Debugging signals
 assign rgbRow = 4'b0000;
-assign green = {~s_dma_cur_state};
+assign green = {~s_DMA_operation_done, 9'h1FF};
+// assign green = {~s_status_reg_out};
 // assign green = {~s_dma_cur_state};
+
 // instantiate the ipcore module
 ipcore ipcore (
     .JTCK(JTCK),

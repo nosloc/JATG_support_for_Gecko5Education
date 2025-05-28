@@ -1,3 +1,5 @@
+// Unused JTAG TAP module can be used for simulation purposes 
+// Source : https://github.com/tomverbeure/ecp5_jtag/blob/main/tb/src/jtag_tap.v
 `default_nettype none
 
 module jtag_tap(

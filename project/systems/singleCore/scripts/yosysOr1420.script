@@ -51,14 +51,12 @@ read -sv ../../../modules/support/verilog/sram_512x32.v
 read -sv ../../../modules/support/verilog/sram_1024x16_dp.v
 read -sv ../../../modules/support/verilog/sram2048x8Dp.v
 read -sv ../../../modules/jtag_interface/chain1.v
-read -sv ../../../modules/jtag_interface/clock_synchronizer.v
 read -sv ../../../modules/jtag_interface/DMA.v
 read -sv ../../../modules/jtag_interface/fullyDualPortSSRAM.v
 read -sv ../../../modules/jtag_interface/ipcore.v
 read -sv ../../../modules/jtag_interface/jtag_support.v
 read -sv ../../../modules/jtag_interface/jtag_interface.v
 read -sv ../../../modules/jtag_interface/pingpongbuffer.v
-read -sv ../../../modules/jtag_interface/dma_ci.v
 read -sv ../verilog/or1420SingleCore.v
 synth_ecp5 -top or1420SingleCore -json or1420SingleCore.json
 

@@ -32,14 +32,17 @@ module ipcore(
     input wire [7:0] DMA_block_size_IN,
     output wire [7:0] DMA_block_size_OUT,
 
-    // Visual Clues 
+    // Debugging and status signals
     output wire [5:0] status_reg_out
 );
 
 wire s_JTDI_1, s_JTDI_2;
+
+// Driving JTDI lines based on JCE signals
 assign s_JTDI_1 = (JCE1) ? JTDI : 1'bz;
 assign s_JTDI_2 = (JCE2) ? JTDI : 1'bz;
 
+// Here only chain1 is used, chain2 is not used in this design
 chain1 instruction_chain1 (
     .JTCK(JTCK),
     .JTDI(s_JTDI_1),
@@ -61,8 +64,8 @@ chain1 instruction_chain1 (
     .DMA_launch_simple_switch(DMA_launch_simple_switch),
     .DMA_burst_size_OUT(DMA_burst_size_OUT),
     .DMA_byte_enable(DMA_byte_enable),
-    .DMA_busy(DMA_busy), // assume the DMA is not busy
-    .DMA_operation_done(DMA_operation_done), // assume the DMA operation is done
+    .DMA_busy(DMA_busy),
+    .DMA_operation_done(DMA_operation_done), 
     .DMA_block_size_IN(DMA_block_size_IN),
     .DMA_block_size_OUT(DMA_block_size_OUT),
     .status_reg_out(status_reg_out)

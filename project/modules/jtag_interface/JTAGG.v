@@ -1,3 +1,5 @@
+// Unused JATGG module can be used for simulation purposes
+// Source : https://github.com/tomverbeure/ecp5_jtag/blob/main/tb/src/JATGG.v
 `default_nettype none
 
 module JTAGG (

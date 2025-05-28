@@ -34,7 +34,11 @@ module chain1(
 );
 
 
-
+/*
+*
+* Signals definition
+*
+*/
 
 assign n_reset = JRSTN;
 
@@ -66,23 +70,10 @@ reg launch_write;
 reg launch_read;
 reg only_switch;
 
-localparam IDLE =                      0;
-localparam ASK_FOR_BUFFER =            1;
-localparam READ_BUFFER =               2; 
-localparam WAIT_FOR_DMA =              3;
-localparam SWITCH_BUFFER =             4;
-localparam LAUNCH_DMA =                5;
-localparam END_INSTRUCTION =           6;
-
-
 reg [2:0] chain1_cur_state;
 reg [2:0] chain1_nxt_state;
 
-reg write_launched;
-reg read_launched;
-
-assign status_reg_out = {write_launched};
-
+// Internal signals
 assign launch_dma = launch_write | launch_read | only_switch;
 
 assign JTD1 = shift_reg[0];
@@ -93,28 +84,48 @@ assign ready_to_launch = (block_size_reg != 8'b0) ? 1'b1 : only_switch;
 assign buffer_full = (block_size_reg == 8'b11111111) ? 1'b1 : 1'b0;
 assign read_complete = (buffer_read_reg == block_size_reg) ? 1'b1 : 1'b0;
 
+// Debugging purpose
+// assign status_reg_out = {status_reg};
+assign status_reg_out = 6'b0;
+
+// State machine states
+localparam IDLE =                      0;
+localparam ASK_FOR_BUFFER =            1;
+localparam READ_BUFFER =               2; 
+localparam WAIT_FOR_DMA =              3;
+localparam SWITCH_BUFFER =             4;
+localparam LAUNCH_DMA =                5;
+localparam END_INSTRUCTION =           6;
+
+
+
 
 always @(posedge JTCK) begin
     if (n_reset == 0) begin
         shift_reg <= 36'b0;
     end
-    // handle the JTAG signals
+
     else begin
-         if (JCE1) begin
-        // Shifting data in
+        // handle the JTAG signals
+        if (JCE1) begin
+
+            // Shifting data in
             if (JSHIFT) begin
                 shift_reg <= {JTDI, shift_reg[35:1]};
             end
-            // capture the status register
+
+            // capture the shadow register
             else begin
                 shift_reg <= shadow_reg;
             end
         end 
 
     end
+    // Stores the value shifted in case of JUPDATE high 
     update_reg <= (n_reset == 1'b0) ? 0 : JUPDATE;
     updated_data_reg <= (n_reset == 1'b0) ? 0 : (JUPDATE == 1'b1) ? shift_reg : updated_data_reg;
-    // Precompute the status register
+
+    // Precompute the status register for sooner feedback
     if (JUPDATE == 1'b1) begin
         case (shift_reg[3:0])
             4'b0001: status_next = status_reg | 4'b0001;
@@ -124,6 +135,12 @@ always @(posedge JTCK) begin
         endcase
     end
 end
+
+/* 
+*
+* Update the registers based on the JTAG instructions
+*
+*/
 
 always @(posedge JTCK) begin
     if (n_reset == 0 || updated_data_reg[3:0] == 4'b1111) begin
@@ -187,6 +204,8 @@ always @(posedge JTCK) begin
         only_switch <= (updated_data_reg[3:0] == 4'b1100) ? 1'b1 : 1'b0;
 
     end
+
+    // Udate some register depending on the current state of the chain
     else begin
         shadow_reg <= (chain1_cur_state == READ_BUFFER) ? data_reg :
                       (updated_data_reg[3:0] == 4'b1000) ?  {18'b0, DMA_operation_done, {3'b0, DMA_busy}, block_size_reg, shadow_reg[3:0]} : 
@@ -207,6 +226,11 @@ always @(posedge JTCK) begin
     end
 end
 
+/*
+*
+* State machine for the chain1
+*
+*/
 always @(posedge JTCK) begin
     if (n_reset == 0) begin
         chain1_cur_state <= IDLE;
@@ -251,6 +275,8 @@ always @(*) begin
     endcase
 end
 
+// Assign the outputs to the ping-pong buffer and DMA
+
 assign pp_address = (write_to_buffer == 1'b1) ? {1'b0, block_size_reg - 1'b1} : 
                     (chain1_cur_state != IDLE) ? {1'b0, buffer_read_reg - 1'b1} : 9'b0;
 assign pp_writeEnable = (write_to_buffer == 1'b1) ? 1'b1 : 1'b0;
@@ -265,19 +291,12 @@ assign s_launch_read = (chain1_cur_state == LAUNCH_DMA) ? launch_read : 1'b0;
 assign s_launch_simple_switch = (chain1_cur_state == LAUNCH_DMA) ? only_switch : 1'b0;
 assign DMA_block_size_OUT = block_size_reg_shadow;
 
-// temporal assignement for dubugging purposes
 
-
-always @(posedge system_clk) begin
-    if (n_reset == 0) begin
-        write_launched <= 1'b0;
-        read_launched <= 1'b0;
-    end
-    else begin
-        write_launched <= (DMA_launch_write == 1'b1) ? 1'b1 : write_launched;
-        read_launched <= (DMA_launch_read == 1'b1) ? 1'b1 : read_launched;
-    end
-end
+/*
+*
+* Synchronize the launch signals to the system clock
+*
+*/
 
 synchroFlop synchroFlop1(
     .clockIn(JTCK),
@@ -302,6 +321,5 @@ synchroFlop synchroFlop3 (
     .D(s_launch_simple_switch),
     .Q(DMA_launch_simple_switch)
 );
-
 
 endmodule

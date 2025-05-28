@@ -3,6 +3,8 @@ module jtag_interface(
     // input wire TMS,
     // input wire TDI,
     // output wire TDO,
+
+    // Leds and RGB signals for debugging purposes
     output wire [9:0] red,
     output wire [9:0] blue,
     output wire [9:0] green,
@@ -34,6 +36,8 @@ module jtag_interface(
     wire s_JTDO1, s_JTDO2;
 
     JTAGG JTAGG(
+        // If those 4 lines are uncommented, our JTAGG module will be used and will not be connected to actual JTAG pins
+        // Can be uncommented if for simulation purposes
         // .TCK(TCK),
         // .TMS(TMS),
         // .TDI(TDI),
@@ -86,5 +90,4 @@ module jtag_interface(
         .green(green)
     );
     
-
 endmodule

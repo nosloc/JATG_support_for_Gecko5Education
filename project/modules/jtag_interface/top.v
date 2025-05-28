@@ -1,3 +1,4 @@
+// Unused top module, can be used for simulation purposes
 module top(
     input wire          clock12MHz,
                         clock50MHz,
