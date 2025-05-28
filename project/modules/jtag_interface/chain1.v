@@ -152,6 +152,7 @@ always @(posedge JTCK) begin
         shadow_reg <=   (updated_data_reg[3:0] == 4'b0100) ? address_reg :
                         (updated_data_reg[3:0] == 4'b0101) ? byte_enable_reg :
                         (updated_data_reg[3:0] == 4'b0110) ? busrt_size_reg :
+                        (updated_data_reg[3:0] == 4'b1110) ? {18'b0, DMA_operation_done, {3'b0,DMA_busy}, 8'h0, status_next} :
                         {18'b0, DMA_operation_done,  {3'b0,DMA_busy}, block_size_reg, status_next}; 
 
         address_reg <= (updated_data_reg[3:0] == 4'b0001) ? updated_data_reg[35:4] : address_reg;
@@ -161,6 +162,7 @@ always @(posedge JTCK) begin
         busrt_size_reg <= (updated_data_reg[3:0] == 4'b0011) ? updated_data_reg[11:4] : busrt_size_reg;
 
         block_size_reg <= (updated_data_reg[3:0] == 4'b1000 && buffer_full == 1'b0) ? block_size_reg + 1 :
+                          (updated_data_reg[3:0] == 4'b1110) ? 8'b0 :
                           (updated_data_reg[3:0] == 4'b1011) ? updated_data_reg[11:4] : block_size_reg;
 
         block_size_reg_shadow <= (updated_data_reg[3:0] == 4'b1011) ? updated_data_reg[11:4] : block_size_reg;
@@ -173,7 +175,8 @@ always @(posedge JTCK) begin
 
         read_operation_in_progress <= (updated_data_reg[3:0] == 4'b1001) ? 1'b1 : read_operation_in_progress;
 
-        buffer_read_reg <= (updated_data_reg[3:0] == 4'b1001 && read_complete == 1'b0) ? buffer_read_reg + 1 : buffer_read_reg;
+        buffer_read_reg <= (updated_data_reg[3:0] == 4'b1001 && read_complete == 1'b0) ? buffer_read_reg + 1 :
+                           (updated_data_reg[3:0] == 4'b1110) ? 8'b0 : buffer_read_reg;
 
         read_buffer <= (updated_data_reg[3:0] == 4'b1001 && read_complete == 1'b0) ? 1'b1 : 1'b0;
 
