@@ -81,7 +81,7 @@ This project offers the following features:
 1. Run the OpenOCD server to connect to the Gecko5Education board.
 
     ```bash
-    cd \<project location\>/scripts
+    cd <project location>/scripts
     openocd -f config.cfg
     ```
 2. In a separate terminal, connect to the OpenOCD server using telnet.
