@@ -56,11 +56,12 @@ This project offers the following features:
     ```bash
     ./project/scripts/synthesize.sh
     ```
+
 4. Run the python script to choose the LEDs you want to turn on.
 
     ```bash
     python3 project/scripts/jtag_control_leds.py
-        ```
+    ```
 
 #### Milestone 2: Extended JTAG Functionality
 
