@@ -706,6 +706,6 @@ module or1420SingleCore ( input wire         clock12MHz,
  assign s_dataValid        = s_cpu1DataValid | s_biosDataValid | s_uartDataValid | s_sdramDataValid | s_hdmiDataValid | 
                              s_flashDataValid | s_camDataValid | s_jtagDataValid;
  assign s_busy             = s_sdramBusy | s_jtagBusy;
- assign s_burstSize        = s_cpu1BurstSize | s_hdmiBurstSize | s_camBurstSize;
- 
+ assign s_burstSize        = s_cpu1BurstSize | s_hdmiBurstSize | s_camBurstSize | s_jtagBurstSize;
+
 endmodule

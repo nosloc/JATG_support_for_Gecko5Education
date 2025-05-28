@@ -62,7 +62,7 @@ module tb_DMA;
         .bus_errorIN(bus_errorIN),
         .address_dataOUT(address_dataOUT),
         .byte_enableOUT(byte_enableOUT),
-        .busrt_sizeOUT(busrt_sizeOUT),
+        .burst_sizeOUT(busrt_sizeOUT),
         .read_n_writeOUT(read_n_writeOUT),
         .begin_transactionOUT(begin_transactionOUT),
         .end_transactionOUT(end_transactionOUT),

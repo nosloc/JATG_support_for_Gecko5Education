@@ -29,7 +29,7 @@ module DMA #(
 
     output wire [31:0] address_dataOUT,
     output wire [3:0] byte_enableOUT,
-    output wire [7:0] busrt_sizeOUT,
+    output wire [7:0] burst_sizeOUT,
     output wire read_n_writeOUT,
     output wire begin_transactionOUT,
     output wire end_transactionOUT,
@@ -165,6 +165,7 @@ module DMA #(
     reg data_validOUT_reg;
     reg [3:0] byte_enableOUT_reg;
     reg [7:0] burst_sizeOUT_reg;
+    reg [7:0] burst_sizeOUT_shadow;
     reg [31:0] address_dataOUT_reg;
     reg read_n_writeOUT_reg, begin_transactionOUT_reg, end_transactionOUT_reg;
 
@@ -194,7 +195,7 @@ module DMA #(
     // assign address_dataOUT = (data_validOUT_reg == 1'b1) ? pp_dataOut : address_dataOUT_reg;
     assign address_dataOUT = address_dataOUT_reg;
     assign byte_enableOUT = byte_enableOUT_reg;
-    assign busrt_sizeOUT = burst_sizeOUT_reg;
+    assign burst_sizeOUT = burst_sizeOUT_reg;
     assign read_n_writeOUT = read_n_writeOUT_reg;
     assign begin_transactionOUT = begin_transactionOUT_reg;
     assign end_transactionOUT = end_transactionOUT_reg;
@@ -213,12 +214,16 @@ module DMA #(
     assign ipcore_operation_ended = operation_ended_reg;
 
 
-    reg regbusyIn;
     always @(posedge clock) begin
-        regbusyIn <= (n_reset == 1'b0) ? 1'b0 : 
-                     (cur_state == fsm_set_up_transaction || cur_state == fsm_read || cur_state == fsm_write) ? busyIN : regbusyIn;
+        if (n_reset == 1'b0) begin
+            burst_sizeOUT_shadow <= 8'h0;
+        end else if (begin_transactionOUT_reg == 1'b1) begin
+            burst_sizeOUT_shadow <= burst_sizeOUT;
+        end
     end
-    // assign s_dma_cur_state = {words_written_reg, regbusyIn};
-    assign s_dma_cur_state = {bus_block_size_reg[7:0]};
+    // assign s_dma_cur_state = {cur_state, busyIN, data_validOUT, words_written_reg[8]};
+    assign s_dma_cur_state = {burst_sizeOUT_shadow[7:0]};
+    // assign s_dma_cur_state = {bus_block_size_reg[7:0]};
+    
 
 endmodule

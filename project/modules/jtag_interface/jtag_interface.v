@@ -67,7 +67,7 @@ module jtag_interface(
         .system_reset(system_reset),
         .address_dataOUT(address_dataOUT),
         .byte_enableOUT(byte_enableOUT),
-        .busrt_sizeOUT(burstSizeOUT),
+        .burst_sizeOUT(burstSizeOUT),
         .read_n_writeOUT(read_n_writeOUT),
         .begin_transactionOUT(begin_transactionOUT),
         .end_transactionOUT(end_transactionOUT),

@@ -53,7 +53,7 @@ module tb_jtagsupport;
         .system_reset(~JRSTN),
         .address_dataOUT(address_dataOUT),
         .byte_enableOUT(byte_enableOUT),
-        .busrt_sizeOUT(busrt_sizeOUT),
+        .burst_sizeOUT(busrt_sizeOUT),
         .read_n_writeOUT(read_n_writeOUT),
         .begin_transactionOUT(begin_transactionOUT),
         .end_transactionOUT(end_transactionOUT),
@@ -158,13 +158,13 @@ module tb_jtagsupport;
         #50;
         sendInstruction(36'b01010);
         #16;
-        // busyIN = 1; // Simulate busy state
-        // #20;
-        // busyIN = 0; // Clear busy state
-        // #4;
-        // busyIN = 1; // Simulate busy state
-        // #16;
-        // busyIN = 0; // Clear busy state
+        busyIN = 1; // Simulate busy state
+        #20;
+        busyIN = 0; // Clear busy state
+        #4;
+        busyIN = 1; // Simulate busy state
+        #16;
+        busyIN = 0; // Clear busy state
 
 
 
