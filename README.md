@@ -36,62 +36,62 @@ This project offers the following features:
 
 ### Build & Simulation
 
-    1. Clone this repository.
+1. Clone this repository.
 
-        ```bash
-        git clone https://github.com/nosloc/JATG_support_for_Gecko5Education
-        cd JATG_support_for_Gecko5Education
-        ```
+    ```bash
+    git clone https://github.com/nosloc/JATG_support_for_Gecko5Education
+    cd JATG_support_for_Gecko5Education
+    ```
 
 #### Milestone 1: Basic JTAG Communication
 
-    2. Check out the milestone-1 tag.
+2. Check out the milestone-1 tag.
 
-        ```bash
-        git checkout milestone-1
-        ```
+    ```bash
+    git checkout milestone-1
+    ```
 
-    3. Synthesize and load the design onto the Gecko5Education board using the provided scripts.
+3. Synthesize and load the design onto the Gecko5Education board using the provided scripts.
 
-        ```bash
-        ./project/scripts/synthesize.sh
-        ```
-    4. Run the python script to choose the LEDs you want to turn on.
+    ```bash
+    ./project/scripts/synthesize.sh
+    ```
+4. Run the python script to choose the LEDs you want to turn on.
 
-        ```bash
-        python3 project/scripts/jtag_control_leds.py
+    ```bash
+    python3 project/scripts/jtag_control_leds.py
         ```
 
 #### Milestone 2: Extended JTAG Functionality
 
-    2. Check out the latest version of the project.
+2. Check out the latest version of the project.
+
+    ```bash
+    git checkout main
+    ```
+
+3. Synthesize and load the design onto the Gecko5Education board using the provided scripts.
+
+    ```bash
+    cd /project/systems/singleCore/scripts
+    ./synthesize.sh
+    ```
+
+4a. Interact with the JTAG interface using low-level commands.
+    1. Run the OpenOCD server to connect to the Gecko5Education board.
 
         ```bash
-        git checkout main
+        cd \<project location\>/scripts
+        openocd -f config.cfg
         ```
-
-    3. Synthesize and load the design onto the Gecko5Education board using the provided scripts.
+    2. In a separate terminal, connect to the OpenOCD server using telnet.
 
         ```bash
-        cd /project/systems/singleCore/scripts
-        ./synthesize.sh
+        telnet localhost 4444
         ```
+    3. Use the provided JTAG commands explained in the report to read/write memory or control peripherals.
 
-    4a. Interact with the JTAG interface using low-level commands.
-        1. Run the OpenOCD server to connect to the Gecko5Education board.
-
-            ```bash
-            cd \<project location\>/scripts
-            openocd -f config.cfg
-            ```
-        2. In a separate terminal, connect to the OpenOCD server using telnet.
-
-            ```bash
-            telnet localhost 4444
-            ```
-        3. Use the provided JTAG commands explained in the report to read/write memory or control peripherals.
-
-    4b. Use the provide C programm
+4b. Use the provide C programm
 
 ## Directory Structure
 
