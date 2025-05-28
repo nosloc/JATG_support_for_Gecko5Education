@@ -1013,9 +1013,25 @@ It allows the user to interact with the FPGA using only the JTAG interface and p
 \chapter{Conclusion}
 %%%%%%%%%%%%%%%%%%%%
 
-In the conclusion you repeat the main result and finalize the discussion of
-your project. Mention the core results and why as well as how your system
-advances the status quo.
+This project aimed to design a modular and extensible JTAG interface capable of interacting with both memory and peripherals through custom instructions. The approach was divided into two main milestones.
+
+The first milestone introduced a simple but functional communication channel between the user and the FPGA, using the JTAG interface to control on-board LEDs. 
+This proved the usability of the setup and was validated using a Python script that abstracted the low-level JTAG interactions into a simple command-line tool.
+
+The second milestone expanded the design to enable memory access via a DMA controller and a pingpong buffer architecture, controlled entirely through JTAG. 
+This allowed for read and write operations to SDRAM or other bus-connected devices. The design was evaluated with simulation-based testbenches, ensuring correctness before hardware testing with OpenOCD and direct telnet commands.
+
+This work demonstrates that the JTAG interface, traditionally used for boundary scan and device configuration, can be also be used as a general-purpose communication and debugging interface. 
+The final system is flexible, extensible, and integrates easily with existing open-source tools like OpenOCD.
+
+Looking forward, this project lays a solid base for several further extensions. 
+One of the immediate next steps, unfortunately not completed due to time constraints, is to evaluate the performance of memory writes over JTAG compared to traditional interfaces such as UART. 
+This includes measuring transfer speeds and analyzing the impact of different burst sizes to identify the optimal configuration in terms of throughput and latency.
+
+Beyond that, the JTAG interface could be extended into a logic analyzer, enabling real-time capture and inspection of internal signals. 
+Another interesting direction would be to integrate a processor with debug capabilities and using OpenOCD and GDB to implement a full-featured debugger over JTAG. 
+Finally, the second unused instruction slot in the milestone 2 design, along with the modularity of the chain 1 structure, leaves space for implementing a wide range of new features such as whether for runtime monitoring, 
+advanced testing, or custom configuration, without needing to redesign the existing system.
 
 \cleardoublepage
 \phantomsection
