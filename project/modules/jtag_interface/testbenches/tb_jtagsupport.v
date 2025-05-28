@@ -135,7 +135,7 @@ module tb_jtagsupport;
         sendInstruction(36'b11110010);
         $display("Value of byte enable reg: %b", dut.ipcore.instruction_chain1.byte_enable_reg);
 
-        sendInstruction(36'b0011);
+        sendInstruction(36'b100011);
         // sendInstruction(36'b11000000011);
         $display("Value of burst size reg: %b", dut.ipcore.instruction_chain1.busrt_size_reg);
 
@@ -158,13 +158,13 @@ module tb_jtagsupport;
         #50;
         sendInstruction(36'b01010);
         #16;
-        busyIN = 1; // Simulate busy state
-        #20;
-        busyIN = 0; // Clear busy state
-        #4;
-        busyIN = 1; // Simulate busy state
-        #16;
-        busyIN = 0; // Clear busy state
+        // busyIN = 1; // Simulate busy state
+        // #20;
+        // busyIN = 0; // Clear busy state
+        // #4;
+        // busyIN = 1; // Simulate busy state
+        // #16;
+        // busyIN = 0; // Clear busy state
 
 
 

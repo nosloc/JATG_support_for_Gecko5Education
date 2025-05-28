@@ -112,7 +112,7 @@ module DMA #(
             fsm_wait_end              : nxt_state <= (end_transactionIN_reg == 1'b1) ? fsm_idle : fsm_wait_end;
             fsm_write                 : nxt_state <= (bus_errorIN == 1'b1) ? fsm_end_transaction_error :
                                                     // End of the burst
-                                                    (words_written_reg == 8'b1 && busyIN == 1'b0) ? fsm_end_write_transaction : fsm_write;
+                                                    (words_written_reg[8] == 1'b1 && busyIN == 1'b0) ? fsm_end_write_transaction : fsm_write;
                                                     // Either end of the transaction or end of the burst
             fsm_end_write_transaction : nxt_state <= (s_dma_done == 1'b1) ? fsm_idle : fsm_request_bus;
             default                   : nxt_state <= fsm_idle;
@@ -140,7 +140,7 @@ module DMA #(
     // Write in buffer iff the data read is valid
     assign pp_writeEnable = (cur_state == fsm_read && data_validIN_reg == 1'b1) ? 1'b1 : 1'b0;
     // Say if we actually wrote data on the bus or it was busy or the burst was over
-    wire busWrite = (cur_state == fsm_write ) ? ~busyIN & ~words_written_reg[7] : 1'b0;
+    wire busWrite = (cur_state == fsm_write ) ? ~busyIN & ~words_written_reg[8] : 1'b0;
 
     always @(posedge clock) begin
         // Update all the regs : bus start address + 4, block size - 1 and pp address + 1
@@ -169,13 +169,14 @@ module DMA #(
     reg read_n_writeOUT_reg, begin_transactionOUT_reg, end_transactionOUT_reg;
 
     wire [8:0] maxBurstSize = {2'b0, bus_burst_size_reg[7:0]} + 9'h1;
-    wire [7:0] actualBurstSize = (updated_block_size_reg > maxBurstSize) ? maxBurstSize : updated_block_size_reg[7:0];
+    wire [8:0] restingBlockSize = updated_block_size_reg - 9'h1;
+    wire [7:0] actualBurstSize = (updated_block_size_reg > maxBurstSize) ? bus_burst_size_reg : restingBlockSize[7:0];
 
     always @(posedge clock) begin
         begin_transactionOUT_reg <= (cur_state == fsm_set_up_transaction) ? 1'b1 : 1'b0;
         read_n_writeOUT_reg <= (cur_state == fsm_set_up_transaction) ? read_n_write_reg : 1'b0;
         byte_enableOUT_reg <= (cur_state == fsm_set_up_transaction) ? bus_byte_enable_reg : 4'h0;
-        burst_sizeOUT_reg <= (cur_state == fsm_set_up_transaction) ? actualBurstSize - 1'b1 : 8'h0;
+        burst_sizeOUT_reg <= (cur_state == fsm_set_up_transaction) ? actualBurstSize : 8'h0;
         address_dataOUT_reg <= (n_reset == 1'b0) ? 32'h0 :
                                 (cur_state == fsm_write && busyIN == 1'b1) ? address_dataOUT_reg :
                                 (busWrite == 1'b1) ? pp_dataOut :
@@ -212,6 +213,12 @@ module DMA #(
     assign ipcore_operation_ended = operation_ended_reg;
 
 
-    assign s_dma_cur_state = {words_written_reg[7:0]};
+    reg regbusyIn;
+    always @(posedge clock) begin
+        regbusyIn <= (n_reset == 1'b0) ? 1'b0 : 
+                     (cur_state == fsm_set_up_transaction || cur_state == fsm_read || cur_state == fsm_write) ? busyIN : regbusyIn;
+    end
+    // assign s_dma_cur_state = {words_written_reg, regbusyIn};
+    assign s_dma_cur_state = {bus_block_size_reg[7:0]};
 
 endmodule
