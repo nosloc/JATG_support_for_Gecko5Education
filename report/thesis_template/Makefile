@@ -6,4 +6,5 @@ all: $(name).tex $(wildcard *.bib) $(wildcard *.tex)
 
 clean:
 	latexmk -c
+	rm -f $(name).bbl $(name).bcf $(name).blg
 
